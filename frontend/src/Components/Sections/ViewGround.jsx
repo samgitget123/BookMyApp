@@ -103,8 +103,8 @@ const ViewGround = () => {
     );
   }
   return (
-    <section className="viewcardbg">
-      <div className="selectdatesection">
+    <section>
+      <div className="selectdatesection ">
         <div className="container">
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12">
@@ -134,90 +134,24 @@ const ViewGround = () => {
           </div>
         </div>
       </div>
-      <div className="container-fluid pt-3">
+     <section className="viewcardbg">
+     <div className="container-fluid p-3 ">
         {/* Available Slots Section */}
         <div className="Carticon d-sm-none d-flex justify-content-center mt-2">
           <CartButtons onClick={confirnnowClick} />
         </div>
 
         <div className="row">
-          <div className="col-lg-9 col-sm-12 col-md-12">
+          <div className="col-lg-8 col-sm-12 col-md-12">
             <div
-              className="d-flex  justify-content-evenly justify-content-md-start flex-wrap mb-3" style={{ backgroundColor: "#006849" }}
+              className="d-flex p-2  justify-content-evenly justify-content-md-start flex-wrap mb-3" style={{ backgroundColor: "#006849" }}
             >
               <div>
                 <h6 className="teritoryFont text-light text-center mt-3">
                   Available Slots:
                 </h6>
-                {/* <ul className="list-unstyled d-flex flex-wrap flex-column flex-sm-row slotboxes">
-                 
-                  {availableSlots.length > 0 ? (
-                    availableSlots.map((slot, index) => (
-                      <li key={index} className="listbox m-1">
-                        <button
-                          className={`btn ${bookedslotsbydate.includes(slot)
-                              ? "btn-danger" // Booked slots shown in red
-                              : selectedSlots.includes(slot)
-                                ? "btn-success" // Selected slots shown in green
-                                : "btn-primary" // Available slots shown in blue
-                            } btn-sm availablebtn`}
-                          onClick={() => handleSlotClick(slot)}
-                          disabled={
-                            // Disable booked slots
-                            bookedslotsbydate.includes(slot) ||
-                            // Disable past time slots
-                            (new Date(selectedDate).setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0) &&
-                              parseFloat(slot) < calculateCurrentTime(selectedDate)) ||
-                            // Disable slots for past dates
-                            new Date(selectedDate).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0)
-                          }
-                        >
-                          {convertSlotToTimeRange(slot)}
-                        </button>
-                      </li>
-                    ))
-                  ) : (
-                    <li className="teritoryFont">No available slots</li>
-                  )}
-
-                </ul> */}
-                {/* <ul className="list-unstyled d-flex flex-wrap flex-column flex-sm-row slotboxes">
-  {availableSlots.length > 0 ? (
-    availableSlots
-      .filter((slot) => {
-        const selectedDateObj = new Date(selectedDate).setHours(0, 0, 0, 0);
-        const todayObj = new Date().setHours(0, 0, 0, 0);
-
-        // If the selected date is today, remove past slots
-        if (selectedDateObj === todayObj) {
-          return parseFloat(slot) >= calculateCurrentTime(selectedDate);
-        }
-        return true; // Keep all slots for future and past dates (they will be disabled)
-      })
-      .map((slot, index) => (
-        <li key={index} className="listbox m-1">
-          <button
-            className={`btn ${
-              bookedslotsbydate.includes(slot)
-                ? "btn-danger" // Booked slots shown in red
-                : selectedSlots.includes(slot)
-                ? "btn-success" // Selected slots shown in green
-                : "btn-primary" // Available slots shown in blue
-            } btn-sm availablebtn`}
-            onClick={() => handleSlotClick(slot)}
-            disabled={
-              bookedslotsbydate.includes(slot) || // Disable booked slots
-              new Date(selectedDate).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0) // Disable all slots for past dates
-            }
-          >
-            {convertSlotToTimeRange(slot)}
-          </button>
-        </li>
-      ))
-  ) : (
-    <li className="teritoryFont">No available slots</li>
-  )}
-</ul> */}
+                {console.log(availableSlots, 'availableslots')}
+            
                 <ul className="list-unstyled d-flex flex-wrap flex-column flex-sm-row slotboxes">
                   {availableSlots.length > 0 ? (
                     availableSlots
@@ -239,10 +173,10 @@ const ViewGround = () => {
                         <li key={index} className="listbox m-1">
                           <button
                             className={`btn ${bookedslotsbydate.includes(slot)
-                                ? "btn-danger" // Booked slots shown in red
-                                : selectedSlots.includes(slot)
-                                  ? "btn-success" // Selected slots shown in green
-                                  : "btn-primary" // Available slots shown in blue
+                              ? "btn-danger" // Booked slots shown in red
+                              : selectedSlots.includes(slot)
+                                ? "btn-success" // Selected slots shown in green
+                                : "btn-primary" // Available slots shown in blue
                               } btn-sm availablebtn`}
                             onClick={() => handleSlotClick(slot)}
                           >
@@ -284,7 +218,7 @@ const ViewGround = () => {
 
             </div>
           </div>
-          <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12 col-xlg-6 g-0  ">
+          <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 col-xlg-6 g-0  ">
             <div className="card shadow-lg border-0 w-80 rounded secondaryColor viewcardFont  mx-auto ">
               <div className="mobileconfirmnow Carticon  d-flex justify-content-center my-3">
                 {selectedSlots.length > 0 && <CartButtons onClick={confirnnowClick} count={selectedSlots} />}
@@ -294,7 +228,7 @@ const ViewGround = () => {
                   src={`${baseUrl}/uploads/${ground?.data?.image[0]}`}
                   className="card-img-top ground-image img-fluid my-3"
                   //alt={name || "Ground Image"}
-                  style={{ width: '300px', height: '200px' }}
+                  style={{ width: '300px', height: '250px' }}
                 />
               </div>
               <div className="card-body text-center">
@@ -309,6 +243,7 @@ const ViewGround = () => {
         </div>
         {/* Modal */}
       </div>
+     </section>
       <section>
         <div className="container">
 

@@ -65,7 +65,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ phone_number });
   if (!user) {
     res.status(401);
-    throw new Error('Invalid phone number or password');
+    throw new Error('We dont have such credentials, please Register');
   }
 
   // ✅ Securely compare hashed password

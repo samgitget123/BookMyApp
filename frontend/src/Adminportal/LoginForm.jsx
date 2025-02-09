@@ -12,6 +12,7 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 const { baseUrl } = useBaseUrl();
+console.log(baseUrl, 'baseurllogin')
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
@@ -26,7 +27,7 @@ const { baseUrl } = useBaseUrl();
         phone_number: phone,
         password: password,
       });
-      console.log(response.data?.user?.id , 'loginresponse');
+      console.log(response, 'loginresponse');
       console.log('Login successful:', response);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user_id', response.data.user.id);
@@ -58,12 +59,13 @@ const { baseUrl } = useBaseUrl();
             <div className="input-group">
 
               <input
-                type="text"
+                type="number"
                 id="phone"
                 className="form-control"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="Enter phone number"
+                maxLength={10}
                 required
               />
               <span className="input-group-text bg-white border-0">
@@ -96,7 +98,7 @@ const { baseUrl } = useBaseUrl();
           </div>
 
           {/* Login Button */}
-          <button type="submit" className="btn btn-primary w-100 mb-3" disabled={loading}>
+          <button type="submit" className="btn btn-success w-100 mb-3" disabled={loading}>
             {loading ? 'Logging in...' : 'Login'}
           </button>
           <span className='text-center text-light'>

@@ -2,7 +2,8 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 import React from 'react';
 import { Gi3dGlasses } from "react-icons/gi";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
-import { CiLogin, CiLogout } from "react-icons/ci";
+import { CiLogin, CiLogout,CiHome } from "react-icons/ci";
+
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
@@ -14,7 +15,7 @@ const Header = () => {
     localStorage.removeItem('user_id');
     
     // Optionally, redirect the user to the login page
-    navigate('/login');
+    navigate('/');
   };
 
  // const isLoggedIn = !!localStorage.getItem('token'); // Check if the token exists
@@ -43,18 +44,19 @@ const handleBrandClick = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto text-light">
               {/* Conditionally render the Login/Logout button */}
-             
+              
               {/* Other links */}
               {isLoggedIn && (
                 <>
-                  <Nav.Link href="/createground" className='text-light'>Lets <span style={{ color: "#00EE64", fontWeight: "bold" }}>Register</span> <Gi3dGlasses size={30} /></Nav.Link>
-                  <Nav.Link href="/adminDashboard" className='text-light'>Admin <span style={{ color: "#00EE64", fontWeight: "bold" }}>Dashboard</span> <MdOutlineAdminPanelSettings size={30}/></Nav.Link>
+                <Nav.Link onClick={handleLogout} className='text-light' style={{ cursor: 'pointer' }}><span>Home</span><CiHome size={24} /></Nav.Link>
+                  <Nav.Link href="/createground" className='text-light'>Lets <span style={{ color: "#00EE64", fontWeight: "bold" }}>Register</span> <Gi3dGlasses size={24} /></Nav.Link>
+                  <Nav.Link href="/adminDashboard" className='text-light'>Admin <span style={{ color: "#00EE64", fontWeight: "bold" }}>Dashboard</span> <MdOutlineAdminPanelSettings size={24}/></Nav.Link>
                 </>
               )}
               {isLoggedIn ? (
-                <Nav.Link onClick={handleLogout} className='text-light' style={{ cursor: 'pointer' }}>Log<span style={{ color: "#00EE64", fontWeight: "bold" }}>out</span><CiLogout size={30}/></Nav.Link>
+                <Nav.Link onClick={handleLogout} className='text-light' style={{ cursor: 'pointer' }}>Log<span style={{ color: "#00EE64", fontWeight: "bold" }}>out</span><CiLogout size={24}/></Nav.Link>
               ) : (
-                <Nav.Link href="/login" className='text-light'>Log<span style={{ color: "#00EE64", fontWeight: "bold" }}>In</span><CiLogin size={30}/></Nav.Link>
+                <Nav.Link href="/" className='text-light'>Log<span style={{ color: "#00EE64", fontWeight: "bold" }}>In</span><CiLogin size={24}/></Nav.Link>
               )}
 
             </Nav>

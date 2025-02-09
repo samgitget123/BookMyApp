@@ -45,14 +45,14 @@ const bookingSchema = new mongoose.Schema({
   mobile: {
     type: String,
     required: true,
-    validate: {
-      validator: (v) => /^[0-9]{10}$/.test(v), // Validate for a 10-digit phone number
-      message: (props) => `${props.value} is not a valid phone number!`,
-    },
+    // validate: {
+    //   validator: (v) => /^[0-9]{10}$/.test(v), // Validate for a 10-digit phone number
+    //   message: (props) => `${props.value} is not a valid phone number!`,
+    // },
   },
   email: {
     type: String,
-    required: true,
+    required: false,
     validate: {
       validator: (v) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(v), // Simple email validation
       message: (props) => `${props.value} is not a valid email address!`,

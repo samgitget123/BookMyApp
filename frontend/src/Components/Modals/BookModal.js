@@ -51,7 +51,7 @@ const BookModal = ({
       date: selectdate,
       slots: selectedSlots,
       name: name,   // Include name
-      email: email, // Include email
+      // email: email, // Include email
       mobile: mobile, // Include mobile number
       price: price,
       prepaid,
@@ -83,7 +83,7 @@ const BookModal = ({
     dispatch(fetchGroundDetails({ gid, date: selectdate }));
     setInfo('');
     setName('');
-    setEmail('');
+    // setEmail('');
     setMobile('');
     //setSelectedSlots([]);
     setPrice('');
@@ -94,7 +94,7 @@ const BookModal = ({
       icon: "success",
       confirmButtonColor: "#006849",
     });
-      
+    handleCloseModal();
     } catch (error) {
       console.error("Error booking slot:", error);
     }finally {
@@ -195,7 +195,7 @@ const BookModal = ({
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
-              <div className="my-3 input-group">
+              {/* <div className="my-3 input-group">
                 <span className="input-group-text"><FaEnvelope /></span>
                 <input
                   type="email"
@@ -204,7 +204,7 @@ const BookModal = ({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-              </div>
+              </div> */}
               <div className="my-3 input-group">
                 <span className="input-group-text"><FaPhoneAlt /></span>
                 <input
@@ -266,7 +266,7 @@ const BookModal = ({
               <button
                 type="button"
                 className="btn btn-primary"
-                disabled={selectedSlots.length === 0 || !name || !email || !mobile}
+                disabled={selectedSlots.length === 0 || !name  || !mobile}
                 onClick={() => handleBooking(gid, selectedSlots, selectdate)}
               >
                 Confirm Booking

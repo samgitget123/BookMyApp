@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AiFillEye, AiFillEyeInvisible, AiOutlinePhone, AiOutlineUser } from 'react-icons/ai';
 import { useBaseUrl } from '../Contexts/BaseUrlContext';
-import { baseUrl } from '../redux/features/baseUrlendpoint';
+
 const RegisterForm = () => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -11,8 +12,8 @@ const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-const { baseUrl } = useBaseUrl();
-  const navigate = useNavigate(); // Initialize useNavigate
+  const { baseUrl } = useBaseUrl();
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
@@ -20,7 +21,7 @@ const { baseUrl } = useBaseUrl();
 
   const handlePhoneChange = (e) => {
     setPhone(e.target.value);
-    setError(''); // Clear previous error when the user starts typing again
+    setError('');
   };
 
   const handleSubmit = async (e) => {
@@ -28,12 +29,12 @@ const { baseUrl } = useBaseUrl();
     setMessage('');
     setError('');
 
-    // Optional: Add phone number validation
-    const phoneRegex = /^[0-9]{10}$/; // Example regex for 10-digit phone number
-    if (!phoneRegex.test(phone)) {
-      setError('Please enter a valid phone number');
-      return;
-    }
+    // Phone number validation
+    // const phoneRegex = /^[0-9]{10}$/;
+    // if (!phoneRegex.test(phone)) {
+    //   setError('Please enter a valid phone number');
+    //   return;
+    // }
 
     try {
       const response = await axios.post(`${baseUrl}/api/user/register`, {
@@ -42,17 +43,10 @@ const { baseUrl } = useBaseUrl();
         password,
       });
 
-      setMessage(response.data.message);
-
-      // Clear input fields
+      setMessage("Registration successful! Let's Login below."); // Success message
       setName('');
       setPhone('');
       setPassword('');
-
-      // Redirect to login page after successful registration
-      setTimeout(() => {
-        navigate('/login');
-      }, 1500); // Delay to show success message before redirecting
 
     } catch (err) {
       console.error('Registration error:', err.response ? err.response.data : err.message);
@@ -66,7 +60,11 @@ const { baseUrl } = useBaseUrl();
         <form onSubmit={handleSubmit} className="p-4 border rounded shadow secondaryColor" style={{ width: '320px' }}>
           <h2 className="mb-4 text-center text-light">Register</h2>
           <span className="borderline text-center"></span>
-          {message && <div className="alert alert-success">{message}</div>}
+
+          {/* Success Message with "Let's Login" */}
+        
+
+          {/* Error Message */}
           {error && <div className="alert alert-danger">{error}</div>}
 
           {/* Name Field */}
@@ -93,7 +91,7 @@ const { baseUrl } = useBaseUrl();
             <label htmlFor="phone" className="form-label text-light">Phone Number</label>
             <div className="input-group">
               <input
-                type="tel"
+                type="number"
                 id="phone"
                 className="form-control"
                 value={phone}
@@ -107,7 +105,7 @@ const { baseUrl } = useBaseUrl();
             </div>
           </div>
 
-          {/* Password Field with Eye Icon (React Icons) */}
+          {/* Password Field */}
           <div className="mb-3">
             <label htmlFor="password" className="form-label text-light">Password</label>
             <div className="input-group">
@@ -130,6 +128,15 @@ const { baseUrl } = useBaseUrl();
           <button type="submit" className="btn btn-success w-100">
             Register
           </button>
+         <div className='mt-2'>
+         {message && (
+           <span className='text-center text-light'>
+                      Registration sucessfull <Link to="/" className="text-warning"  style={{ color: "#00EE64", fontWeight: "bold", cursor:"pointer" }}>Login Now</Link>
+                    </span>
+          
+           
+          )}
+         </div>
         </form>
       </div>
     </div>
