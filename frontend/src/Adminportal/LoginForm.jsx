@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AiFillEye, AiFillEyeInvisible, AiOutlinePhone } from 'react-icons/ai';
+import { useBaseUrl } from '../Contexts/BaseUrlContext';
 import { Link } from 'react-router-dom';
 const LoginForm = () => {
   const [phone, setPhone] = useState('');
@@ -10,7 +11,7 @@ const LoginForm = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+const { baseUrl } = useBaseUrl();
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
@@ -21,7 +22,7 @@ const LoginForm = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/user/loginUser', {
+      const response = await axios.post(`${baseUrl}/api/user/loginUser`, {
         phone_number: phone,
         password: password,
       });

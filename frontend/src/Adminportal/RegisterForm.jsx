@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
 import { AiFillEye, AiFillEyeInvisible, AiOutlinePhone, AiOutlineUser } from 'react-icons/ai';
-
+import { useBaseUrl } from '../Contexts/BaseUrlContext';
+import { baseUrl } from '../redux/features/baseUrlendpoint';
 const RegisterForm = () => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -10,7 +11,7 @@ const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-
+const { baseUrl } = useBaseUrl();
   const navigate = useNavigate(); // Initialize useNavigate
 
   const togglePasswordVisibility = () => {
@@ -35,7 +36,7 @@ const RegisterForm = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/user/register', {
+      const response = await axios.post(`${baseUrl}/api/user/register`, {
         name,
         phone_number: phone,
         password,
