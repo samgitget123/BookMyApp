@@ -48,7 +48,7 @@ const handleBrandClick = () => {
               {/* Other links */}
               {isLoggedIn && (
                 <>
-                <Nav.Link onClick={handleLogout} className='text-light' style={{ cursor: 'pointer' }}><span>Home</span><CiHome size={24} /></Nav.Link>
+                  <Nav.Link onClick={handleBrandClick} className='text-light' style={{ cursor: 'pointer' }}><span>Home</span><CiHome size={24} /></Nav.Link>
                   <Nav.Link href="/createground" className='text-light'>Lets <span style={{ color: "#00EE64", fontWeight: "bold" }}>Register</span> <Gi3dGlasses size={24} /></Nav.Link>
                   <Nav.Link href="/adminDashboard" className='text-light'>Admin <span style={{ color: "#00EE64", fontWeight: "bold" }}>Dashboard</span> <MdOutlineAdminPanelSettings size={24}/></Nav.Link>
                 </>
