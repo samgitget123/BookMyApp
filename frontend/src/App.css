@@ -1,0 +1,690 @@
+/* Basic reset */
+/****** 00FF9C  , 091057 *** #006849
+#001827  secondary green
+**/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #006849;
+  /*****primary green color********/
+  --secondary-color: #fff;
+  /******secondary common white color*******/
+  --teritary-color: #091057;
+  /*********territory light blue color optional ****/
+  --primary-font: #fff;
+  --secondary-font: #000;
+  --teritory-font: #fff;
+  --special-color: #00EE64;
+  --showcardsbgcolor: #F4F6FF;
+}
+
+
+/* Apply Poppins font to the entire app */
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+/* App container: Flexbox layout for consistent header, main, and footer placement */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* Full height of the viewport */
+}
+
+/************divinded line**********/
+.borderline {
+  display: block;
+  width: 80%;
+  height: 1px;
+  background-color: #ddd; /* Change this color as needed */
+  margin: 10px auto; /* Centers the line horizontally */
+}
+/**********loader spinner**********/
+.spinner-icon {
+  animation: spin 1s infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/*******slot book button disable****/
+.slot-button.disabled {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}
+
+/*************Cart button**************/
+/* Cart Button Styles */
+.cart-button {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #000;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cart-button:hover {
+  background-color: #00cc55;
+}
+
+.cart-icon {
+  color: white;
+  font-size: 28px;
+}
+
+/* Cart Badge Position */
+.cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: blue;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/*************************************/
+/************Modal backgrounds******/
+.custom-backdrop {
+  background-color: rgba(0, 0, 0, 0.7) !important; /* Adjust darkness */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1050; /* Ensure it appears behind the modal */
+}
+
+/*************************************/
+/* Main content should expand to fill the remaining space */
+.app-main {
+  flex: 1;
+  /* Takes the available space between header and footer */
+  /* overflow-y: auto;  */
+  /* padding-bottom: 2rem; */
+  /* Optional padding for spacing */
+  background-color: #fff;
+  /* Optional background color */
+}
+
+footer {
+  flex-shrink: 0;
+  /* Keep footer at the bottom */
+}
+
+.loadergifimage {
+  width: 50px;
+  height: 50px;
+}
+
+/************search component css**********/
+.search-bar-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto;
+  position: relative;
+}
+
+.search-input-wrapper {
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 20px 10px 40px;
+  border-radius: 30px;
+  border: 2px solid #00EE64;
+  font-size: 1.2rem;
+  color: #333;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #009933;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 153, 51, 0.3);
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.search-input:focus+.search-icon {
+  color: #009933;
+}
+
+/*****************************************/
+/******Basics*********/
+.nobookedslots {
+  margin: auto;
+  font-weight: 500;
+  padding: 4px 8px;
+  border: 1px solid white;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+/***********************/
+.sectionheight {
+  height: 50vh !important;
+}
+
+.halfscreenrow {
+  height: 50vh;
+  /* 50% of the viewport height */
+}
+
+.herosectioncontainer {
+  height: 80vh;
+  /* Occupy 50% of the viewport height */
+}
+
+/*****Herosection carousel****/
+.carousel-item img {
+  height: 50% !important;
+  /* Set your desired height */
+  object-fit: cover !important;
+  /* Ensures the image fills the space without distortion */
+  width: 100% !important;
+  /* Ensures the image spans the entire width */
+}
+
+.cardheadfont {
+  font-size: 18px !important;
+  color: var(--teritory-font) !important;
+  line-height: 22px !important;
+}
+
+.viewcardbg {
+  background-color: var(--showcardsbgcolor) !important;
+}
+
+.herofont {
+  font-size: 28px !important;
+  color: var(--teritory-font) !important;
+  line-height: 22px !important;
+  font-weight: 12px !important;
+  margin: auto;
+  padding: 3px 0px;
+}
+
+.spanfont {
+  font-size: 25px !important;
+  color: var(--special-color) !important;
+  line-height: 22px !important;
+  font-weight: 22px !important;
+}
+
+.listbox {
+  max-width: 150px;
+
+}
+
+.groundcards a {
+  text-decoration: none;
+  color: #000
+}
+
+/*********Modal css********/
+.modal-animate {
+  opacity: 0;
+  transform: translateY(-100px);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.modal.show.modal-animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Centering the modal vertically and horizontally */
+.modal-dialog-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Custom modal backdrop transition */
+.modal-backdrop {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.modal-backdrop.show {
+  opacity: 0.7;
+}
+
+.typing {
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  /* Start with no width to show typing effect */
+  animation: typing 2s steps(16) forwards, blink 0.75s step-end infinite alternate;
+  /* Adjust steps to match the number of characters in 'Ground' */
+}
+
+/******Viewgrounds*********/
+.selectdatesection {
+  padding: 10px 0px 0px 10px;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+    /* Start with no width */
+  }
+
+  to {
+    width: 19ch;
+    /* Final width to match the length of 'Ground' */
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+    /* Hide cursor at halfway point */
+  }
+}
+
+
+/************************************/
+/*********MEDIA QUERIES********/
+/* ViewGround.css */
+
+/* Default styles for mobile */
+.viewgroundsection {
+  padding: 1rem;
+}
+
+.ground-image {
+  width: 100%;
+  height: auto;
+}
+
+/* Hide card on mobile devices */
+/* @media (max-width: 767px) {
+  .groundviewcard {
+    display: none;
+  }
+} */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotateImage {
+  animation: rotate 20s infinite linear;
+  /* 5 seconds for full rotation, infinitely repeating */
+  width: 200px;
+  /* Adjust width as needed */
+  height: 150px;
+  /* Maintain aspect ratio */
+}
+.brandlogosize{
+  width: 200px;
+  height: 150px
+}
+.headerIcon{
+  width: 50px!important;
+  height: 50px!important;
+}
+.herosection {
+  height: 50vh;
+  /* 50% of the viewport height */
+  display: flex;
+  align-items: center;
+}
+
+.herosection .secondaryColor {
+  height: 100%;
+  /* Ensure the content fills the section */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*****colors****  ***/
+.secondaryColor {
+  background-color: var(--primary-color) !important;
+}
+
+.primaryColor {
+  background-color: var(--secondary-color) !important;
+}
+
+.cardsection {
+  background-color: var(--showcardsbgcolor) !important;
+}
+
+.primaryFont {
+  color: var(--primary-font);
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
+
+}
+
+.viewcardFont {
+  color: var(--primary-font) !important;
+}
+
+.teritoryColor {
+  background-color: var(--teritary-color);
+}
+
+.teritoryFont {
+  color: var(--teritory-font) !important;
+}
+
+span .secondaryFont {
+  color: var(--secondary-font);
+}
+
+/* Ensure the columns are displayed side by side on desktop */
+.card-title {
+  white-space: nowrap;
+  /* Prevent the text from wrapping */
+  overflow: hidden;
+  /* Hide the overflowed text */
+  text-overflow: ellipsis;
+  /* Add the ellipsis (...) */
+  max-width: 100%;
+  /* Set a maximum width for the element */
+  font-size: 1.5rem;
+  /* Default size for desktop */
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  font-size: 1rem;
+  /* Default size for desktop */
+  color: #666;
+}
+
+.availablebtn {
+  font-size: 10px !important;
+  width: 150px !important;
+  /* Set to desired width */
+  text-align: center !important;
+  font-weight: 500 !important;
+}
+
+.confirmbtn {
+  width: 80% !important;
+
+}
+
+/*small mobiles***/
+@media (max-width: 480px) {
+
+  /* For small mobile devices */
+  .cart-button {
+    width: 50px;
+    height: 50px;
+  }
+
+  .cart-badge {
+    font-size: 12px;
+    width: 18px;
+    height: 18px;
+    top: -3px;
+    right: -3px;
+  }
+  .Carticon {
+    position: fixed;
+    bottom: 20px;
+    /* Distance from bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    /* Ensures it stays above other elements */
+  }
+
+  .hide-carousel {
+    display: none !important;
+  }
+
+  .card-title {
+    font-size: 1rem;
+    /* Smallest size for small screens */
+  }
+
+  .card-text {
+    font-size: 0.8rem;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 768px) {
+  .herofont {
+    font-size: 22px!important;
+   
+  }
+  .spanfont {
+    font-size: 25px!important;
+   
+  }
+  .cart-button {
+    width: 60px;
+    height: 60px;
+  }
+
+  .cart-badge {
+    font-size: 14px;
+    width: 20px;
+    height: 20px;
+  }
+  .hide-carousel {
+    display: none !important;
+  }
+
+  .mobileconfirmnow {
+    display: none !important;
+  }
+
+  body {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .viewgroundsection {
+    background-image: url('./Images/bgcrick.jpg');
+    background-repeat: no-repeat;
+    /* Prevent the background from repeating */
+    background-position: top right;
+    /* Position the background at the top right */
+    background-size: cover;
+    /* Ensures the image covers the entire section */
+    height: 100vh;
+    /* Full viewport height */
+
+  }
+
+  .ground-image {
+    width: 90%;
+  }
+
+  .available-slots,
+  .booked-slots {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .available-slots li,
+  .booked-slots li {
+    flex: 1 1 45%;
+    /* Two items per row */
+    margin: 0.5rem;
+  }
+}
+
+.groundImgsize {
+  height: 16rem !important;
+}
+
+.webheading {
+  font-size: 32px !important;
+  line-height: 42px !important;
+  color: var(--primary-font) !important;
+  text-align: center !important;
+  color: var(--special-color) !important;
+}
+
+.webheading2 {
+  font-size: 32px !important;
+  line-height: 42px !important;
+  color: var(--primary-font) !important;
+  text-align: center;
+}
+
+/*****Mobiles*******/
+@media (max-width:767) {
+  .herofont {
+    font-size: 22px!important;
+   
+  }
+  .spanfont {
+    font-size: 25px!important;
+   
+  }
+  .Carticon {
+    position: fixed;
+    bottom: 20px;
+    /* Distance from bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    /* Ensures it stays above other elements */
+  }
+  .cart-button {
+    width: 50px;
+    height: 50px;
+  }
+
+  .cart-badge {
+    font-size: 12px;
+    width: 18px;
+    height: 18px;
+    top: -3px;
+    right: -3px;
+  }
+
+  .hide-carousel {
+    display: none !important;
+  }
+
+  .webheading {
+    font-size: 42px !important;
+    line-height: 42px !important;
+    color: var(--primary-font) !important;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    /* Slightly smaller for smaller screens */
+  }
+
+  .card-text {
+    font-size: 0.9rem;
+  }
+
+  .slotboxes {
+    width: 200px !important;
+  }
+
+  .primaryFont {
+    color: var(--primary-font);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 32px;
+
+  }
+
+  .groundImgsize {
+    height: 16rem !important;
+  }
+
+}
+
+/* Desktop styles */
+@media (min-width: 992px) {
+
+  .mobileconfirmnow {
+    display: none !important;
+  }
+
+  .ground-image {
+    width: 80%;
+  }
+
+  .cardsection {
+    padding: 20px !important;
+  }
+
+  .webheading {
+    font-size: 42px;
+    line-height: 42px;
+    color: var(--primary-font);
+  }
+
+  .available-slots,
+  .booked-slots {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  .available-slots li,
+  .booked-slots li {
+    flex: 1 1 30%;
+    /* Three items per row */
+    margin: 0.5rem;
+  }
+
+  .viewgroundsection {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
+
+}

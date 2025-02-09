@@ -1,0 +1,28 @@
+.modal-animate {
+    opacity: 0;
+    transform: translateY(-100px);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+  
+  .modal.show.modal-animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Centering the modal vertically and horizontally */
+  .modal-dialog-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Custom modal backdrop transition */
+  .modal-backdrop {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .modal-backdrop.show {
+    opacity: 0.7;
+  }
+  
