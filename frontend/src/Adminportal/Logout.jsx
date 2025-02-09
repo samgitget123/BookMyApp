@@ -8,7 +8,7 @@ const Logout = () => {
     localStorage.removeItem('token');
   
     // Redirect to login page after logout
-    navigate('/login');
+    navigate('/');
   };
   
 

@@ -31,7 +31,7 @@ const { baseUrl } = useBaseUrl();
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user_id', response.data.user.id);
       localStorage.setItem('name', response.data.user.name);
-     navigate('/Home');
+      navigate('/Home');
     } catch (err) {
       console.error('Login error:', err.response ? err.response.data : err.message);
       setError(err.response?.data?.message || 'Login failed');
