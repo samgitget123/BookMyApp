@@ -15,7 +15,7 @@ const Header = () => {
     localStorage.removeItem('user_id');
     
     // Optionally, redirect the user to the login page
-    navigate('/');
+    navigate('/LoginForm');
   };
 
  // const isLoggedIn = !!localStorage.getItem('token'); // Check if the token exists
@@ -24,10 +24,10 @@ const isLoggedIn = !!localStorage.getItem('token') && !!localStorage.getItem('us
 const handleBrandClick = () => {
   if (isLoggedIn) {
     // If logged in, allow navigation to the home page
-    navigate('/Home');
+    navigate('/');
   } else {
     // Optionally, redirect to login or some other route if not logged in
-    navigate('/');
+    navigate('/LoginForm');
   }
 };
   return (
@@ -38,7 +38,7 @@ const handleBrandClick = () => {
             style={{ cursor: 'pointer' }}
             onClick={handleBrandClick}
           >
-            Book My <span style={{ color: "#00EE64", fontWeight: "bold" }}>Ground</span>
+            Book My <span style={{ color: "#00EE64" }}>Ground</span>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -48,15 +48,15 @@ const handleBrandClick = () => {
               {/* Other links */}
               {isLoggedIn && (
                 <>
-                  <Nav.Link onClick={handleBrandClick} className='text-light' style={{ cursor: 'pointer' }}><span>Home</span><CiHome size={24} /></Nav.Link>
-                  <Nav.Link href="/createground" className='text-light'>Lets <span style={{ color: "#00EE64", fontWeight: "bold" }}>Register</span> <Gi3dGlasses size={24} /></Nav.Link>
-                  <Nav.Link href="/adminDashboard" className='text-light'>Admin <span style={{ color: "#00EE64", fontWeight: "bold" }}>Dashboard</span> <MdOutlineAdminPanelSettings size={24}/></Nav.Link>
+                  <Nav.Link onClick={handleBrandClick} className='text-light' style={{ cursor: 'pointer' }}><span>Home</span><CiHome size={22} /></Nav.Link>
+                  <Nav.Link href="/createground" className='text-light'>Lets <span style={{ color: "#00EE64" }}>Register</span> <Gi3dGlasses size={22} /></Nav.Link>
+                  <Nav.Link href="/adminDashboard" className='text-light'>Admin <span style={{ color: "#00EE64" }}>Dashboard</span> <MdOutlineAdminPanelSettings size={22}/></Nav.Link>
                 </>
               )}
               {isLoggedIn ? (
-                <Nav.Link onClick={handleLogout} className='text-light' style={{ cursor: 'pointer' }}>Log<span style={{ color: "#00EE64", fontWeight: "bold" }}>out</span><CiLogout size={24}/></Nav.Link>
+                <Nav.Link onClick={handleLogout} className='text-light' style={{ cursor: 'pointer' }}>Log<span style={{ color: "#00EE64" }}>out</span><CiLogout size={22}/></Nav.Link>
               ) : (
-                <Nav.Link href="/" className='text-light'>Log<span style={{ color: "#00EE64", fontWeight: "bold" }}>In</span><CiLogin size={24}/></Nav.Link>
+                <Nav.Link href="/LoginForm" className='text-light'>Log<span style={{ color: "#00EE64" }}>In</span><CiLogin size={22}/></Nav.Link>
               )}
 
             </Nav>

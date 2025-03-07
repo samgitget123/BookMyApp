@@ -50,10 +50,10 @@ const App = () => {
         <Header /> {/* Placed outside of <main> so that header appears on all pages */}
         <main className="app-main">
             <Routes>
-            <Route path="/Home" element={<WelcomeHome />} />
-            <Route path="/" element={<LoginForm />} />
+            <Route path="/" element={<WelcomeHome />} />
+            {/* <Route path="/" element={<Home />} /> */}
             <Route path="/register" element={<RegisterForm />} />
-           
+            <Route path="/LoginForm" element={<LoginForm />} />
               {/* <Route path="/" element={<Home />} /> */}
               <Route path="/createground" element={<CreateGroundForm />} exact />
               <Route path="/viewground/:gid" element={<ViewGround />} />

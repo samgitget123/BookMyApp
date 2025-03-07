@@ -1,6 +1,8 @@
 /* Basic reset */
 /****** 00FF9C  , 091057 *** #006849
 #001827  secondary green
+/*****optional color #023430 ******}
+{/******** current color #006849 *****}
 **/
 * {
   margin: 0;

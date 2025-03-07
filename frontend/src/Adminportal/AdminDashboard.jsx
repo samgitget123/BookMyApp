@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css"; // Import the CSS for the d
 import Modal from 'react-bootstrap/Modal'; // Import the Bootstrap Modal
 
 const AdminDashboard = () => {
+
   const [bookings, setBookings] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredBookings, setFilteredBookings] = useState(bookings);
@@ -33,12 +34,14 @@ const AdminDashboard = () => {
     return () => clearTimeout(timer);
   }, [search]);
 
+
   useEffect(() => {
     if (debouncedSearch) {
       handleSearch(debouncedSearch);
     } else {
-      setFilteredBookings(bookings);
+      filterByDate(); // Apply date filter when search is cleared
     }
+    setCurrentPage(1); // Reset pagination
   }, [debouncedSearch, bookings]);
 
   useEffect(() => {
@@ -62,13 +65,20 @@ const AdminDashboard = () => {
   const fetchBookings = async () => {
     setLoading(true); // Set loading to true before fetching data
     try {
-      const response = await axios.get(`${baseUrl}/api/booking/getallbookings`);
-      if (response.data.success && Array.isArray(response.data.data)) {
-        setBookings(response.data.data);
-        setFilteredBookings(response.data.data);
-      } else {
-        console.error("Unexpected response format:", response.data);
+      const uid = await localStorage.getItem('user_id');
+      console.log(uid, 'user_id of user')
+      //http://localhost:5000/api/booking/getallbooking?ground_id=GNDALG9XQDOA
+      //const response = await axios.get(`${baseUrl}/api/booking/getallbookings`);
+      if (uid) {
+        const response = await axios.get(`${baseUrl}/api/booking/getallbooking?user_id=${uid}`);
+        if (response.data.success && Array.isArray(response.data.data)) {
+          setBookings(response.data.data);
+          setFilteredBookings(response.data.data);
+        } else {
+          console.error("Unexpected response format:", response.data);
+        }
       }
+
     } catch (error) {
       console.error("Error fetching bookings:", error);
     } finally {
@@ -76,20 +86,34 @@ const AdminDashboard = () => {
     }
   };
 
+
   const handleSearch = (searchTerm) => {
     const lowercasedSearchTerm = searchTerm.trim().toLowerCase();
+
+    if (!lowercasedSearchTerm) {
+      filterByDate(); // Apply date filter when search is cleared
+      return;
+    }
+
     const filteredResults = bookings.filter((item) => {
       const mobileString = item.mobile ? item.mobile.toString() : '';
       return (
-        item._id.toLowerCase().includes(lowercasedSearchTerm) ||
-        item.ground_id.toLowerCase().includes(lowercasedSearchTerm) ||
-        item.name.toLowerCase().includes(lowercasedSearchTerm) ||
+        item._id?.toLowerCase().includes(lowercasedSearchTerm) ||
+        item.ground_id?.toLowerCase().includes(lowercasedSearchTerm) ||
+        item.name?.toLowerCase().includes(lowercasedSearchTerm) ||
         mobileString.includes(lowercasedSearchTerm)
       );
     });
+
     setFilteredBookings(filteredResults);
   };
 
+  // Function to filter bookings by date
+  const filterByDate = () => {
+    const today = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
+    const dateFilteredResults = bookings.filter((item) => item.date === today);
+    setFilteredBookings(dateFilteredResults);
+  };
   // Pagination Logic
   const indexOfLastBooking = currentPage * bookingsPerPage;
   const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
@@ -102,9 +126,54 @@ const AdminDashboard = () => {
   };
 
   // Handle Excel Download
+  // const handleDownloadExcel = () => {
+  //   const wb = XLSX.utils.book_new();
+  //   const ws = XLSX.utils.json_to_sheet(filteredBookings.map(booking => ({
+  //     "Booking ID": booking._id,
+  //     "Ground Id": booking.ground_id,
+  //     "Name": booking.name,
+  //     "Date": booking.date,
+  //     "Mobile": booking.mobile,
+  //     "Advance": booking.prepaid,
+  //     "Amount": booking.book.price,
+  //     "Status": booking.paymentStatus
+  //   })));
+
+  //   // Add worksheet to the workbook
+  //   XLSX.utils.book_append_sheet(wb, ws, "Bookings");
+
+  //   // Set cell width for better display
+  //   const wscols = [
+  //     { wch: 10 }, // Width of "Booking ID" column
+  //     { wch: 10 }, // Width of "Ground ID" column
+  //     { wch: 20 }, // Width of "Name" column
+  //     { wch: 12 }, // Width of "Date" column
+  //     { wch: 15 }, // Width of "Mobile" column
+  //     { wch: 12 }, // Width of "Status" column
+  //   ];
+  //   ws["!cols"] = wscols;
+
+  //   // Write the Excel file
+  //   XLSX.writeFile(wb, "Bookings.xlsx");
+  // };
+  console.log(filteredBookings, 'filteredBookings')
   const handleDownloadExcel = () => {
+    // Get the first day of the current month
+    const firstDayOfMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+
+    // Filter bookings from the 1st of the month to the selected date
+    const filteredData = bookings.filter(booking => {
+      const bookingDate = new Date(booking.date);
+      return bookingDate >= firstDayOfMonth && bookingDate <= selectedDate;
+    });
+
+    if (filteredData.length === 0) {
+      alert("No bookings found in this date range!");
+      return;
+    }
+
     const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(filteredBookings.map(booking => ({
+    const ws = XLSX.utils.json_to_sheet(filteredData.map(booking => ({
       "Booking ID": booking._id,
       "Ground Id": booking.ground_id,
       "Name": booking.name,
@@ -118,36 +187,35 @@ const AdminDashboard = () => {
     // Add worksheet to the workbook
     XLSX.utils.book_append_sheet(wb, ws, "Bookings");
 
-    // Set cell width for better display
+    // Set column widths for better display
     const wscols = [
-      { wch: 10 }, // Width of "Booking ID" column
-      { wch: 10 }, // Width of "Ground ID" column
-      { wch: 20 }, // Width of "Name" column
-      { wch: 12 }, // Width of "Date" column
-      { wch: 15 }, // Width of "Mobile" column
-      { wch: 12 }, // Width of "Status" column
+      { wch: 15 }, // "Booking ID"
+      { wch: 10 }, // "Ground ID"
+      { wch: 20 }, // "Name"
+      { wch: 12 }, // "Date"
+      { wch: 15 }, // "Mobile"
+      { wch: 10 }, // "Advance"
+      { wch: 12 }, // "Amount"
+      { wch: 15 }, // "Status"
     ];
     ws["!cols"] = wscols;
 
     // Write the Excel file
-    XLSX.writeFile(wb, "Bookings.xlsx");
+    XLSX.writeFile(wb, `Bookings_${firstDayOfMonth.toISOString().split('T')[0]}_to_${selectedDate.toISOString().split('T')[0]}.xlsx`);
   };
+
 
   const deleteId = (booking_id, ground_id) => {
     dispatch(deletebooking({ booking_id, ground_id }));
   };
 
-  // Reset the date filter to show all bookings
-  // const resetDateFilter = () => {
-  //   setSelectedDate(null); // Reset selected date to null
-  //   setFilteredBookings(bookings); // Show all bookings again
-  // };
+
   const resetDateFilter = () => {
     const currentDate = new Date(); // Get the current date
     setSelectedDate(currentDate); // Set selected date to today's date
     setFilteredBookings(bookings); // Show all bookings again
   };
-  
+
   // Open modal with booking details
   const handleViewBooking = (booking) => {
     setSelectedBooking(booking);
@@ -164,42 +232,26 @@ const AdminDashboard = () => {
     if (!selectedDate) {
       return { totalSlots: 0, totalAmount: 0 }; // Return default values if selectedDate is null
     }
-  
+
     const selectedDateStr = selectedDate.toISOString().split("T")[0]; // Get selected date in YYYY-MM-DD format
-  
+
     // Filter bookings for the selected date
     const selectedDateBookings = bookings.filter(booking => booking.date.split("T")[0] === selectedDateStr);
-  
+
     // Calculate the total slots and total amount based on the slots in each booking
     const totalSlots = selectedDateBookings.reduce((total, booking) => total + booking.slots.length, 0);
     const totalAmount = selectedDateBookings.reduce((total, booking) => total + (booking.book ? booking.book.price : 0), 0);
-  
+
     return { totalSlots, totalAmount };
   };
-  
+
   // Safely destructure the result
   const { totalSlots, totalAmount } = getTodaySummary();
-  
-
-  // const getTodaySummary = () => {
-  //   const selectedDateStr = selectedDate.toISOString().split("T")[0]; // Get selected date in YYYY-MM-DD format
-
-  //   // Filter bookings for the selected date
-  //   const selectedDateBookings = bookings.filter(booking => booking.date.split("T")[0] === selectedDateStr);
-
-  //   // Calculate the total slots and total amount based on the slots in each booking
-  //   const totalSlots = selectedDateBookings.reduce((total, booking) => total + booking.slots.length, 0);
-  //   const totalAmount = selectedDateBookings.reduce((total, booking) => total + (booking.book ? booking.book.price : 0), 0);
-
-  //   return { totalSlots, totalAmount };
-  // };
-
-  // const { totalSlots, totalAmount } = getTodaySummary();
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-3">Admin Dashboard - <span style={{ color: "#198754", fontWeight: "bold" }}>Booking Details</span></h2>
-      
+      <h4 className="mb-3">Admin Dashboard - <span style={{ color: "#198754" }}>Booking Details</span></h4>
+
       {/* Search Box */}
       <div className="mb-3">
         <input
@@ -212,7 +264,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* Date Picker and Reset Button */}
-      <div className="mb-3 d-flex align-items-center">
+      <div className="mb-3 d-sm-flex align-items-center">
         <DatePicker
           selected={selectedDate}
           onChange={(date) => {
@@ -231,9 +283,9 @@ const AdminDashboard = () => {
           Reset
         </button>
         <div className="ms-4">
-          <div className="d-flex">
-         <div className="mx-3"> <p><strong>Today's Slots:</strong> {totalSlots}</p></div>
-          <div><p><strong>Consolidated Amount:</strong> ₹{totalAmount}</p></div>
+          <div className="d-flex ">
+            <div className="mx-3 mt-2"> <p>Today's Slots: <strong>{totalSlots}</strong></p></div>
+            <div className=" mt-2"><p>Total Amount: <strong>₹{totalAmount}</strong></p></div>
           </div>
         </div>
       </div>
@@ -308,7 +360,7 @@ const AdminDashboard = () => {
             </li>
             {[...Array(totalPages)].map((_, index) => (
               <li key={index} className={`page-item ${currentPage === index + 1 ? "active" : ""}`}>
-                <button className="page-link" onClick={() => paginate(index + 1)} style={{backgroundColor:"green"}}>
+                <button className="page-link" onClick={() => paginate(index + 1)} style={{ backgroundColor: "green" }}>
                   {index + 1}
                 </button>
               </li>

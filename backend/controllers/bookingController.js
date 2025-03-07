@@ -434,6 +434,34 @@ const getAllBookings = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Error fetching bookings", error });
   }
 });
+//Get bookings by ground id
+const getAllBookingsbygid = asyncHandler(async (req, res) => {
+  try {
+    const { user_id } = req.query; // Get ground_id from query parameters
+
+    let filter = {};  //replace user_id by ground_id if require
+    if (user_id) {
+      filter.user_id = user_id; // Filter bookings based on ground_id
+    }
+
+    // Fetch bookings from the database based on the filter
+    const bookings = await Booking.find(filter);
+
+    if (!bookings || bookings.length === 0) {
+      return res.status(404).json({ message: "No bookings found for this ground" });
+    }
+
+    // Return filtered booking details
+    res.status(200).json({
+      success: true,
+      data: bookings,
+      message: "Bookings retrieved successfully",
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching bookings", error });
+  }
+});
+
 //Get all bookings details by date
 const getBookingsByDate = asyncHandler(async (req, res) => {
   try {
@@ -489,7 +517,7 @@ const searchBookings = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-export { bookingGround, getBookings, getBookingDetailsBySlot, deleteBookingDetailsById, updateBookingPrice, getAllBookings, searchBookings, getBookingsByDate };
+export { bookingGround, getBookings, getBookingDetailsBySlot, deleteBookingDetailsById, updateBookingPrice, getAllBookings, searchBookings, getBookingsByDate, getAllBookingsbygid };
 
 
 

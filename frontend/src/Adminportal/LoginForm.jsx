@@ -32,7 +32,10 @@ console.log(baseUrl, 'baseurllogin')
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user_id', response.data.user.id);
       localStorage.setItem('name', response.data.user.name);
-      navigate('/Home');
+   
+      navigate('/');
+      setPhone('');
+      setPassword('');
     } catch (err) {
       console.error('Login error:', err.response ? err.response.data : err.message);
       setError(err.response?.data?.message || 'Login failed');
@@ -102,7 +105,7 @@ console.log(baseUrl, 'baseurllogin')
             {loading ? 'Logging in...' : 'Login'}
           </button>
           <span className='text-center text-light'>
-            Haven't registered yet? Let's <Link to="/register" className="text-warning">Register</Link>
+            Haven't registered yet? Let's <Link to="/createground" className="text-warning">Register</Link>
           </span>
         </form>
 

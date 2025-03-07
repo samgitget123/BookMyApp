@@ -10,6 +10,8 @@ const HomeCard = () => {
   const { baseUrl } = useBaseUrl();
   const navigate = useNavigate();
 
+  console.log(baseUrl, "baseUrl in HomeCard");
+
   // Retrieve user_id from localStorage
   const user_id = localStorage.getItem("user_id");
 
@@ -51,6 +53,7 @@ const HomeCard = () => {
   };
 
   const todayDate = getTodayDate();
+  const isLoggedIn = !!localStorage.getItem("token") && !!localStorage.getItem("user_id");
 
   return (
     <div className="my-3">
@@ -64,8 +67,6 @@ const HomeCard = () => {
           <div className="row g-3">
             {data.length > 0 ? (
               data.map((playground) => {
-                // Check if today's date exists in slots and fetch bookedSlots for that date
-                // const slotsForToday = playground.slots[todayDate];
                 const slotsForToday = playground.slots ? playground.slots[todayDate] : null;
                 return (
                   <div className="col-12 col-sm-6 col-md-4 col-lg-3" key={playground.ground_id} onClick={() => handleCardClick(playground.ground_id)}>
@@ -85,21 +86,19 @@ const HomeCard = () => {
 
                       <div className="card-body secondaryColor d-flex flex-column">
                         <div className="d-flex justify-content-between">
-                          <div> 
+                          <div>
                             <h5 className="card-title teritoryFont cardheadfont">{playground.name}</h5>
                           </div>
                           <div>
                             <p className="card-text teritoryFont">
-                            <i className="fas fa-map-marker-alt" style={{ color: "#00EE64" }}></i> {playground.location}
+                              <i className="fas fa-map-marker-alt" style={{ color: "#00EE64" }}></i> {playground.location}
                             </p>
                           </div>
                         </div>
 
                         {/* Displaying the number of booked slots for today's date */}
                         {slotsForToday && slotsForToday.bookedSlots.length > 0 ? (
-
                           <p className="card-text teritoryFont m-0">Booked Slots: <span>{slotsForToday.bookedSlots.length}</span></p>
-
                         ) : (
                           <p className="text-muted text-light m-0">No bookings yet for today.</p>
                         )}
@@ -111,12 +110,21 @@ const HomeCard = () => {
                 );
               })
             ) : (
-              <div className="col-12 text-center fw-bold text-secondary">
-                <p>No Registered Grounds. Please Register Your Ground.</p>
-                <button className="btn btn-md btn-success" onClick={() => navigate("/createground")}>
-                  Register
-                </button>
-              </div>
+              isLoggedIn ? (
+                <div className="col-12 text-center fw-bold text-secondary">
+                  <p>No Registered Grounds. Please Register Your Ground.</p>
+                  <button className="btn btn-md btn-success" onClick={() => navigate("/createground")}>
+                    Register
+                  </button>
+                </div>
+              ) : (
+                <div className="col-12 text-center">
+                  <p>Please log in to view available grounds.</p>
+                  <button className="btn btn-md btn-success" onClick={() => navigate("/LoginForm")}>
+                    Login
+                  </button>
+                </div>
+              )
             )}
           </div>
         </div>

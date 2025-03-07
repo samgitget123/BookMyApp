@@ -2,328 +2,11 @@ import asynHandler from '../middleware/asyncHandler.js';
 import Ground from '../models/Ground.js';
 import Booking from '../models/Booking.js';
 import { validate as uuidValidate } from 'uuid'; // For UUID validation
-
-
-// const createGround = asynHandler(async (req, res) => {
-//     const { name, location, city, country, state, stateDistrict, description } = req.body;
-
-//     // Log request body and file for debugging
-//     console.log('Request Body:', req.body);
-//     console.log('Uploaded File:', req.file);
-
-//     // Validate file
-//     if (!req.file) {
-//         return res.status(400).json({ message: 'Photo file is required' });
-//     }
-//    // const photo = req.file ? req.file.filename : null;
-//     const photo = req.files.map(file => file.path);
-//     // Log file information
-//     console.log('File received:', req.file);
-
-//     // Ensure the file exists in the request
-//     if (!req.file) {
-//         return res.status(400).json({ message: 'File is required' });
-//     }
-
-//     // Validate required fields, including city, state, and district
-//     if (!name || !location || !city || !country || !state || !stateDistrict || !description) {
-//         res.status(404);
-//         throw new Error(
-//             'All fields (name, location, city, country, state, stateDistrict, description) are required'
-//         );
-//     }
-
-//     try {
-//         // Create a new ground document with all the required fields
-//         const newGround = new Ground({
-//             name,
-//             location,
-//             city,         // Save the city
-//             country,
-//             state,         // Save the state
-//             stateDistrict, // Save the state district
-//             photo: photo,
-//             description,
-//         });
-
-//         // Save the new ground document to the database
-//         await newGround.save();
-
-//         // Respond with the newly created ground data
-//         res.status(201).json({
-//             message: 'Ground created successfully',
-//             ground: {
-//                 ground_id: newGround.ground_id,
-//                 name: newGround.name,
-//                 location: newGround.location,
-//                 city: newGround.city,       // Include city in the response
-//                 country: newGround.country,
-//                 state: newGround.state,     // Include state in the response
-//                 stateDistrict: newGround.stateDistrict, // Include state district in the response
-//                 photo: newGround.photo,
-//                 description: newGround.description,
-//             },
-//         });
-//     } catch (error) {
-//         console.error('Error creating ground:', error);
-//         res.status(500);
-//         throw new Error('SERVER ERROR');
-//     }
-// });
-// const createGround = asynHandler(async (req, res) => {
-//     const { name, location, city, country, state, stateDistrict, description } = req.body;
-  
-//     // Log request body and files for debugging
-//     console.log("Request Body:", req.body);
-//     console.log("Uploaded Files:", req.files);
-  
-//     // Validate file(s): Check that req.files exists and has at least one file
-//     if (!req.files || req.files.length === 0) {
-//       return res.status(400).json({ message: "Photo file is required" });
-//     }
-  
-//     // Map over req.files to get an array of file paths
-//     const photoPaths = req.files.map((file) => file.path);
-  
-//     // Validate required fields, including city, state, and district
-//     if (!name || !location || !city || !country || !state || !stateDistrict || !description) {
-//       res.status(404);
-//       throw new Error(
-//         "All fields (name, location, city, country, state, stateDistrict, description) are required"
-//       );
-//     }
-  
-//     try {
-//       // Create a new ground document with all the required fields
-//       const newGround = new Ground({
-//         name,
-//         location,
-//         city,         // Save the city
-//         country,
-//         state,         // Save the state
-//         stateDistrict, // Save the state district
-//         photo: photoPaths,
-//         description,
-//       });
-  
-//       // Save the new ground document to the database
-//       await newGround.save();
-  
-//       // Respond with the newly created ground data
-//       res.status(201).json({
-//         message: "Ground created successfully",
-//         ground: {
-//           ground_id: newGround.ground_id,
-//           name: newGround.name,
-//           location: newGround.location,
-//           city: newGround.city,       // Include city in the response
-//           country: newGround.country,
-//           state: newGround.state,     // Include state in the response
-//           stateDistrict: newGround.stateDistrict, // Include state district in the response
-//           photo: newGround.photo,
-//           description: newGround.description,
-//         },
-//       });
-//     } catch (error) {
-//       console.error("Error creating ground:", error);
-//       res.status(500);
-//       throw new Error("SERVER ERROR");
-//     }
-//   });
-// const createGround = asynHandler(async (req, res) => {
-//     const { name, location, city, country, state, stateDistrict, description } = req.body;
-  
-//     // Log request body and files for debugging
-//     console.log("Request Body:", req.body);
-//     console.log("Uploaded Files:", req.files);
-  
-//     // Validate file(s)
-//     if (!req.files || req.files.length === 0) {
-//       return res.status(400).json({ message: "Photo file is required" });
-//     }
-  
-//     // Map over req.files to get an array of file paths
-//     const photoPaths = req.files.map((file) => file.path);
-  
-//     // Validate required fields
-//     if (!name || !location || !city || !country || !state || !stateDistrict || !description) {
-//       res.status(404);
-//       throw new Error(
-//         "All fields (name, location, city, country, state, stateDistrict, description) are required"
-//       );
-//     }
-  
-//     try {
-//       // Create a new ground document with all the required fields
-//       const newGround = new Ground({
-//         name,
-//         location,
-//         city,
-//         country,
-//         state,
-//         stateDistrict,
-//         photo: photoPaths,
-//         description,
-//       });
-  
-//       // Save the new ground document to the database
-//       await newGround.save();
-  
-//       // Respond with the newly created ground data
-//       res.status(201).json({
-//         message: "Ground created successfully",
-//         ground: {
-//           ground_id: newGround.ground_id,
-//           name: newGround.name,
-//           location: newGround.location,
-//           city: newGround.city,
-//           country: newGround.country,
-//           state: newGround.state,
-//           stateDistrict: newGround.stateDistrict,
-//           photo: newGround.photo,
-//           description: newGround.description,
-//         },
-//       });
-//     } catch (error) {
-//       console.error("Error creating ground:", error);
-//       res.status(500).json({ message: "SERVER ERROR", error: error.message });
-//     }
-//   });
-// const createGround = asynHandler(async (req, res) => {
-//     const { name, location, city, country, state, stateDistrict, description , ground_owner, user_id } = req.body;
-//   console.log(user_id, req.body)
-//     // Log request body and files for debugging
-//     console.log("Request Body:", req.body);
-//     console.log("Uploaded Files:", req.files);
-//     if (!user_id) {
-//       return res.status(400).json({ message: "User ID is missing" });
-//     }
-//     // Validate that at least one file was uploaded
-//     if (!req.files || req.files.length === 0) {
-//       return res.status(400).json({ message: "Photo file is required" });
-//     }
-  
-//     // Map over req.files to get an array of file paths
-//     const photoPaths = req.files.map((file) => file.filename);
-  
-//     // Validate required fields
-//     if (!name || !location || !city || !country || !state || !stateDistrict || !description || !ground_owner) {
-//       res.status(404);
-//       throw new Error(
-//         "All fields (name, location, city, country, state, stateDistrict, description) are required"
-//       );
-//     }
-  
-//     try {
-//       // Create a new ground document with the required fields
-//       const newGround = new Ground({
-//         name,
-//         location,
-//         city,
-//         country,
-//         state,
-//         stateDistrict,
-//         photo: photoPaths, // Store an array of photo paths
-//         description,
-//         ground_owner,
-//         user_id,
-//       });
-  
-//       // Save the new ground document to the database
-//       await newGround.save();
-  
-//       // Respond with the newly created ground data
-//       res.status(201).json({
-//         message: "Ground created successfully",
-//         ground: {
-//           ground_id: newGround.ground_id,
-//           name: newGround.name,
-//           location: newGround.location,
-//           city: newGround.city,
-//           country: newGround.country,
-//           state: newGround.state,
-//           stateDistrict: newGround.stateDistrict,
-//           photo: newGround.photo,
-//           description: newGround.description,
-//           ground_owner: newGround.ground_owner
-//         },
-//       });
-//     } catch (error) {
-//       console.error("Error creating ground:", error);
-//       res.status(500).json({ message: "SERVER ERROR", error: error.message });
-//     }
-//   });
-
-  //////get grounds by userid/////
-  // const getUserGrounds = async (req, res) => {
-  //   try {
-  //     const { user_id } = req.user; // Assuming user_id is available from auth middleware
-  
-  //     if (!user_id) {
-  //       return res.status(400).json({ message: 'User ID is required' });
-  //     }
-  
-  //     const grounds = await Ground.find({ user_id });
-  //     res.status(200).json(grounds);
-  //   } catch (error) {
-  //     res.status(500).json({ message: 'Error fetching grounds', error });
-  //   }
-  // };
- 
- 
-
-// const createGround = asynHandler(async (req, res) => {
-//     const { name, location, city, country, state, stateDistrict, description, ground_owner, user_id } = req.body;
-//     let userId = Array.isArray(user_id) ? user_id[1] : user_id; 
-//     console.log("Received user_id:", user_id); // Debugging log
-
-//     // Ensure `user_id` is present
-//     if (!user_id) {
-//         return res.status(400).json({ message: "User ID is missing" });
-//     }
-
-//     // Validate required fields
-//     if (!name || !location || !city || !country || !state || !stateDistrict || !description || !ground_owner) {
-//         return res.status(400).json({ message: "All fields are required" });
-//     }
-
-//     // Validate that at least one file was uploaded
-//     if (!req.files || req.files.length === 0) {
-//         return res.status(400).json({ message: "Photo file is required" });
-//     }
-
-//     try {
-//         // Map over req.files to get an array of file paths
-//         const photoPaths = req.files.map((file) => file.filename);
-
-//         // Create a new ground document with required fields
-//         const newGround = new Ground({
-//             name,
-//             location,
-//             city,
-//             country,
-//             state,
-//             stateDistrict,
-//             photo: photoPaths,
-//             description,
-//             ground_owner,
-//             user_id, // Store user_id in DB
-//         });
-
-//         // Save the new ground document to the database
-//         await newGround.save();
-
-//         // Respond with the newly created ground data
-//         res.status(201).json({
-//             message: "Ground created successfully",
-//             ground: newGround
-//         });
-
-//     } catch (error) {
-//         console.error("Error creating ground:", error);
-//         res.status(500).json({ message: "SERVER ERROR", error: error.message });
-//     }
-// });
+import User from '../models/User.js';
+import jwt from 'jsonwebtoken';
+import { v4 as uuidv4 } from 'uuid';
+import bcrypt from 'bcryptjs';
+import { upload } from '../middleware/upload.js';
 
 
 const createGround = asynHandler(async (req, res) => {
@@ -534,4 +217,87 @@ const getuserGroundsByIdAndDate = asynHandler(async (req, res) => {
     }
 });
 
-export {createGround , getGroundsByLocation , getGroundsByIdandDate, getUserGrounds, getuserGroundsByIdAndDate};
+//////user register with ground////
+
+const registerUserWithGround = asynHandler(async (req, res) => {
+  const { 
+    name, phone_number, password, role, 
+    ground_name, location, city, country, state, stateDistrict, description, ground_owner 
+  } = req.body;
+  console.log("Request Body:", req.body);
+
+  
+  // if (!name || !phone_number || !password || !ground_name || !location || !city || !country || !state || !description || !ground_owner) {
+  //   return res.status(400).json({ message: "All required fields must be provided" });
+  // }
+
+  // Check if user already exists
+  const userExists = await User.findOne({ phone_number });
+  if (userExists) {
+    return res.status(400).json({ message: "User with this phone number already exists" });
+  }
+
+  // Hash the password
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+
+  // Generate a unique user_id
+  const user_id = uuidv4();
+
+  try {
+    // Create new user
+    const user = await User.create({
+      user_id,
+      name,
+      phone_number,
+      password: hashedPassword,
+      role: role || "user",
+    });
+
+    // Generate JWT Token
+    const token = jwt.sign({ userId: user.user_id }, process.env.JWT_SECRET || "defaultSecretKeyForTesting", { expiresIn: "30d" });
+
+    // Validate that files were uploaded
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ message: "Photo file is required for ground registration" });
+    }
+
+    // Get uploaded photo paths
+    const photoPaths = req.files.map((file) => file.filename);
+
+    // Create new ground
+    const newGround = await Ground.create({
+      name: ground_name,
+      location,
+      city,
+      country,
+      state,
+      stateDistrict,
+      photo: photoPaths,
+      description,
+      ground_owner,
+      user_id, // Link ground to the newly created user
+    });
+
+    res.status(201).json({
+      message: "User and ground registered successfully",
+      token,
+      user: {
+        id: user.user_id,
+        name: user.name,
+        phone_number: user.phone_number,
+        role: user.role,
+      },
+      ground: newGround,
+    });
+
+  } catch (error) {
+    console.error("Error creating user and ground:", error);
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+});
+
+
+
+
+export {createGround , getGroundsByLocation , getGroundsByIdandDate, getUserGrounds, getuserGroundsByIdAndDate, registerUserWithGround};
