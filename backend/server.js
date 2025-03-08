@@ -35,7 +35,7 @@ connectDB();
 console.log(cron, 'cron')
 console.log(cron.getTasks(), 'crontasks'); // Log active cron tasks
 
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Image upload route
 // Image upload route
