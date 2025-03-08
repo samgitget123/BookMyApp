@@ -510,17 +510,17 @@ const CreateGroundForm = () => {
     e.preventDefault();
 
     // Get user_id from local storage
-    const user_id = localStorage.getItem("user_id");
-    console.log(user_id, "Fetched user_id");
+    // const user_id = localStorage.getItem("user_id");
+    // console.log(user_id, "Fetched user_id");
 
-    if (!user_id) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "User not logged in!",
-      });
-      return;
-    }
+    // if (!user_id) {
+    //   Swal.fire({
+    //     icon: "error",
+    //     title: "Error",
+    //     text: "User not logged in!",
+    //   });
+    //   return;
+    // }
 
     // Validate form
     const validationErrors = validate(); // This should return an object with error messages
@@ -554,7 +554,7 @@ const CreateGroundForm = () => {
     });
 
     // Append user_id manually
-    formDataToSubmit.append("user_id", user_id);
+    //formDataToSubmit.append("user_id", user_id);
 
     // Append each file in the "photo" array
     if (Array.isArray(formData.photo)) {
@@ -825,12 +825,12 @@ const CreateGroundForm = () => {
                   </div>
                 </div>
                 <div className="col-6">
-                 
-                  <select class="form-select" aria-label="Default select example"  name="role" onChange={handleChange} value={formData.role || ""}>
-  <option selected>Select Role</option>
-  <option value="admin">Admin</option>
-  <option value="user">User</option>
-</select>
+
+                  <select class="form-select" aria-label="Default select example" name="role" onChange={handleChange} value={formData.role || ""}>
+                    <option selected>Select Role</option>
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                  </select>
                 </div>
 
                 {/* Phone Number */}

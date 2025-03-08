@@ -35,7 +35,17 @@ connectDB();
 console.log(cron, 'cron')
 console.log(cron.getTasks(), 'crontasks'); // Log active cron tasks
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+//  app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.resolve('uploads')));
+// const uploadsPath = path.join(__dirname, 'uploads'); // Store at root level
+// if (!fs.existsSync(uploadsPath)) {
+//   console.log("Creating uploads directory at root...");
+//   fs.mkdirSync(uploadsPath, { recursive: true });
+// } else {
+//   console.log("Uploads directory already exists.");
+// }
+// app.use('/uploads', express.static(uploadsPath));
+
 
 // Image upload route
 // Image upload route
