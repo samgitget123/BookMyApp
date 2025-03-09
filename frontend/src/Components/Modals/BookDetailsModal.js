@@ -123,7 +123,7 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
 
         if (deleteResult) {
         //  console.log(ground_id, selectdate, 'forcanceldisplay')
-         // dispatch(fetchGroundDetails({ ground_id, date: selectdate }));
+       //  dispatch(fetchGroundDetails({ ground_id, date: selectdate }));
           cancelbookingHandler();
 
         }
@@ -135,7 +135,7 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
             title: 'Booking Deleted!',
             text: 'Your booking has been successfully deleted.',
           });
-
+       
         } else {
           // If not successful, show an error alert
           Swal.fire({

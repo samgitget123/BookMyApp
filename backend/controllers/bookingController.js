@@ -517,7 +517,41 @@ const searchBookings = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-export { bookingGround, getBookings, getBookingDetailsBySlot, deleteBookingDetailsById, updateBookingPrice, getAllBookings, searchBookings, getBookingsByDate, getAllBookingsbygid };
+
+// Controller to update payment status
+const updatePaymentStatus = asyncHandler(async (req, res) => {
+  const { booking_id, paymentStatus } = req.body;
+
+  // Validate inputs
+  if (!booking_id || !paymentStatus) {
+    return res.status(400).json({ message: "Please provide booking_id and paymentStatus" });
+  }
+
+  // Validate allowed payment statuses
+  const allowedStatuses = ["pending", "success", "failed"];
+  if (!allowedStatuses.includes(paymentStatus)) {
+    return res.status(400).json({ message: "Invalid payment status" });
+  }
+
+  // Find and update the booking
+  const booking = await Booking.findOneAndUpdate(
+    { "book.booking_id": booking_id },
+    { paymentStatus },
+    { new: true } // Returns the updated document
+  );
+
+  if (!booking) {
+    return res.status(404).json({ message: "Booking not found" });
+  }
+
+  res.status(200).json({
+    success: true,
+    data: booking,
+    message: "Payment status updated successfully",
+  });
+});
+
+export { bookingGround, getBookings, getBookingDetailsBySlot, deleteBookingDetailsById, updateBookingPrice, getAllBookings, searchBookings, getBookingsByDate, getAllBookingsbygid , updatePaymentStatus};
 
 
 

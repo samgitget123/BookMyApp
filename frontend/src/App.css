@@ -453,6 +453,33 @@ span .secondaryFont {
   width: 80% !important;
 
 }
+/**********************report table in admin portal css**************/
+.table td, .table th {
+  white-space: nowrap; /* Prevents text from wrapping */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Adds "..." for overflowed text */
+  max-width: 100px; /* Adjust max width as needed */
+}
+
+@media (max-width: 768px) {
+  .table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  th, td {
+    font-size: 12px; /* Reduce text size for small screens */
+    padding: 5px;
+  }
+}
+
 
 /*small mobiles***/
 @media (max-width: 480px) {

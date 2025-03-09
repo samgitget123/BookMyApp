@@ -23,6 +23,7 @@ const ViewGround = () => {
   const [clickedslot, setClickedslot] = useState();
   const [showModal, setShowModal] = useState(false);
   const [showBookingModal, setShowBookingModal] = useState(false);
+ 
   useEffect(() => {
     if (gid) {
       const formattedDate = selectedDate

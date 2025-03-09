@@ -22,7 +22,7 @@ const AdminDashboard = () => {
   const [selectedBooking, setSelectedBooking] = useState(null); // State to hold selected booking for modal
   const [showModal, setShowModal] = useState(false); // Modal visibility state
   const dispatch = useDispatch();
-
+  //http://localhost:5000/api/booking/updatepaymentstatus
   useEffect(() => {
     fetchBookings();
   }, []);
@@ -156,6 +156,38 @@ const AdminDashboard = () => {
   //   // Write the Excel file
   //   XLSX.writeFile(wb, "Bookings.xlsx");
   // };
+  //conver time zone
+
+  const convertSlotToTimeRange = (slot) => {
+    console.log("Slot received in convertSlotToTimeRange:", slot); // Debugging
+
+    if (!Array.isArray(slot) || slot.length === 0) {
+      console.error("Unexpected slot format:", slot);
+      return "Invalid Slot";
+    }
+
+    // Convert slot values to numbers
+    let startSlot = parseFloat(slot[0]);  // First slot
+    let endSlot = parseFloat(slot[slot.length - 1]) + 0.5;  // Last slot + 30 min to complete range
+
+    if (isNaN(startSlot) || isNaN(endSlot)) {
+      console.error("Invalid numeric slot values:", slot);
+      return "Invalid Slot";
+    }
+
+    // Function to format time
+    const convertToTime = (timeSlot) => {
+      const hour = Math.floor(timeSlot);
+      const minutes = timeSlot % 1 === 0 ? "00" : "30";
+      const period = hour >= 12 ? "PM" : "AM";
+      const formattedHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
+
+      return `${formattedHour}:${minutes} ${period}`;
+    };
+
+    return `${convertToTime(startSlot)} - ${convertToTime(endSlot)}`;
+  };
+
   console.log(filteredBookings, 'filteredBookings')
   const handleDownloadExcel = () => {
     // Get the first day of the current month
@@ -178,6 +210,7 @@ const AdminDashboard = () => {
       "Ground Id": booking.ground_id,
       "Name": booking.name,
       "Date": booking.date,
+      "Time": convertSlotToTimeRange(booking.slots),
       "Mobile": booking.mobile,
       "Advance": booking.prepaid,
       "Amount": booking.book.price,
@@ -193,6 +226,7 @@ const AdminDashboard = () => {
       { wch: 10 }, // "Ground ID"
       { wch: 20 }, // "Name"
       { wch: 12 }, // "Date"
+      { wch: 12 }, // "time"
       { wch: 15 }, // "Mobile"
       { wch: 10 }, // "Advance"
       { wch: 12 }, // "Amount"
@@ -239,7 +273,7 @@ const AdminDashboard = () => {
     const selectedDateBookings = bookings.filter(booking => booking.date.split("T")[0] === selectedDateStr);
 
     // Calculate the total slots and total amount based on the slots in each booking
-    const totalSlots = selectedDateBookings.reduce((total, booking) => total + booking.slots.length, 0);
+    const totalSlots = selectedDateBookings.reduce((total, booking) => total + booking?.slots.length, 0);
     const totalAmount = selectedDateBookings.reduce((total, booking) => total + (booking.book ? booking.book.price : 0), 0);
 
     return { totalSlots, totalAmount };
@@ -247,6 +281,37 @@ const AdminDashboard = () => {
 
   // Safely destructure the result
   const { totalSlots, totalAmount } = getTodaySummary();
+  //update payment status
+
+  const handlePaymentStatusChange = async (bookingId, newStatus) => {
+    try {
+      const response = await fetch(`${baseUrl}/api/booking/updatepaymentstatus`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          booking_id: bookingId,
+          paymentStatus: newStatus === "paid" ? "success" : "pending",
+        }),
+      });
+
+      if (response.ok) {
+        // Update state immediately to reflect UI changes
+        setBookings((prevBookings) =>
+          prevBookings.map((booking) =>
+            booking.book.booking_id === bookingId
+              ? { ...booking, paymentStatus: newStatus === "paid" ? "success" : "pending" }
+              : booking
+          )
+        );
+      } else {
+        console.error("Failed to update payment status");
+      }
+    } catch (error) {
+      console.error("Error updating payment status:", error);
+    }
+  };
 
   return (
     <div className="container mt-4">
@@ -312,39 +377,91 @@ const AdminDashboard = () => {
               <p>No data found</p>
             </div>
           ) : (
+            // <table className="table table-sm table-striped table-bordered">
+            //   <thead className="table-dark">
+            //     <tr className="text-center">
+            //       <th>Booking ID</th>
+            //       {/* <th>Ground Id</th> */}
+            //       <th>Name</th>
+            //       <th>Date</th>
+            //       <th>Time</th>
+            //       <th>Mobile</th>
+            //       <th>Advance</th>
+            //       <th>Amount</th>
+            //       <th>Status</th>
+            //       <th>Actions</th>
+            //     </tr>
+            //   </thead>
+            //   <tbody>
+            //     {currentBookings.map((booking) => (
+            //       <tr key={booking._id} className="text-center">
+            //         <td>{booking.book.booking_id}</td>
+            //         {/* <td>{booking.ground_id}</td> */}
+            //         <td>{booking.name}</td>
+            //         <td>{booking.date}</td>
+            //         <td>{convertSlotToTimeRange(booking.slots)}</td>
+            //         <td>{booking.mobile}</td>
+            //         <td>{booking.prepaid}</td>
+            //         <td>{booking.book.price}</td>
+            //         <td>
+            //           <select
+            //             value={booking.paymentStatus === "success" ? "paid" : "pending"}
+            //             onChange={(e) => handlePaymentStatusChange(booking.book.booking_id, e.target.value)}
+            //             className="form-select form-select-sm"
+            //           >
+            //             <option value="pending">Pending</option>
+            //             <option value="paid">Paid</option>
+            //           </select>
+            //         </td>
+            //         <td>
+            //           <button className="btn btn-success btn-sm" onClick={() => handleViewBooking(booking)}>View</button>
+            //           {/* <button className="btn btn-danger btn-sm ms-2" onClick={() => deleteId(booking._id, booking.ground_id)}>Delete</button> */}
+            //         </td>
+            //       </tr>
+            //     ))}
+            //   </tbody>
+            // </table>
             <table className="table table-sm table-striped table-bordered">
-              <thead className="table-dark">
-                <tr className="text-center">
-                  <th>Booking ID</th>
-                  <th>Ground Id</th>
-                  <th>Name</th>
-                  <th>Date</th>
-                  <th>Mobile</th>
-                  <th>Advance</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+            <thead className="table-dark">
+              <tr className="text-center">
+                <th>Booking ID</th>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Mobile</th>
+                <th>Advance</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentBookings.map((booking) => (
+                <tr key={booking._id} className="text-center">
+                  <td>{booking.book.booking_id}</td>
+                  <td>{booking.name}</td>
+                  <td>{booking.date}</td>
+                  <td>{convertSlotToTimeRange(booking.slots)}</td>
+                  <td>{booking.mobile}</td>
+                  <td>{booking.prepaid}</td>
+                  <td>{booking.book.price}</td>
+                  <td>
+                    <select
+                      value={booking.paymentStatus === "success" ? "paid" : "pending"}
+                      onChange={(e) => handlePaymentStatusChange(booking.book.booking_id, e.target.value)}
+                      className="form-select form-select-sm"
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="paid">Paid</option>
+                    </select>
+                  </td>
+                  <td>
+                    <button className="btn btn-success btn-sm" onClick={() => handleViewBooking(booking)}>View</button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {currentBookings.map((booking) => (
-                  <tr key={booking._id} className="text-center">
-                    <td>{booking.book.booking_id}</td>
-                    <td>{booking.ground_id}</td>
-                    <td>{booking.name}</td>
-                    <td>{booking.date}</td>
-                    <td>{booking.mobile}</td>
-                    <td>{booking.prepaid}</td>
-                    <td>{booking.book.price}</td>
-                    <td>{booking.paymentStatus}</td>
-                    <td>
-                      <button className="btn btn-success btn-sm" onClick={() => handleViewBooking(booking)}>View</button>
-                      {/* <button className="btn btn-danger btn-sm ms-2" onClick={() => deleteId(booking._id, booking.ground_id)}>Delete</button> */}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+              ))}
+            </tbody>
+          </table>
           )}
         </div>
       )}
@@ -375,24 +492,38 @@ const AdminDashboard = () => {
       )}
 
       {/* Modal for Viewing Booking Details */}
+
       {selectedBooking && (
         <Modal show={showModal} onHide={handleCloseModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Booking Details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p><strong>Booking ID:</strong> {selectedBooking._id}</p>
-            <p><strong>Ground ID:</strong> {selectedBooking.ground_id}</p>
-            <p><strong>Name:</strong> {selectedBooking.name}</p>
-            <p><strong>Date:</strong> {selectedBooking.date}</p>
-            <p><strong>Mobile:</strong> {selectedBooking.mobile}</p>
-            <p><strong>Status:</strong> {selectedBooking.paymentStatus}</p>
-            <p><strong>Price:</strong> ₹{selectedBooking.book.price}</p>
-          </Modal.Body>
-          <Modal.Footer>
-            <button className="btn btn-secondary" onClick={handleCloseModal}>Close</button>
-          </Modal.Footer>
-        </Modal>
+        <Modal.Header closeButton style={{ backgroundColor: "#006849", padding: "10px" }}>
+          <Modal.Title className="text-light">Booking Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="container">
+            <div className="row">
+              {/* Left Column */}
+              <div className="col-6">
+                <p><strong>Booking ID:</strong> {selectedBooking._id}</p>
+                <p><strong>Ground ID:</strong> {selectedBooking.ground_id}</p>
+                <p><strong>Name:</strong> {selectedBooking.name}</p>
+                <p><strong>Date:</strong> {selectedBooking.date}</p>
+              </div>
+              
+              {/* Right Column */}
+              <div className="col-6">
+                <p><strong>Time:</strong> {selectedBooking.date}</p>
+                <p><strong>Mobile:</strong> {selectedBooking.mobile}</p>
+                <p><strong>Status:</strong> {selectedBooking.paymentStatus}</p>
+                <p><strong>Price:</strong> ₹{selectedBooking.book.price}</p>
+              </div>
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer style={{ backgroundColor: "#006849", padding: "10px" }}>
+          <button className="btn btn-secondary" onClick={handleCloseModal}>Close</button>
+        </Modal.Footer>
+      </Modal>
+      
       )}
     </div>
   );
