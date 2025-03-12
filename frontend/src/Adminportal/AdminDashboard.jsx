@@ -189,24 +189,221 @@ const AdminDashboard = () => {
   };
 
   console.log(filteredBookings, 'filteredBookings')
-  const handleDownloadExcel = () => {
-    // Get the first day of the current month
-    const firstDayOfMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+  // const handleDownloadExcel = () => {
+  //   // Get the first day of the current month
+  //   const firstDayOfMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
 
+  //   // Filter bookings from the 1st of the month to the selected date
+  //   const filteredData = bookings.filter(booking => {
+  //     const bookingDate = new Date(booking.date);
+  //     return bookingDate >= firstDayOfMonth && bookingDate <= selectedDate;
+  //   });
+
+  //   if (filteredData.length === 0) {
+  //     alert("No bookings found in this date range!");
+  //     return;
+  //   }
+
+  //   const wb = XLSX.utils.book_new();
+  //   const ws = XLSX.utils.json_to_sheet(filteredData.map(booking => ({
+  //     "Booking ID": booking._id,
+  //     "Ground Id": booking.ground_id,
+  //     "Name": booking.name,
+  //     "Date": booking.date,
+  //     "Time": convertSlotToTimeRange(booking.slots),
+  //     "Mobile": booking.mobile,
+  //     "Advance": booking.prepaid,
+  //     "Amount": booking.book.price,
+  //     "Status": booking.paymentStatus
+  //   })));
+
+  //   // Add worksheet to the workbook
+  //   XLSX.utils.book_append_sheet(wb, ws, "Bookings");
+
+  //   // Set column widths for better display
+  //   const wscols = [
+  //     { wch: 15 }, // "Booking ID"
+  //     { wch: 10 }, // "Ground ID"
+  //     { wch: 20 }, // "Name"
+  //     { wch: 12 }, // "Date"
+  //     { wch: 12 }, // "time"
+  //     { wch: 15 }, // "Mobile"
+  //     { wch: 10 }, // "Advance"
+  //     { wch: 12 }, // "Amount"
+  //     { wch: 15 }, // "Status"
+  //   ];
+  //   ws["!cols"] = wscols;
+
+  //   // Write the Excel file
+  //   XLSX.writeFile(wb, `Bookings_${firstDayOfMonth.toISOString().split('T')[0]}_to_${selectedDate.toISOString().split('T')[0]}.xlsx`);
+  // };
+
+  // const handleDownloadExcel = () => {
+  //   if (!selectedDate) {
+  //     alert("Please select a date!");
+  //     return;
+  //   }
+  
+  //   // Ensure selectedDate is a Date object
+  //   const selected = new Date(selectedDate);
+  //   const firstDayOfMonth = new Date(selected.getFullYear(), selected.getMonth(), 1);
+  
+  //   // Filter bookings from the 1st of the month to the selected date
+  //   const filteredData = bookings.filter(booking => {
+  //     const bookingDate = new Date(booking.date);
+  //     return bookingDate >= firstDayOfMonth && bookingDate <= selected;
+  //   });
+  
+  //   if (filteredData.length === 0) {
+  //     alert("No bookings found in this date range!");
+  //     return;
+  //   }
+  
+  //   const wb = XLSX.utils.book_new();
+  //   const ws = XLSX.utils.json_to_sheet(filteredData.map(booking => ({
+  //     "Booking ID": booking._id,
+  //     "Ground Id": booking.ground_id,
+  //     "Name": booking.name,
+  //     "Date": booking.date,
+  //     "Time": convertSlotToTimeRange(booking.slots),
+  //     "Mobile": booking.mobile,
+  //     "Advance": booking.prepaid,
+  //     "Amount": booking.book.price,
+  //     "Status": booking.paymentStatus
+  //   })));
+  
+  //   // Add worksheet to the workbook
+  //   XLSX.utils.book_append_sheet(wb, ws, "Bookings");
+  
+  //   // Set column widths for better display
+  //   const wscols = [
+  //     { wch: 15 }, // "Booking ID"
+  //     { wch: 10 }, // "Ground ID"
+  //     { wch: 20 }, // "Name"
+  //     { wch: 12 }, // "Date"
+  //     { wch: 12 }, // "Time"
+  //     { wch: 15 }, // "Mobile"
+  //     { wch: 10 }, // "Advance"
+  //     { wch: 12 }, // "Amount"
+  //     { wch: 15 }, // "Status"
+  //   ];
+  //   ws["!cols"] = wscols;
+  
+  //   // Generate file name dynamically
+  //   const fileName = `Bookings_${firstDayOfMonth.toISOString().split('T')[0]}_to_${selected.toISOString().split('T')[0]}.xlsx`;
+  
+  //   // Write the Excel file
+  //   XLSX.writeFile(wb, fileName);
+  // };
+  
+  // const handleDownloadExcel = () => {
+  //   if (!selectedDate) {
+  //     alert("Please select a date!");
+  //     return;
+  //   }
+  
+  //   const selected = new Date(selectedDate);
+  //   const firstDayOfMonth = new Date(selected.getFullYear(), selected.getMonth(), 1);
+  
+  //   // Filter bookings from the 1st of the month to the selected date
+  //   const filteredData = bookings.filter(booking => {
+  //     const bookingDate = new Date(booking.date);
+  //     return bookingDate >= firstDayOfMonth && bookingDate <= selected;
+  //   });
+  
+  //   if (filteredData.length === 0) {
+  //     alert("No bookings found in this date range!");
+  //     return;
+  //   }
+  
+  //   // Sort data by Date first, then by Slot (assuming slots are numeric or sortable strings)
+  //   const sortedData = filteredData.sort((a, b) => {
+  //     const dateA = new Date(a.date);
+  //     const dateB = new Date(b.date);
+  
+  //     if (dateA - dateB !== 0) {
+  //       return dateA - dateB; // Sort by Date
+  //     }
+      
+  //     return a.slots - b.slots; // Sort by Time (assuming numeric slot values)
+  //   });
+  
+  //   const wb = XLSX.utils.book_new();
+  //   const ws = XLSX.utils.json_to_sheet(sortedData.map(booking => ({
+  //     "Booking ID": booking._id,
+  //     "Ground Id": booking.ground_id,
+  //     "Name": booking.name,
+  //     "Date": booking.date,
+  //     "Time": convertSlotToTimeRange(booking.slots),
+  //     "Mobile": booking.mobile,
+  //     "Advance": booking.prepaid,
+  //     "Amount": booking.book.price,
+  //     "Status": booking.paymentStatus
+  //   })));
+  
+  //   // Add worksheet to the workbook
+  //   XLSX.utils.book_append_sheet(wb, ws, "Bookings");
+  
+  //   // Set column widths for better display
+  //   const wscols = [
+  //     { wch: 15 }, // "Booking ID"
+  //     { wch: 10 }, // "Ground ID"
+  //     { wch: 20 }, // "Name"
+  //     { wch: 12 }, // "Date"
+  //     { wch: 15}, // "Time"
+  //     { wch: 15 }, // "Mobile"
+  //     { wch: 10 }, // "Advance"
+  //     { wch: 12 }, // "Amount"
+  //     { wch: 15 }, // "Status"
+  //   ];
+  //   ws["!cols"] = wscols;
+  
+  //   // Generate file name dynamically
+  //   const fileName = `Bookings_${firstDayOfMonth.toISOString().split('T')[0]}_to_${selected.toISOString().split('T')[0]}.xlsx`;
+  
+  //   // Write the Excel file
+  //   XLSX.writeFile(wb, fileName);
+  // };
+  
+
+  const handleDownloadExcel = () => {
+    if (!selectedDate) {
+      alert("Please select a date!");
+      return;
+    }
+  
+    const selected = new Date(selectedDate);
+    const firstDayOfMonth = new Date(selected.getFullYear(), selected.getMonth(), 1);
+  
     // Filter bookings from the 1st of the month to the selected date
     const filteredData = bookings.filter(booking => {
       const bookingDate = new Date(booking.date);
-      return bookingDate >= firstDayOfMonth && bookingDate <= selectedDate;
+      return bookingDate >= firstDayOfMonth && bookingDate <= selected;
     });
-
+  
     if (filteredData.length === 0) {
       alert("No bookings found in this date range!");
       return;
     }
-
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(filteredData.map(booking => ({
-      "Booking ID": booking._id,
+  
+    // Sort data by Date first, then by Slot (assuming slots are numeric or sortable strings)
+    const sortedData = filteredData.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+  
+      if (dateA - dateB !== 0) {
+        return dateA - dateB; // Sort by Date
+      }
+  
+      return a.slots - b.slots; // Sort by Time (assuming numeric slot values)
+    });
+  
+    // Calculate total amount from all filtered bookings
+    const totalAmount = sortedData.reduce((sum, booking) => sum + (booking.book ? booking.book.price : 0), 0);
+  
+    // Convert data to worksheet format
+    const wsData = sortedData.map(booking => ({
+      "Booking ID": booking.book.booking_id,
       "Ground Id": booking.ground_id,
       "Name": booking.name,
       "Date": booking.date,
@@ -215,29 +412,49 @@ const AdminDashboard = () => {
       "Advance": booking.prepaid,
       "Amount": booking.book.price,
       "Status": booking.paymentStatus
-    })));
-
+    }));
+  
+    // Add a total row at the end
+    wsData.push({
+      "Booking ID": "Total",
+      "Ground Id": "",
+      "Name": "",
+      "Date": "",
+      "Time": "",
+      "Mobile": "",
+      "Advance": "",
+      "Amount": totalAmount,  // Display total amount here
+      "Status": ""
+    });
+  
+    // Create workbook and worksheet
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(wsData);
+  
     // Add worksheet to the workbook
     XLSX.utils.book_append_sheet(wb, ws, "Bookings");
-
+  
     // Set column widths for better display
     const wscols = [
       { wch: 15 }, // "Booking ID"
       { wch: 10 }, // "Ground ID"
       { wch: 20 }, // "Name"
       { wch: 12 }, // "Date"
-      { wch: 12 }, // "time"
+      { wch: 15 }, // "Time"
       { wch: 15 }, // "Mobile"
       { wch: 10 }, // "Advance"
       { wch: 12 }, // "Amount"
       { wch: 15 }, // "Status"
     ];
     ws["!cols"] = wscols;
-
+  
+    // Generate file name dynamically
+    const fileName = `Bookings_${firstDayOfMonth.toISOString().split('T')[0]}_to_${selected.toISOString().split('T')[0]}.xlsx`;
+  
     // Write the Excel file
-    XLSX.writeFile(wb, `Bookings_${firstDayOfMonth.toISOString().split('T')[0]}_to_${selectedDate.toISOString().split('T')[0]}.xlsx`);
+    XLSX.writeFile(wb, fileName);
   };
-
+  
 
   const deleteId = (booking_id, ground_id) => {
     dispatch(deletebooking({ booking_id, ground_id }));
@@ -513,7 +730,7 @@ const AdminDashboard = () => {
               <div className="col-6">
                 <p><strong>Time:</strong> {selectedBooking.date}</p>
                 <p><strong>Mobile:</strong> {selectedBooking.mobile}</p>
-                <p><strong>Status:</strong> {selectedBooking.paymentStatus}</p>
+                <p><strong>Status:</strong> {selectedBooking.paymentStatus == 'success'? 'paid':'pending'}</p>
                 <p><strong>Price:</strong> ₹{selectedBooking.book.price}</p>
               </div>
             </div>
