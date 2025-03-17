@@ -5,11 +5,11 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
-      - echo Installing dependencies...
+      - echo Installing frontend dependencies...
       - npm install
   build:
     commands:
-      - echo Building the React app...
+      - echo Building the frontend...
       - npm run build
 artifacts:
   files:
