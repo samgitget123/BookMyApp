@@ -20,7 +20,9 @@ const app = express();
 app.use(express.json());
 
 
-app.use(cors()); // Enable CORS for all routes
+app.use(cors({
+  origin: '*', // Allow all domains to access the API
+})); // Enable CORS for all routes
 const port = process.env.PORT || 5000;
 connectDB();
 
