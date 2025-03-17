@@ -102,32 +102,32 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
   //     console.error("Missing phone number or booking details.");
   //     return;
   //   }
-  
+
   //   const { date, slots, book } = bookingData;
   //   const bookingId = book?.booking_id;
-  
+
   //   const cancelMessage = `Dear ${customerName}, 
-  
+
   // We regret to inform you that your booking has been cancelled.
-  
+
   // 📌 Booking Details:
   // --------------------------
   // 📅 Date       : ${date}
   // 🕒 Slots      : ${convertSlotToTimeRange(slots)}
   // 📌 Booking ID : ${bookingId}
   // --------------------------
-  
+
   // If you have any questions, feel free to contact us.
-  
+
   // Regards, 
   // Vkings Sportz Arena`;
-  
+
   //   // Encode the message for WhatsApp
   //   const whatsappMessage = encodeURIComponent(cancelMessage);
-  
+
   //   // Construct the WhatsApp URL
   //   const whatsappURL = `https://wa.me/${phoneNumber}?text=${whatsappMessage}`;
-  
+
   //   // Open WhatsApp link in a new tab
   //   window.open(whatsappURL, "_blank");
   // };
@@ -144,11 +144,11 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
       console.error("Missing phone number or booking details.");
       return;
     }
-  
+
     const { date, slots, book } = bookingData;
     const bookingId = book?.booking_id;
     const formattedSlots = convertSlotToTimeRange(slots);
-  
+
     // Clean and structured cancellation message
     const cancelMessage = `*Booking Cancellation Notice*
   ────────────────────────
@@ -164,18 +164,18 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
   
   Best Regards,  
   *Vkings Sportz Arena*`;
-  
+
     // Encode the message for WhatsApp
     const whatsappMessage = encodeURIComponent(cancelMessage);
-  
+
     // Construct the WhatsApp URL
     const whatsappURL = `https://wa.me/${phoneNumber}?text=${whatsappMessage}`;
-  
+
     // Open WhatsApp link in a new tab
     window.open(whatsappURL, "_blank");
   };
-  
-  
+
+
 
   const cancelbookingHandler = async () => {
     const bookingData = bookingDetails?.data?.[0];
@@ -187,12 +187,12 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
       });
       return;
     }
-  
+
     const bookingId = bookingData?.book?.booking_id;
     const groundId = bookingData.ground_id;
     const customerName = bookingData.name;
     const phoneNumber = bookingData.mobile;
-  
+
     // Show confirmation dialog
     const result = await Swal.fire({
       title: "Are you sure?",
@@ -203,22 +203,22 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, cancel it!",
     });
-  
+
     if (!result.isConfirmed) return;
-  
+
     try {
       // Dispatch delete action and wait for result
       const deleteResult = await dispatch(deletebooking({ booking_id: bookingId, ground_id: groundId }));
-  
+
       if (deleteResult?.payload?.success) {
         Swal.fire({
           icon: "success",
           title: "Booking Cancelled!",
           text: "The booking has been successfully cancelled.",
         });
-       
+
         sendCancellationMessage(customerName, phoneNumber, bookingData);
-       
+
       } else {
         Swal.fire({
           icon: "error",
@@ -234,11 +234,11 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
       });
     }
   };
-  
+
 
   if (!bookingData) {
     return (
-    
+
       <div className="loading-container d-flex justify-content-center align-items-center my-5">
         <FaSpinner className="spinner-icon" style={{ fontSize: "50px", color: "grey", animation: "spin 1s infinite" }} />
         <p className="loading-text">Fetching Ground Details...</p>
@@ -280,7 +280,7 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
 
 
 
- 
+
 
   const CaptureandShare = async () => {
     if (modalRef.current && bookingData) {
@@ -294,9 +294,11 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
         const date = bookingData.date;
         const customerName = bookingData.name;
         const phoneNumber = bookingData.mobile; // Ensure this is formatted as required: e.g., "919876543210"
-  
-        const message = `*🎉 Booking Confirmation 🎉*
+        const latitude =  17.30537457033281;
+        const longitude = 78.51910349762814;
+        const groundLocationURL = `www.google.com/maps?q=${latitude},${longitude}`;
 
+        const message = `*🎉 Booking Confirmation 🎉*
         ────────────────────────
         🔹 *Booking ID:* ${bookingId}  
         📅 *Date:* ${date}  
@@ -305,21 +307,21 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
         💸 *Advance Paid:* ₹${advance}/-  
         💳 *Due Amount:* ₹${dueAmount}/-  
         ────────────────────────
+        Dear ${customerName},
         
-        Dear *${customerName}*,
+        Thank you for booking with us!
         
-        Thank you for booking with us! We look forward to hosting you.
-        
-        If you have any questions, feel free to contact us.
+        📍 *Ground Location:* ${groundLocationURL}
         
         Best Regards,  
         *Vkings Sportz Arena*`;
+        
         // Encode the message for URL inclusion
         const whatsappMessage = encodeURIComponent(message);
-  
+
         // Build the WhatsApp share URL with the dynamic number and the text message
         const whatsappURL = `https://wa.me/${phoneNumber}?text=${whatsappMessage}`;
-  
+
         // Open the WhatsApp share link in a new tab
         window.open(whatsappURL, "_blank");
       } catch (error) {
@@ -327,7 +329,7 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
       }
     }
   };
-  
+
   return (
     <div className="modal fade show custom-backdrop" style={{ display: "block" }} tabIndex="-1" aria-labelledby="bookDetailsModalLabel" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
