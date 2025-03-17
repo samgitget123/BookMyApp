@@ -38,7 +38,7 @@ const handleBrandClick = () => {
             style={{ cursor: 'pointer' }}
             onClick={handleBrandClick}
           >
-            Book My <span style={{ color: "#00EE64" }}>Ground Testing</span>
+            Book My <span style={{ color: "#00EE64" }}>Ground</span>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
