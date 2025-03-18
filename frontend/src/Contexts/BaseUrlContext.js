@@ -10,8 +10,9 @@ export const useBaseUrl = () => useContext(BaseUrlContext);
 export const BaseUrlProvider = ({ children }) => {
   // State to manage the base URL
   const [baseUrl, setBaseUrl] = useState(
-    `http://localhost:5000`
+    `http://13.201.20.182:5000`
   );
+  //http://13.201.20.182:5000/api/user/loginUser
 //http://localhost:5000
 //http://13.201.20.182
 //https://bookingapp-v-1-0.onrender.com
