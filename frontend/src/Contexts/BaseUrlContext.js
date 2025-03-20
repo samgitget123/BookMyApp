@@ -10,7 +10,7 @@ export const useBaseUrl = () => useContext(BaseUrlContext);
 export const BaseUrlProvider = ({ children }) => {
   // State to manage the base URL
   const [baseUrl, setBaseUrl] = useState(
-    `http://13.235.238.71:5000`
+    `http://3.110.54.122:5000`
   );
   //http://13.235.238.71:5000/api/user/loginUser
 //http://localhost:5000
