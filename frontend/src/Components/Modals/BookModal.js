@@ -14,7 +14,7 @@ const BookModal = ({
   selectdate,
   setSelectedSlots,
 }) => {
-  console.log(selectedSlots.length , 'no of slots')
+  console.log(selectedSlots.length, 'no of slots')
   const { gid } = useParams();
   const [info, setInfo] = useState("");
   const [name, setName] = useState(""); // State for Name
@@ -29,7 +29,7 @@ const BookModal = ({
   const remainingAmount = price - prepaid;
   const handleBooking = async (gid, selectedSlots, selectdate) => {
     const user_id = localStorage.getItem("user_id");
-   
+
     const result = await Swal.fire({
       title: "Confirm Booking",
       text: "Are you sure you want to book these slots?",
@@ -46,7 +46,7 @@ const BookModal = ({
       return;
     }
     const bookingData = {
-      user_id, 
+      user_id,
       ground_id: gid,
       date: selectdate,
       slots: selectedSlots,
@@ -69,35 +69,35 @@ const BookModal = ({
       });
 
       const data = await response.json();
-       // ✅ Check if API request was successful
-    if (!response.ok) {
+      // ✅ Check if API request was successful
+      if (!response.ok) {
+        Swal.fire({
+          title: "Booking Failed",
+          text: data.message || "An error occurred while booking. Please try again.",
+          icon: "error",
+          confirmButtonColor: "#d33",
+        });
+        return;
+      }
+
+      dispatch(fetchGroundDetails({ gid, date: selectdate }));
+      setInfo('');
+      setName('');
+      // setEmail('');
+      setMobile('');
+      //setSelectedSlots([]);
+      setPrice('');
+      setPaymentStatus("pending");
       Swal.fire({
-        title: "Booking Failed",
-        text: data.message || "An error occurred while booking. Please try again.",
-        icon: "error",
-        confirmButtonColor: "#d33",
+        title: "Success!",
+        text: "Your booking has been confirmed.",
+        icon: "success",
+        confirmButtonColor: "#006849",
       });
-      return;
-    }
-      
-    dispatch(fetchGroundDetails({ gid, date: selectdate }));
-    setInfo('');
-    setName('');
-    // setEmail('');
-    setMobile('');
-    //setSelectedSlots([]);
-    setPrice('');
-    setPaymentStatus("pending");
-    Swal.fire({
-      title: "Success!",
-      text: "Your booking has been confirmed.",
-      icon: "success",
-      confirmButtonColor: "#006849",
-    });
-    handleCloseModal();
+      handleCloseModal();
     } catch (error) {
       console.error("Error booking slot:", error);
-    }finally {
+    } finally {
       setLoading(false); // Hide spinner
     }
   };
@@ -154,7 +154,7 @@ const BookModal = ({
         style={{ display: showModal ? "block" : "none" }}
       >
         <div className="modal-dialog modal-dialog-centered modal-md">
-          <div className="modal-content shadow-lg rounded-3">
+          <div className="modal-content shadow-md rounded-3">
             <div className="modal-header text-white" style={{ backgroundColor: "#006849" }}>
               <h5 className="modal-title" id="exampleModalLabel">
                 Booking Your Slot
@@ -169,12 +169,12 @@ const BookModal = ({
             <div className="modal-body text-center">
               <div className="d-flex justify-content-between  my-2">
                 <div>
-                  <p><FaRegCalendarAlt size={20} className="me-1 text-dark" />{selectdate}</p>
+                  <p><FaRegCalendarAlt size={20}  color="#006849"  className="me-1 text-dark" />{selectdate}</p>
                 </div>
                 <div>
                   <div>
                     {selectedSlots.length > 0 ? (
-                      <span><FaRegClock size={20} className="me-1 text-dark" />{formatslot(selectedSlots)}</span>
+                      <span><FaRegClock size={20}  color="#006849"  className="me-1 text-dark" />{formatslot(selectedSlots)}</span>
                     ) : (
                       <span>No slots selected.</span>
                     )}
@@ -186,7 +186,7 @@ const BookModal = ({
 
               {/* Input Fields for Name, Email, and Mobile */}
               <div className="my-3 input-group">
-                <span className="input-group-text"><FaUser /></span>
+                <span className="input-group-text"><FaUser  color="#006849" /></span>
                 <input
                   type="text"
                   className="form-control"
@@ -195,27 +195,26 @@ const BookModal = ({
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
-              {/* <div className="my-3 input-group">
-                <span className="input-group-text"><FaEnvelope /></span>
-                <input
-                  type="email"
-                  className="form-control"
-                  placeholder="Enter your Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div> */}
+            
               <div className="my-3 input-group">
-                <span className="input-group-text"><FaPhoneAlt /></span>
+                <span className="input-group-text"><FaPhoneAlt  color="#006849" /></span>
                 <input
-                  type="number"
+                  type="tel"
                   className="form-control"
                   placeholder="Enter your Mobile Number"
-                  value={mobile}
-                  onChange={(e) => setMobile(e.target.value)}
-                  maxLength={10}
+                  value={mobile.startsWith("+91") ? mobile : `+91${mobile}`} // Ensure +91 is always present
+                  onChange={(e) => {
+                    let input = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+                    if (input.startsWith("91")) {
+                      setMobile(`+${input.slice(0, 12)}`); // Keep +91 with max 10 digits
+                    } else {
+                      setMobile(`+91${input.slice(0, 10)}`); // Force +91 if missing
+                    }
+                  }}
+                  maxLength={13} // +91 + 10-digit number
                 />
               </div>
+
               <div className="d-flex justify-content-start">
                 <div className="input-group input-group-sm">
                   <span className="input-group-text" id="inputGroup-sizing-sm"><strong>Total Amount</strong></span>
@@ -223,13 +222,13 @@ const BookModal = ({
                 </div>
               </div>
 
-               {/* Prepaid Amount Input */}
-               <div className="my-3 input-group">
-                <span className="input-group-text"><FaRupeeSign /></span>
+              {/* Prepaid Amount Input */}
+              <div className="my-3 input-group">
+                <span className="input-group-text"><FaRupeeSign  color="#006849" /></span>
                 <input type="number" className="form-control" placeholder="Enter Prepaid Amount" value={prepaid} onChange={(e) => setPrepaid(Number(e.target.value))} />
               </div>
-{/* Remaining Amount */}
-<div className="d-flex justify-content-between my-3">
+              {/* Remaining Amount */}
+              <div className="d-flex justify-content-between my-3">
                 <strong>Remaining Amount:</strong> <span><FaRupeeSign /> {remainingAmount}</span>
               </div>
               {/* Payment Status Selection */}
@@ -262,11 +261,11 @@ const BookModal = ({
               >
                 Close
               </button>
-             
+
               <button
                 type="button"
                 className="btn btn-primary"
-                disabled={selectedSlots.length === 0 || !name  || !mobile}
+                disabled={selectedSlots.length === 0 || !name || !mobile}
                 onClick={() => handleBooking(gid, selectedSlots, selectdate)}
               >
                 Confirm Booking

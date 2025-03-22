@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import brandlogo from "../../../Images/bmgicondisplay.jpeg";
+import brandlogo from "../../../Images/PYGsamplelogo.jpeg";
 import Carousels from "../promotions/Carousels";
 import Getlocations from "../locations/Getlocations";
 import TypingText from "../animations/Typingtext";
 import CardComponent from "../Cardcomponent";
 import HomeCard from "./HomeCard";
 import { Button } from "react-bootstrap";
+
 const WelcomeHome = () => {
   const userLocation = useSelector((state) => state.userLocation.userLocation);
   const [selectCity, setSelectCity] = useState('');
@@ -32,7 +33,7 @@ const WelcomeHome = () => {
               style={{ borderRadius: "0px 0px 40px 40px" }}
             >
               <div className="d-flex align-items-center justify-content-center text-center">
-                <div className=" mt-md-2">
+                <div className=" mt-md-5">
                   <div >
                     <img
                       className="img-fluid brandlogosize" //rotateImage
@@ -40,7 +41,7 @@ const WelcomeHome = () => {
                       alt="logo"
                     />
                   </div>
-                  <div>
+                  <div className="mt-md-3">
                     <h4 className="webheading">
                       Hello{" "}
                       <span className="webheading2">{user_name}</span>
@@ -64,8 +65,9 @@ const WelcomeHome = () => {
         </div>
       </section>
       {/* Card components */}
-      <section className="px-3">
+      <section >
         <HomeCard grounddata={{ selectCity, userLocation }} />
+       
       </section>
 
     </>

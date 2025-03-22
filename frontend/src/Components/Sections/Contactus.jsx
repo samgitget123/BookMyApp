@@ -1,0 +1,53 @@
+import React from 'react';
+
+const Contactus = () => {
+  return (
+    <div className="contact-us-section py-3">
+      <div className="container">
+        <div className="row justify-content-center">
+            <div className="card">
+              <div className="card-body text-center">
+                <h2 className='display-6' style={{ color: '#006849' }}>Contact Us</h2>
+                <p className="lead" style={{ color: '#333' }}>
+                  We would love to hear from you! Feel free to reach out to us using the details below:
+                </p>
+                
+                {/* Office Address */}
+                <div className="mb-3">
+                  <h5 className="card-title" style={{ color: '#006849' }}>Our Office</h5>
+                  <p style={{ color: '#333' }}>
+                   Badangpet, Mallapur Road <br />
+                    Hyd, Ind
+                  </p>
+                </div>
+
+                {/* Contact Email */}
+                <div className="mb-3">
+                  <h5 className="card-title" style={{ color: '#006849' }}>Email</h5>
+                  <p style={{ color: '#333' }}>
+                    <a href="mailto:support@example.com" style={{ color: '#006849' }}>sampathgoudarukala@gmail.com</a>
+                  </p>
+                </div>
+
+                {/* Phone Number */}
+                <div className="mb-3">
+                  <h5 className="card-title" style={{ color: '#006849' }}>Phone</h5>
+                  <p style={{ color: '#333' }}>+91 9848851443</p>
+                </div>
+
+                {/* Social Media Links (Optional) */}
+                <div>
+                  <a href="https://facebook.com" className="btn btn-outline-primary btn-sm me-2" target="_blank" rel="noopener noreferrer">Facebook</a>
+                  <a href="https://twitter.com" className="btn btn-outline-info btn-sm me-2" target="_blank" rel="noopener noreferrer">Twitter</a>
+                  <a href="https://instagram.com" className="btn btn-outline-danger btn-sm me-2" target="_blank" rel="noopener noreferrer">Instagram</a>
+                  <a href="https://wa.me/11234567890" className="btn btn-outline-success btn-sm" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Contactus;

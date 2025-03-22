@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useBaseUrl } from "../../../Contexts/BaseUrlContext";
 import { FaSpinner } from "react-icons/fa";
 import axios from "axios";
+import Ouradv from "../Ouradv";
+import Contactus from "../Contactus";
 
 const HomeCard = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const { baseUrl } = useBaseUrl();
   const navigate = useNavigate();
-
-  console.log(baseUrl, "baseUrl in HomeCard");
 
   // Retrieve user_id from localStorage
   const user_id = localStorage.getItem("user_id");
@@ -23,8 +23,6 @@ const HomeCard = () => {
     }
 
     const url = `${baseUrl}/api/ground/user/grounds?userId=${user_id}`;
-
-    console.log(url, "getgrounds");
 
     axios
       .get(url)
@@ -56,6 +54,8 @@ const HomeCard = () => {
   const isLoggedIn = !!localStorage.getItem("token") && !!localStorage.getItem("user_id");
 
   return (
+    <>
+    <div className="d-flex justify-content-center mt-2  "><h2 className="display-6" style={{ color: '#006849' }}>Pick Now</h2></div>
     <div className="my-3">
       {loading ? (
         <div className="d-flex justify-content-center align-items-center my-5">
@@ -63,14 +63,15 @@ const HomeCard = () => {
           <span className="ms-2">Loading...</span>
         </div>
       ) : (
-        <div className="container">
-          <div className="row g-3">
+        <div className="container-fluid" >
+          <div className="row g-3 ">
             {data.length > 0 ? (
               data.map((playground) => {
                 const slotsForToday = playground.slots ? playground.slots[todayDate] : null;
                 return (
-                  <div className="col-12 col-sm-6 col-md-4 col-lg-3" key={playground.ground_id} onClick={() => handleCardClick(playground.ground_id)}>
-                    <div className="card shadow-lg border-0 rounded h-100">
+                 <div className="d-lg-flex justify-content-center ">
+                   <div className="col-sm-12 col-md-12 col-lg-4 " key={playground.ground_id} onClick={() => handleCardClick(playground.ground_id)}>
+                    <div className="card shadow-lg border-0 rounded ">
                       <div className="card-img-top d-flex align-items-center justify-content-center" style={{ height: "200px", backgroundColor: "#f0f0f0" }}>
                         {playground.photo && playground.photo.length > 0 ? (
                           <img
@@ -107,6 +108,7 @@ const HomeCard = () => {
                       </div>
                     </div>
                   </div>
+                 </div>
                 );
               })
             ) : (
@@ -126,10 +128,22 @@ const HomeCard = () => {
                 </div>
               )
             )}
+
+            
           </div>
+          {/* Our information */}
+          <div className="row mt-5" style={{backgroundColor:"#E8E8E8"}}>
+            <div className="col-lg-8 col-sm-12 col-md-6">
+            <Ouradv />
+            </div>
+            <div className="col-lg-4 col-sm-12 col-md-6">
+            <Contactus />
+            </div>
+            </div>
         </div>
       )}
     </div>
+    </>
   );
 };
 

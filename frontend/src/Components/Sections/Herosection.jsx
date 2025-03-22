@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import brandlogo from "../../Images/bmgicondisplay.jpeg";
+import brandlogo from "../../Images/PYGsamplelogo.jpeg";
 import Carousels from "./promotions/Carousels";
 import Getlocations from "./locations/Getlocations";
 import TypingText from "./animations/Typingtext";

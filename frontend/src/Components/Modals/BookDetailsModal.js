@@ -340,58 +340,62 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
           </div>
           <div className="modal-body">
             <div className="card">
-              <div className="card-body" style={{ border: "0.75px solid black" }}>
-                <div className="d-flex my-2">
-                  <div>
-                    <p>{bookingData.book.booking_id}</p>
-                  </div>
-                </div>
-                <div className="d-flex justify-content-between my-1">
-                  <div>
-                    <p><FaRegCalendarAlt size={20} className="me-1 text-secondary" />{selectdate}</p>
-                  </div>
-                  <div>
-                    <p> <FaRegClock size={20} className="me-1 text-secondary" />{convertSlotToTimeRange(bookingDetails?.data[0]?.slots)}</p>
-                  </div>
-                </div>
+            <div className="card-body">
+  {/* Booking ID */}
+  <div className="d-flex justify-content-between align-items-center border-bottom pb-2">
+    <p className="mb-0 fw-bold">Booking ID: {bookingData.book.booking_id}</p>
+  </div>
 
-                <div className='d-flex justify-content-between my-1'>
-                  <div>
-                    <p><FaUser size={20} className="me-1 text-secondary" />{bookingData.name}</p>
-                  </div>
-                  <div>
-                    <p><a href={`tel:${bookingData.mobile}`} className="text-decoration-underline text-dark"><FaPhoneAlt size={20} className="me-1 text-secondary" />{bookingData.mobile}</a></p>
-                  </div>
+  {/* Date & Time */}
+  <div className="row my-3">
+    <div className="col-6 d-flex align-items-center">
+    <FaRegCalendarAlt size={18} className="me-2" color="#006849" />
 
-                </div>
+      <p className="mb-0">{selectdate}</p>
+    </div>
+    <div className="col-6 d-flex align-items-center justify-content-end">
+      <FaRegClock size={18} className="me-2 "   color="#006849" />
+      <p className="mb-0">{convertSlotToTimeRange(bookingDetails?.data[0]?.slots)}</p>
+    </div>
+  </div>
 
-                <div className='d-flex justify-content-between my-1'>
-                  <div>
-                    <p style={{ padding: "0px" }}>Amount  <FaRupeeSign />{bookingData.book.price}/-</p>
-                    {/* <span  onClick={handleEditAmount}><a className="text-decoration-underline text-dark cursor-pointer">Edit Amount</a></span> */}
-                    <button className="btn btn-sm btn-success btn-sm  me-2" onClick={handleEditAmount}>Edit Amount
-                    </button>
-                  </div>
+  {/* User Name & Mobile */}
+  <div className="row my-3 align-items-center">
+    <div className="col-6 d-flex align-items-center">
+      <FaUser size={18} className="me-2 "   color="#006849" />
+      <p className="mb-0">{bookingData.name}</p>
+    </div>
+    <div className="col-6 d-flex align-items-center justify-content-end">
+      <a href={`tel:${bookingData.mobile}`} className="text-decoration-none text-dark fw-bold">
+        <FaPhoneAlt size={18} className="me-2 "  color="#006849" />
+        {bookingData.mobile}
+      </a>
+    </div>
+  </div>
 
+  {/* Amount Section */}
+  <div className="d-flex justify-content-between align-items-center my-3 border-bottom pb-2">
+    <p className="mb-0 fw-bold">Amount: <FaRupeeSign />{bookingData.book.price}/-</p>
+    <button className="btn btn-sm btn-success" onClick={handleEditAmount}>
+      Edit Amount
+    </button>
+  </div>
 
-                </div>
-                <div className='d-flex justify-content-between'>
-                  <div className='my-2'>
-                    {/* WhatsApp Share Button */}
-                    <button className="btn btn-success btn-sm" onClick={CaptureandShare}>Share on WhatsApp <FaWhatsapp size={20} color="#25D366" /></button>
-                  </div>
-                  <div>
-                    <button className='btn btn-sm btn-danger' onClick={cancelbookingHandler}>Cancel</button>
+  {/* Buttons Section */}
+  <div className="d-flex justify-content-between mt-3">
+    <button className="btn btn-success btn-sm d-flex align-items-center" onClick={CaptureandShare}>
+      Share on WhatsApp <FaWhatsapp size={18} className="ms-2" />
+    </button>
+    <button className="btn btn-danger btn-sm" onClick={cancelbookingHandler}>
+      Cancel
+    </button>
+  </div>
+</div>
 
-                  </div>
-                </div>
-                {/* <button className="btn btn-primary" onClick={CaptureandShare}>Share on WhatsApp</button> */}
-
-              </div>
             </div>
           </div>
           <div className="modal-footer" style={{ backgroundColor: "#006849" }}>
-            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={handleCloseModal}>Close</button>
+            <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={handleCloseModal}>Close</button>
           </div>
 
         </div>

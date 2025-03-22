@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.0f62385c.css",
-    "main.js": "/static/js/main.986d7d23.js",
+    "main.js": "/static/js/main.0efcad91.js",
     "static/js/453.d855a71b.chunk.js": "/static/js/453.d855a71b.chunk.js",
     "static/media/cricgrass.jpg": "/static/media/cricgrass.17db042f29abf8531509.jpg",
     "static/media/sports.jpg": "/static/media/sports.e5ed210160ef4cc87127.jpg",
@@ -17,18 +17,18 @@
     "static/media/fa-solid-900.woff2": "/static/media/fa-solid-900.83a538a018a9e44b023a.woff2",
     "static/media/fa-brands-400.woff2": "/static/media/fa-brands-400.fdbb558523a380307689.woff2",
     "static/media/bgcrick.jpg": "/static/media/bgcrick.2ea4363ffd051e179470.jpg",
-    "static/media/bmgicondisplay.jpeg": "/static/media/bmgicondisplay.aaee14ae4778ed8a14fa.jpeg",
     "static/media/fa-regular-400.ttf": "/static/media/fa-regular-400.05fdd87be89f7f8f0a1e.ttf",
+    "static/media/PYGsamplelogo.jpeg": "/static/media/PYGsamplelogo.5094b7f50f3b83617e49.jpeg",
     "static/media/fa-regular-400.woff2": "/static/media/fa-regular-400.4f6a2dabee9c092d09b9.woff2",
     "static/media/fa-v4compatibility.ttf": "/static/media/fa-v4compatibility.fa86b3c85e77abbd2ebd.ttf",
     "static/media/fa-v4compatibility.woff2": "/static/media/fa-v4compatibility.c3ea317a0f10f201597f.woff2",
     "index.html": "/index.html",
     "main.0f62385c.css.map": "/static/css/main.0f62385c.css.map",
-    "main.986d7d23.js.map": "/static/js/main.986d7d23.js.map",
+    "main.0efcad91.js.map": "/static/js/main.0efcad91.js.map",
     "453.d855a71b.chunk.js.map": "/static/js/453.d855a71b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0f62385c.css",
-    "static/js/main.986d7d23.js"
+    "static/js/main.0efcad91.js"
   ]
 }
