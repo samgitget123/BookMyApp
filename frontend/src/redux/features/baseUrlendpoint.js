@@ -3,4 +3,4 @@
 //http://localhost:5000
 //http://13.201.20.182
 //http://13.235.238.71:5000
-export const baseUrl = `13.127.166.174`;
+export const baseUrl = `http://13.127.166.174`;
