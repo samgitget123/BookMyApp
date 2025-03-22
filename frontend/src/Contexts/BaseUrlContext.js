@@ -10,9 +10,10 @@ export const useBaseUrl = () => useContext(BaseUrlContext);
 export const BaseUrlProvider = ({ children }) => {
   // State to manage the base URL
   const [baseUrl, setBaseUrl] = useState(
-    `http://3.110.54.122:5000`
+    `13.127.166.174`
   );
   //http://13.235.238.71:5000/api/user/loginUser
+  //https://pickyourground.com/api/user/loginUser
 //http://localhost:5000
 //http://13.235.238.71:5000
 //https://bookingapp-v-1-0.onrender.com
