@@ -1,12 +1,20 @@
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
-
+import os from "os";
 // Correctly reference the 'uploads' folder at the root of the project
-const uploadsDir = path.resolve('uploads'); // This will resolve to 'C:/sampath/projects/bookingApp/uploads'
+// Detect if running on Windows or Linux
+const isWindows = os.platform() === "win32";
+
+// Dynamic path selection
+const uploadsDir = isWindows
+  ? path.resolve("uploads") // Windows: Inside project folder
+  : "/var/www/BookMyApp/backend/uploads"; // Linux: Server path
+//const uploadsDir = path.resolve('uploads'); // This will resolve to 'C:/sampath/projects/bookingApp/uploads'
 // Ensure 'uploads' directory exists
+// Ensure 'uploads' directory exists (with recursive creation)
 if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir);
+  fs.mkdirSync(uploadsDir, { recursive: true });  // ✅ Fix: Recursive directory creation
 }
 
 // Multer storage configuration
