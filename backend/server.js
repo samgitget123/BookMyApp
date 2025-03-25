@@ -66,12 +66,13 @@ const saveBookingDataToExcel = async () => {
     });
 
    
-    const reportsDirectory = "C:/booking_reports"; // Absolute path to the directory in C drive
-
+    //const reportsDirectory = "C:/booking_reports"; // Absolute path to the directory in C drive
+    const reportsDirectory = path.resolve(process.platform === "win32" ? "C:/booking_reports" : "/var/booking_reports");
+    if (!fs.existsSync(reportsDirectory)) fs.mkdirSync(reportsDirectory, { recursive: true });
     // Check if the directory exists, and create it if not
-    if (!fs.existsSync(reportsDirectory)) {
-      fs.mkdirSync(reportsDirectory, { recursive: true });
-    }
+    // if (!fs.existsSync(reportsDirectory)) {
+    //   fs.mkdirSync(reportsDirectory, { recursive: true });
+    // }
 
     // Define the file path in C drive
     const filePath = path.join(reportsDirectory, `Bookings_${new Date().toISOString().slice(0, 10)}.xlsx`);

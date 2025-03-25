@@ -12,7 +12,7 @@ export const BaseUrlProvider = ({ children }) => {
   const [baseUrl, setBaseUrl] = useState(
     `http://pickyourground.com`
   );
-  //http://13.127.166.174 //production
+  //http://pickyourground.com //production
   //http://13.127.166.174/api/user/loginUser
   //http://13.235.238.71:5000/api/user/loginUser
   //https://pickyourground.com/api/user/loginUser

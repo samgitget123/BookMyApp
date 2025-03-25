@@ -21,6 +21,7 @@ const Header = () => {
  // const isLoggedIn = !!localStorage.getItem('token'); // Check if the token exists
 // Check if both token and user_id exist in localStorage
 const isLoggedIn = !!localStorage.getItem('token') && !!localStorage.getItem('user_id');
+const isSuperAdmin = localStorage.getItem('role') === 'superadmin';
 const handleBrandClick = () => {
   if (isLoggedIn) {
     // If logged in, allow navigation to the home page
@@ -46,13 +47,15 @@ const handleBrandClick = () => {
               {/* Conditionally render the Login/Logout button */}
               
               {/* Other links */}
+              {/***it will check longin or not */}
               {isLoggedIn && (
                 <>
                   <Nav.Link onClick={handleBrandClick} className='text-light' style={{ cursor: 'pointer' }}><span>Home</span><CiHome size={22} /></Nav.Link>
-                  <Nav.Link href="/createground" className='text-light'>Lets <span style={{ color: "#00EE64" }}>Register</span> <Gi3dGlasses size={22} /></Nav.Link>
                   <Nav.Link href="/adminDashboard" className='text-light'>Admin <span style={{ color: "#00EE64" }}>Dashboard</span> <MdOutlineAdminPanelSettings size={22}/></Nav.Link>
                 </>
               )}
+              {/****it will check the superadmin or not */}
+             {isSuperAdmin && (<Nav.Link href="/createground" className='text-light'>Lets <span style={{ color: "#00EE64" }}>Register</span> <Gi3dGlasses size={22} /></Nav.Link>)} 
               {isLoggedIn ? (
                 <Nav.Link onClick={handleLogout} className='text-light' style={{ cursor: 'pointer' }}>Log<span style={{ color: "#00EE64" }}>out</span><CiLogout size={22}/></Nav.Link>
               ) : (

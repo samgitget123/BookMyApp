@@ -32,7 +32,7 @@ console.log(baseUrl, 'baseurllogin')
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user_id', response.data.user.id);
       localStorage.setItem('name', response.data.user.name);
-   
+      localStorage.setItem('role', response.data.user.role);
       navigate('/');
       setPhone('');
       setPassword('');

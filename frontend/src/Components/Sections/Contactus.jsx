@@ -7,7 +7,7 @@ const Contactus = () => {
         <div className="row justify-content-center">
             <div className="card">
               <div className="card-body text-center">
-                <h2 className='display-6' style={{ color: '#006849' }}>Contact Us</h2>
+                <h2 className='display-4' style={{ color: '#006849' }}>Contact Us</h2>
                 <p className="lead" style={{ color: '#333' }}>
                   We would love to hear from you! Feel free to reach out to us using the details below:
                 </p>
@@ -37,10 +37,10 @@ const Contactus = () => {
 
                 {/* Social Media Links (Optional) */}
                 <div>
-                  <a href="https://facebook.com" className="btn btn-outline-primary btn-sm me-2" target="_blank" rel="noopener noreferrer">Facebook</a>
-                  <a href="https://twitter.com" className="btn btn-outline-info btn-sm me-2" target="_blank" rel="noopener noreferrer">Twitter</a>
-                  <a href="https://instagram.com" className="btn btn-outline-danger btn-sm me-2" target="_blank" rel="noopener noreferrer">Instagram</a>
-                  <a href="https://wa.me/11234567890" className="btn btn-outline-success btn-sm" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                  <a href="https://facebook.com" className="btn btn-outline-primary btn-sm m-2" target="_blank" rel="noopener noreferrer">Facebook</a>
+                  <a href="https://twitter.com" className="btn btn-outline-info btn-sm m-2 " target="_blank" rel="noopener noreferrer">Twitter</a>
+                  <a href="https://instagram.com" className="btn btn-outline-danger btn-sm m-2" target="_blank" rel="noopener noreferrer">Instagram</a>
+                  <a href="https://wa.me/11234567890" className="btn btn-outline-success btn-sm m-2" target="_blank" rel="noopener noreferrer">WhatsApp</a>
                 </div>
               </div>
             </div>

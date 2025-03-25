@@ -294,7 +294,7 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
         const date = bookingData.date;
         const customerName = bookingData.name;
         const phoneNumber = bookingData.mobile; // Ensure this is formatted as required: e.g., "919876543210"
-        const latitude =  17.30537457033281;
+        const latitude = 17.30537457033281;
         const longitude = 78.51910349762814;
         const groundLocationURL = `www.google.com/maps?q=${latitude},${longitude}`;
 
@@ -315,7 +315,7 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
         
         Best Regards,  
         *Vkings Sportz Arena*`;
-        
+
         // Encode the message for URL inclusion
         const whatsappMessage = encodeURIComponent(message);
 
@@ -339,60 +339,61 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleCloseModal}></button>
           </div>
           <div className="modal-body">
-            <div className="card">
-            <div className="card-body">
-  {/* Booking ID */}
-  <div className="d-flex justify-content-between align-items-center border-bottom pb-2">
-    <p className="mb-0 fw-bold">Booking ID: {bookingData.book.booking_id}</p>
-  </div>
-
-  {/* Date & Time */}
-  <div className="row my-3">
-    <div className="col-6 d-flex align-items-center">
-    <FaRegCalendarAlt size={18} className="me-2" color="#006849" />
-
-      <p className="mb-0">{selectdate}</p>
+          <div className="card">
+  <div className="card-body">
+    {/* Booking ID */}
+    <div className="d-flex justify-content-between align-items-center border-bottom pb-2">
+      <p className="mb-0 fw-bold">Booking ID: {bookingData.book.booking_id}</p>
     </div>
-    <div className="col-6 d-flex align-items-center justify-content-end">
-      <FaRegClock size={18} className="me-2 "   color="#006849" />
-      <p className="mb-0">{convertSlotToTimeRange(bookingDetails?.data[0]?.slots)}</p>
-    </div>
-  </div>
 
-  {/* User Name & Mobile */}
-  <div className="row my-3 align-items-center">
-    <div className="col-6 d-flex align-items-center">
-      <FaUser size={18} className="me-2 "   color="#006849" />
-      <p className="mb-0">{bookingData.name}</p>
+    {/* Date & Time */}
+    <div className="d-flex justify-content-between my-3">
+      <div className="d-flex align-items-center gap-2">
+        <FaRegCalendarAlt size={18} color="#006849" />
+        <span>{selectdate}</span>
+      </div>
+      <div className="d-flex align-items-center gap-2">
+        <FaRegClock size={18} color="#006849" />
+        <span>{convertSlotToTimeRange(bookingDetails?.data[0]?.slots)}</span>
+      </div>
     </div>
-    <div className="col-6 d-flex align-items-center justify-content-end">
-      <a href={`tel:${bookingData.mobile}`} className="text-decoration-none text-dark fw-bold">
-        <FaPhoneAlt size={18} className="me-2 "  color="#006849" />
-        {bookingData.mobile}
-      </a>
+
+    {/* User Name & Mobile */}
+    <div className="d-flex justify-content-between my-3">
+      <div className="d-flex align-items-center gap-2">
+        <FaUser size={18} color="#006849" />
+        <span>{bookingData.name}</span>
+      </div>
+      <div className="d-flex align-items-center gap-2">
+        <FaPhoneAlt size={18} color="#006849" />
+        <a href={`tel:${bookingData.mobile}`} className="text-decoration-none text-dark fw-bold">
+          {bookingData.mobile}
+        </a>
+      </div>
     </div>
-  </div>
 
-  {/* Amount Section */}
-  <div className="d-flex justify-content-between align-items-center my-3 border-bottom pb-2">
-    <p className="mb-0 fw-bold">Amount: <FaRupeeSign />{bookingData.book.price}/-</p>
-    <button className="btn btn-sm btn-success" onClick={handleEditAmount}>
-      Edit Amount
-    </button>
-  </div>
+    {/* Amount Section */}
+    <div className="d-flex justify-content-between align-items-center my-3 border-bottom pb-2">
+      <p className="mb-0 fw-bold">
+        Amount: <FaRupeeSign />{bookingData.book.price}/-
+      </p>
+      <button className="btn btn-sm btn-success" onClick={handleEditAmount}>
+        Edit Amount
+      </button>
+    </div>
 
-  {/* Buttons Section */}
-  <div className="d-flex justify-content-between mt-3">
-    <button className="btn btn-success btn-sm d-flex align-items-center" onClick={CaptureandShare}>
-      Share on WhatsApp <FaWhatsapp size={18} className="ms-2" />
-    </button>
-    <button className="btn btn-danger btn-sm" onClick={cancelbookingHandler}>
-      Cancel
-    </button>
+    {/* Buttons Section */}
+    <div className="d-flex justify-content-between mt-3">
+      <button className="btn btn-success btn-sm d-flex align-items-center" onClick={CaptureandShare}>
+        Share on WhatsApp <FaWhatsapp size={18} className="ms-2" />
+      </button>
+      <button className="btn btn-danger btn-sm" onClick={cancelbookingHandler}>
+        Cancel
+      </button>
+    </div>
   </div>
 </div>
 
-            </div>
           </div>
           <div className="modal-footer" style={{ backgroundColor: "#006849" }}>
             <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={handleCloseModal}>Close</button>

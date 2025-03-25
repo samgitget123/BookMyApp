@@ -87,94 +87,7 @@ const CreateGroundForm = () => {
     getUserLocation();
   }, []);
 
-  // const validate = () => {
-  //   const newErrors = {};
-
-  //   if (!formData.name) newErrors.name = "Name is required.";
-  //   if (!formData.phone) newErrors.phone = "phonenumber is required.";
-  //   if (!formData.password) newErrors.password = "Password is required.";
-  //   if (!formData.role) newErrors.role = "role is required.";
-  //   if (!formData.ground_name) newErrors.ground_name = "ground name is required.";
-  //   if (!formData.location) newErrors.location = "Location is required.";
-  //   if (!formData.country) newErrors.country = "Country is required.";
-  //   if (!formData.state) newErrors.state = "State is required.";
-  //   if (!formData.stateDistrict) newErrors.stateDistrict = "State District is required.";
-  //   if (!formData.city) newErrors.city = "City is required."; // Validation for city
-  //   if (!formData.description) newErrors.description = "Description is required.";
-  //   if (!formData.photo) newErrors.photo = "Photo is required.";
-  //   if (!formData.ground_owner) newErrors.ground_owner = "Ground owner is required.";
-
-  //   setErrors(newErrors);
-  //   return Object.keys(newErrors).length === 0;
-  // };
-  // const validate = () => {
-  //   console.log("Validating form..."); // Debugging
-  //   const newErrors = {};
-
-  //   if (!formData.name) {
-  //     newErrors.name = "Name is required.";
-  //     console.log("Validation Error: Name is missing");
-  //   }
-  //   if (!formData.phone_number) {
-  //     newErrors.phone_number = "Phone number is required.";
-  //     console.log("Validation Error: Phone number is missing");
-  //   }
-  //   if (!formData.password) {
-  //     newErrors.password = "Password is required.";
-  //     console.log("Validation Error: Password is missing");
-  //   }
-  //   if (!formData.role) {
-  //     newErrors.role = "Role is required.";
-  //     console.log("Validation Error: Role is missing");
-  //   }
-  //   if (!formData.ground_name) {
-  //     newErrors.ground_name = "Ground name is required.";
-  //     console.log("Validation Error: Ground name is missing");
-  //   }
-  //   if (!formData.location) {
-  //     newErrors.location = "Location is required.";
-  //     console.log("Validation Error: Location is missing");
-  //   }
-  //   if (!formData.country) {
-  //     newErrors.country = "Country is required.";
-  //     console.log("Validation Error: Country is missing");
-  //   }
-  //   if (!formData.state) {
-  //     newErrors.state = "State is required.";
-  //     console.log("Validation Error: State is missing");
-  //   }
-  //   if (!formData.stateDistrict) {
-  //     newErrors.stateDistrict = "State District is required.";
-  //     console.log("Validation Error: State District is missing");
-  //   }
-  //   if (!formData.city) {
-  //     newErrors.city = "City is required.";
-  //     console.log("Validation Error: City is missing");
-  //   }
-  //   if (!formData.role) {
-  //     newErrors.role = "Role is required.";
-  //     console.log("Validation Error: Role is missing");
-  //   }
-  //   if (!formData.description) {
-  //     newErrors.description = "Description is required.";
-  //     console.log("Validation Error: Description is missing");
-  //   }
-
-  //   if (!Array.isArray(formData.photo) || formData.photo.length === 0) {
-  //     newErrors.photo = "Photo is required.";
-  //     console.log("Validation Error: Photo is missing or not an array");
-  //   }
-
-  //   if (!formData.ground_owner) {
-  //     newErrors.ground_owner = "Ground owner is required.";
-  //     console.log("Validation Error: Ground owner is missing");
-  //   }
-
-  //   console.log(newErrors, "Errors Found"); // Debugging
-
-  //   setErrors(newErrors);
-  //   return Object.keys(newErrors).length === 0;
-  // };
+  
   const validate = () => {
     let errors = {};
 
@@ -241,286 +154,10 @@ const CreateGroundForm = () => {
     }
   }, []);
 
-  //   const handleSubmit = async (e) => {
-  //     e.preventDefault();
-
-  //     // Get user_id from local storage
-  //     const user_id = localStorage.getItem("user_id");
-  // console.log(user_id, 'user_id')
-  //     if (!user_id) {
-  //       Swal.fire("Error", "User not logged in!", "error");
-  //       return;
-  //     }
-
-  //     if (validate()) {
-  //       setIsLoading(true);
-  //       const formDataToSubmit = new FormData();
-
-  //       // Append all form fields except "photo"
-  //       Object.keys(formData).forEach((key) => {
-  //         if (key !== "photo") {
-  //           formDataToSubmit.append(key, formData[key]);
-  //         }
-  //       });
-
-  //       // Append user_id manually
-  //       formDataToSubmit.append("user_id", user_id);
-
-  //       // Append each file in the "photo" array
-  //       formData.photo.forEach((file) => {
-  //         formDataToSubmit.append("photo", file);
-  //       });
-
-  //       try {
-  //         //http://localhost:5000/api/ground/cerateGroundUser
-  //         ///api/ground/createGround
-  //         const response = await axios.post(
-  //           `${baseUrl}/api/ground/cerateGroundUser`,
-  //           formDataToSubmit,
-  //           {
-  //             headers: {
-  //               "Content-Type": "multipart/form-data",
-  //             },
-  //           }
-  //         );
-
-  //         console.log(response, "Create Ground Response");
-  //         Swal.fire("Success", "Ground added successfully!", "success");
-
-  //         // Reset form fields after submission
-  //         setFormData({
-  //           name: "",
-  //           location: "",
-  //           country: "",
-  //           state: "",
-  //           city: "",
-  //           stateDistrict: "",
-  //           photo: [],
-  //           description: "",
-  //           ground_owner: "",
-  //           user_id: "", // Reset user_id field
-  //           phone: "",
-  //           password: ""
-  //         });
-
-  //         setErrors({});
-  //       } catch (error) {
-  //         console.error(error.response);
-  //         Swal.fire("Error", error.response?.data?.message || "Failed to add ground", "error");
-  //       } finally {
-  //         setIsLoading(false);
-  //       }
-  //     }
-  //   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   // Get user_id from local storage
-  //   const user_id = localStorage.getItem("user_id");
-  //   console.log(user_id, "Fetched user_id");
-
-  //   if (!user_id) {
-  //     Swal.fire("Error", "User not logged in!", "error");
-  //     return;
-  //   }
-
-  //   // Ensure formData exists before validation
-  //   if (!formData) {
-  //     console.error("Form data is undefined!");
-  //     return;
-  //   }
-
-  //   // Validate form
-  //   const isValid = validate();
-  //   console.log(isValid, "Validation Result");
-
-  //   if (!isValid) {
-  //     console.error("Validation failed, form not submitted.");
-  //     return;
-  //   }
-
-  //   setIsLoading(true);
-  //   const formDataToSubmit = new FormData();
-
-  //   // Append all form fields except "photo"
-  //   Object.keys(formData).forEach((key) => {
-  //     if (key !== "photo") {
-  //       formDataToSubmit.append(key, formData[key]);
-  //     }
-  //   });
-
-  //   // Append user_id manually
-  //   formDataToSubmit.append("user_id", user_id);
-
-  //   // Append each file in the "photo" array
-  //   if (Array.isArray(formData.photo)) {
-  //     formData.photo.forEach((file) => {
-  //       formDataToSubmit.append("photo", file);
-  //     });
-  //   }
-
-  //   try {
-  //     const response = await axios.post(
-  //       `${baseUrl}/api/ground/cerateGroundUser`,
-  //       formDataToSubmit,
-  //       {
-  //         headers: {
-  //           "Content-Type": "multipart/form-data",
-  //         },
-  //       }
-  //     );
-
-  //     console.log(response, "Create Ground Response");
-  //     Swal.fire("Success", "Ground added successfully!", "success");
-
-  //     // Reset form fields after submission
-  //     setFormData({
-  //       name: "",
-  //       location: "",
-  //       country: "",
-  //       state: "",
-  //       city: "",
-  //       stateDistrict: "",
-  //       photo: [],
-  //       description: "",
-  //       ground_owner: "",
-  //       user_id: "",
-  //       phone: "",
-  //       password: ""
-  //     });
-
-  //     setErrors({});
-  //   } catch (error) {
-  //     console.error(error.response);
-  //     Swal.fire("Error", error.response?.data?.message || "Failed to add ground", "error");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   // Get user_id from local storage
-  //   const user_id = localStorage.getItem("user_id");
-  //   console.log(user_id, "Fetched user_id");
-
-  //   if (!user_id) {
-  //     Swal.fire({
-  //       icon: "error",
-  //       title: "Error",
-  //       text: "User not logged in!",
-  //     });
-  //     return;
-  //   }
-
-  //   // Ensure formData exists before validation
-  //   if (!formData) {
-  //     console.error("Form data is undefined!");
-  //     return;
-  //   }
-
-  //   // Validate form
-  //   const validationResult = validate();
-  //   console.log(validationResult, "Validation Result");
-
-  //   if (validationResult !== true) {
-  //     let errorMessages = Object.values(validationResult).join("\n");
-
-  //     Swal.fire({
-  //       icon: "error",
-  //       title: "Validation Errors",
-  //       text: errorMessages,
-  //     });
-
-  //     return;
-  //   }
-
-  //   setIsLoading(true);
-  //   const formDataToSubmit = new FormData();
-
-  //   // Append all form fields except "photo"
-  //   Object.keys(formData).forEach((key) => {
-  //     if (key !== "photo") {
-  //       formDataToSubmit.append(key, formData[key]);
-  //     }
-  //   });
-
-  //   // Append user_id manually
-  //   formDataToSubmit.append("user_id", user_id);
-
-  //   // Append each file in the "photo" array
-  //   if (Array.isArray(formData.photo)) {
-  //     formData.photo.forEach((file) => {
-  //       formDataToSubmit.append("photo", file);
-  //     });
-  //   }
-
-  //   try {
-  //     const response = await axios.post(
-  //       //${baseUrl}/api/ground/cerateGroundUser
-  //       `${baseUrl}/api/ground/cerateGroundUser`,
-  //       formDataToSubmit,
-  //       {
-  //         headers: {
-  //           "Content-Type": "multipart/form-data",
-  //         },
-  //       }
-  //     );
-
-  //     console.log(response, "Create Ground Response");
-  //     Swal.fire({
-  //       icon: "success",
-  //       title: "Success",
-  //       text: "Ground added successfully!",
-  //     });
-
-  //     // Reset form fields after submission
-  //     setFormData({
-  //       name: "",
-  //       location: "",
-  //       country: "",
-  //       state: "",
-  //       city: "",
-  //       stateDistrict: "",
-  //       photo: [],
-  //       description: "",
-  //       ground_owner: "",
-  //       user_id: "",
-  //       phone: "",
-  //       password: "",
-  //       ground_name:"",
-  //       phone_number:""
-  //     });
-
-  //     setErrors({});
-  //   } catch (error) {
-  //     console.error(error.response);
-
-  //     Swal.fire({
-  //       icon: "error",
-  //       title: "Submission Failed",
-  //       text: error.response?.data?.message || "Failed to add ground",
-  //     });
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Get user_id from local storage
-    // const user_id = localStorage.getItem("user_id");
-    // console.log(user_id, "Fetched user_id");
 
-    // if (!user_id) {
-    //   Swal.fire({
-    //     icon: "error",
-    //     title: "Error",
-    //     text: "User not logged in!",
-    //   });
-    //   return;
-    // }
 
     // Validate form
     const validationErrors = validate(); // This should return an object with error messages
@@ -595,6 +232,7 @@ const CreateGroundForm = () => {
         user_id: "",
         phone: "",
         password: "",
+        
       });
 
       setErrors({});
@@ -812,7 +450,7 @@ const CreateGroundForm = () => {
                       className={`form-control ${errors.name ? "is-invalid" : ""}`}
                       id="name"
                       name="name"
-                      value={formData.name}
+                      value={formData.name || ""}
                       onChange={handleInputChange}
                       placeholder="Enter User name"
                     />
@@ -828,8 +466,9 @@ const CreateGroundForm = () => {
 
                   <select class="form-select" aria-label="Default select example" name="role" onChange={handleChange} value={formData.role || ""}>
                     <option selected>Select Role</option>
-                    <option value="admin">Admin</option>
                     <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                    <option value="superadmin">SuperAdmin</option>
                   </select>
                 </div>
 
@@ -886,35 +525,6 @@ const CreateGroundForm = () => {
                     </span>
                   </div>
                 </div>
-
-                {/* <div >
-                  <label htmlFor="password" className="form-label text-light">
-                    Password
-                  </label>
-                  <div className="input-group">
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      id="password"
-                      className="form-control"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Enter password"
-                      required
-                    />
-                    <span
-                      className="input-group-text bg-white border-0"
-                      style={{ cursor: "pointer" }}
-                      onClick={togglePasswordVisibility}
-                    >
-                      {showPassword ? (
-                        <AiFillEyeInvisible size={24} />
-                      ) : (
-                        <AiFillEye size={24} />
-                      )}
-                    </span>
-                  </div>
-                </div> */}
-
                 {/* Submit Button */}
                 <div className="col-12 text-center my-5">
                   <button type="submit" className="btn btn-lg btn-success w-50" disabled={isLoading}>

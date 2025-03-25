@@ -17,6 +17,7 @@ const WelcomeHome = () => {
     const selectedCity = e.target.value;
     setSelectCity(selectedCity)
   };
+  const isLoggedIn = !!localStorage.getItem("token") && !!localStorage.getItem("user_id");
   return (
     <>
       <section className="text-dark primaryColor">
@@ -41,12 +42,13 @@ const WelcomeHome = () => {
                       alt="logo"
                     />
                   </div>
-                  <div className="mt-md-3">
+                  {isLoggedIn ? (<div className="mt-md-3">
                     <h4 className="webheading">
                       Hello{" "}
                       <span className="webheading2">{user_name}</span>
                     </h4>
-                  </div>
+                  </div>):''}
+                  
                   <TypingText />
 
 

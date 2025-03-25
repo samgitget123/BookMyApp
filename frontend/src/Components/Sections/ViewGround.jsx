@@ -227,7 +227,7 @@ const ViewGround = () => {
             </div>
             <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12 col-xlg-6 g-0  ">
               <div className="card shadow-lg border-0 w-80 rounded secondaryColor viewcardFont  mx-auto ">
-                <div className="mobileconfirmnow Carticon  d-flex justify-content-center my-3">
+                <div className="mobileconfirmnow Carticon  d-flex justify-content-center ">
                   {selectedSlots.length > 0 && <CartButtons onClick={confirnnowClick} count={selectedSlots} />}
                 </div>
                 <div className="d-flex justify-content-center">
