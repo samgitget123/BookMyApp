@@ -225,6 +225,7 @@ const ViewGround = () => {
 
               </div>
             </div>
+            {/* ${process.env.REACT_APP_BACKEND_URL} */}
             <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12 col-xlg-6 g-0  ">
               <div className="card shadow-lg border-0 w-80 rounded secondaryColor viewcardFont  mx-auto ">
                 <div className="mobileconfirmnow Carticon  d-flex justify-content-center ">
@@ -232,7 +233,7 @@ const ViewGround = () => {
                 </div>
                 <div className="d-flex justify-content-center">
                   <img
-                    src={`${baseUrl}/uploads/${ground?.data?.image[0]}`}
+                    src={`${process.env.REACT_APP_BACKEND_URL}/uploads/${ground?.data?.image[0]}`}
                     className="card-img-top ground-image img-fluid my-3"
                     //alt={name || "Ground Image"}
                     style={{ width: '300px', height: '250px' }}
