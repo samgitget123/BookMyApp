@@ -27,6 +27,7 @@ connectDB();
 app.use('/uploads', express.static(path.resolve('uploads')));
 
 
+
 const saveBookingDataToExcel = async () => {
   try {
     // Fetch bookings from MongoDB
@@ -67,7 +68,7 @@ const saveBookingDataToExcel = async () => {
 
    
     //const reportsDirectory = "C:/booking_reports"; // Absolute path to the directory in C drive
-    const reportsDirectory = path.resolve(process.platform === "win32" ? "C:/booking_reports" : "/var/booking_reports");
+const reportsDirectory = path.resolve(process.platform === "win32" ? "C:/booking_reports" : "/var/booking_reports");
     if (!fs.existsSync(reportsDirectory)) fs.mkdirSync(reportsDirectory, { recursive: true });
     // Check if the directory exists, and create it if not
     // if (!fs.existsSync(reportsDirectory)) {

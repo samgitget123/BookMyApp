@@ -1,18 +1,13 @@
 import React from "react";
-import banner1 from "../../../Images/crickbanner.jpg";
-import banner2 from "../../../Images/bgcrick.jpg";
-import banner3 from "../../../Images/banner.jpg";
 
-import banner4 from "../../../Images/cricgrass.jpg";
-import banner5 from "../../../Images/cricequip.jpg";
 import banner6 from "../../../Images/sports.jpg";
 
-import banner7 from "../../../Images/cricart.jpg";
+// import banner7 from "../../../Images/cricart.jpg";
 import banner8 from "../../../Images/greengrass.jpg";
-import banner9 from "../../../Images/baseball.jpg";
+//import banner9 from "../../../Images/baseball.jpg";
 
 const Carousels = () => {
-  const banners = [banner7, banner8, banner9, banner6]; // Array of banner images
+  const banners = [ banner8, banner6]; // Array of banner images
   const topTexts = [
     "Lets Book Your Space",
     "Play Your Favorite Game",
@@ -33,6 +28,7 @@ const Carousels = () => {
       className="carousel slide"
       data-bs-ride="carousel"
       data-bs-interval="3000"
+      style={{ maxHeight: "500px", overflow: "hidden" }} // Limit height of carousel
     >
       <div className="carousel-inner">
         {banners.map((banner, index) => (

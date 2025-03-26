@@ -7,7 +7,7 @@ const Contactus = () => {
         <div className="row justify-content-center">
             <div className="card">
               <div className="card-body text-center">
-                <h2 className='display-4' style={{ color: '#006849' }}>Contact Us</h2>
+                <h2 className='display-6' style={{ color: '#006849' }}>Contact Us</h2>
                 <p className="lead" style={{ color: '#333' }}>
                   We would love to hear from you! Feel free to reach out to us using the details below:
                 </p>

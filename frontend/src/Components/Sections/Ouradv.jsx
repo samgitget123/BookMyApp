@@ -8,7 +8,7 @@ const Ouradv = () => {
          
             <div className="card ">
               <div className="card-body text-center">
-                <h2 className="display-4" style={{ color: '#006849' }}>Exciting Things Coming Soon!</h2>
+                <h2 className="display-6" style={{ color: '#006849' }}>Exciting Things Coming Soon!</h2>
                 <p className="lead" style={{ color: '#333' }}>
                   We are working hard on upgrading our platform, and soon we'll be launching a more powerful version, including mobile apps for easier access!
                 </p>

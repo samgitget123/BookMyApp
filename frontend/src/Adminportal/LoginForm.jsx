@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { AiFillEye, AiFillEyeInvisible, AiOutlinePhone } from 'react-icons/ai';
 import { useBaseUrl } from '../Contexts/BaseUrlContext';
 import { Link } from 'react-router-dom';
+import sportsbanner from '../Images/sportstool.jpg';
+
 const LoginForm = () => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
@@ -11,8 +13,8 @@ const LoginForm = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-const { baseUrl } = useBaseUrl();
-console.log(baseUrl, 'baseurllogin')
+  const { baseUrl } = useBaseUrl();
+
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
@@ -27,8 +29,7 @@ console.log(baseUrl, 'baseurllogin')
         phone_number: phone,
         password: password,
       });
-      console.log(response, 'loginresponse');
-      console.log('Login successful:', response);
+
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user_id', response.data.user.id);
       localStorage.setItem('name', response.data.user.name);
@@ -37,7 +38,6 @@ console.log(baseUrl, 'baseurllogin')
       setPhone('');
       setPassword('');
     } catch (err) {
-      console.error('Login error:', err.response ? err.response.data : err.message);
       setError(err.response?.data?.message || 'Login failed');
     }
 
@@ -45,73 +45,102 @@ console.log(baseUrl, 'baseurllogin')
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 ">
-      <div>
-        <form
-          onSubmit={handleSubmit}
-          className="p-4 border rounded shadow secondaryColor"
-          style={{ width: '320px' }}
-        >
-          <h2 className="mb-4 text-center text-light">Login</h2>
-          <span className='borderline text-center'></span>
-          {error && <div className="alert alert-danger">{error}</div>}
+    <section className="min-vh-100 overflow-hidden">
+      <div className="container-fluid p-0">
+        <div className="row g-0 h-100">
+          {/* Right Side - Login Form */}
+          <div className="col-lg-4 col-md-6 col-12 d-flex justify-content-center align-items-center min-vh-100 secondaryColor">
+            <div className="p-4 border rounded shadow bg-light w-100" style={{ maxWidth: "360px" }}>
+              <h2 className="  mb-3 text-center text-dark">Login</h2>
 
-          {/* Phone Number Field with Icon */}
-          <div className="mb-3">
-            <label htmlFor="phone" className="form-label text-light">Phone Number</label>
-            <div className="input-group">
+              {error && <div className="alert alert-danger">{error}</div>}
+              {/* Phone Number Field */}
+              <div className="mb-3">
+                <label htmlFor="phone" className="form-label text-dark">Phone Number</label>
+                <div className="input-group">
+                  <input
+                    type="number"
+                    id="phone"
+                    className="form-control"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Enter phone number"
+                    maxLength={10}
+                    required
+                  />
+                  <span className="input-group-text bg-white border">
+                    <AiOutlinePhone size={20} />
+                  </span>
+                </div>
+              </div>
 
-              <input
-                type="number"
-                id="phone"
-                className="form-control"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="Enter phone number"
-                maxLength={10}
-                required
-              />
-              <span className="input-group-text bg-white border-0">
-                <AiOutlinePhone size={20} />
-              </span>
+              {/* Password Field */}
+              <div className="mb-3">
+                <label htmlFor="password" className="form-label text-dark">Password</label>
+                <div className="input-group">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    id="password"
+                    className="form-control"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter password"
+                    required
+                  />
+                  <span
+                    className="input-group-text bg-white border"
+                    style={{ cursor: 'pointer' }}
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
+                  </span>
+                </div>
+              </div>
+
+              {/* Login Button */}
+              <button type="submit" className="btn btn-success w-100 mb-3" onClick={handleSubmit} disabled={loading}>
+                {loading ? 'Logging in...' : 'Login'}
+              </button>
+
+              {/* Register Link */}
+              <p className="text-center text-dark">
+  Haven't registered yet? <span className="text-danger">Contact Support:</span>
+  <span className="mx-1">
+    <a href="tel:+9848851443" className="text-success  text-decoration-none">
+      📞 Call
+    </a>
+  </span>|
+  <span className="mx-1">
+    <a href="https://wa.me/9848851443" className="text-warning  text-decoration-none" target="_blank" rel="noopener noreferrer">
+      📱 WhatsApp
+    </a>
+  </span>|
+  <span className="mx-1">
+    <a href="mailto:sampathgoudarukala@gmail.com" className="text-primary  text-decoration-none">
+      ✉️ Email
+    </a>
+  </span>
+</p>
+
+
+
+
+
+
             </div>
           </div>
-
-          {/* Password Field with Eye Icon */}
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label text-light">Password</label>
-            <div className="input-group">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                id="password"
-                className="form-control"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password"
-                required
-              />
-              <span
-                className="input-group-text bg-white border-0"
-                style={{ cursor: 'pointer' }}
-                onClick={togglePasswordVisibility}
-              >
-                {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
-              </span>
-            </div>
+          {/* Left Side - Full Width Banner Image */}
+          <div className="col-lg-8 col-md-6 d-none d-md-block position-relative">
+            <img
+              src={sportsbanner}
+              alt="Login Banner"
+              className="w-100 h-100"
+              style={{ objectFit: "cover", position: "absolute", top: 0, left: 0 }}
+            />
           </div>
-
-          {/* Login Button */}
-          <button type="submit" className="btn btn-success w-100 mb-3" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login'}
-          </button>
-          <span className='text-center text-light'>
-            Haven't registered yet? Let's <Link to="/createground" className="text-warning">Register</Link>
-          </span>
-        </form>
-
+        </div>
       </div>
-
-    </div>
+    </section>
   );
 };
 
