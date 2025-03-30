@@ -29,8 +29,9 @@ const LoginForm = () => {
         phone_number: phone,
         password: password,
       });
-
+      console.log(response , 'loginresponse');
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('ground_name', response.data.ground_name);
       localStorage.setItem('user_id', response.data.user.id);
       localStorage.setItem('name', response.data.user.name);
       localStorage.setItem('role', response.data.user.role);

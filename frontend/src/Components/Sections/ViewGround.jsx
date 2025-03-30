@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import UserGrounds from "./UserGrounds";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CartButtons from "../Buttons/CartButtons";
@@ -16,6 +16,9 @@ import { formatDate } from "../../helpers/FormatDate";
 import { calculateCurrentTime } from "../../helpers/CalucateCurrentTime";
 import { FaSpinner } from "react-icons/fa";
 const ViewGround = () => {
+  const location = useLocation();
+  const {  ground_name, lat, long } = location.state || {}; // Handle undefined state
+  console.log(ground_name, 'ground name coming from prop');
   const { gid } = useParams();
   const { ground, loading, error } = useSelector((state) => state.ground);
   const [selectedSlots, setSelectedSlots] = useState([]);
@@ -272,6 +275,10 @@ const ViewGround = () => {
         selectedSlot={clickedslot} // Pass selected slot to modal
         selectdate={formatDate(selectedDate)}
         ground_id={gid}
+        ground_name={ground_name}
+        lat = {lat}
+        long = {long}
+        
       />
     </section>
   );

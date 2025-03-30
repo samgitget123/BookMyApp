@@ -36,9 +36,9 @@ const HomeCard = () => {
         setLoading(false);
       });
   }, [baseUrl, user_id]);
-
-  const handleCardClick = (gid) => {
-    navigate(`/viewground/${gid}`, { state: gid });
+console.log(data, 'grounddata');
+  const handleCardClick = (gid , ground_name , lat , long) => {
+    navigate(`/viewground/${gid}`, { state: { gid, ground_name, lat , long } });
   };
 
   // Get today's date in 'YYYY-MM-DD' format
@@ -70,7 +70,7 @@ const HomeCard = () => {
                   const slotsForToday = playground.slots ? playground.slots[todayDate] : null;
                   return (
                     <div className="d-lg-flex justify-content-center">
-                      <div className="col-sm-12 col-md-12 col-lg-6" key={playground.ground_id} onClick={() => handleCardClick(playground.ground_id)}>
+                      <div className="col-sm-12 col-md-12 col-lg-6" key={playground.ground_id} onClick={() => handleCardClick(playground.ground_id , playground.name , playground.longitude , playground.latitude)}>
                         <div className="d-flex flex-column flex-lg-row align-items-lg-center">
 
                           {/* Main Card */}

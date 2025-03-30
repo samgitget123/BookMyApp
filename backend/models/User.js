@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema(
       enum: ['user', 'admin', 'superadmin'],
       default: 'user',
     },
+    userFlag: {
+      type: Boolean,
+      default: false, // true means allowed to log in, true means restricted
+    },
   },
   { timestamps: true }
 );

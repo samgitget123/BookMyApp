@@ -10,18 +10,17 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Clear the user's token from localStorage
-    localStorage.removeItem('token');
-    localStorage.removeItem('user_id');
+   
     
     // Optionally, redirect the user to the login page
-    navigate('/LoginForm');
+    navigate('/Logout');
   };
 
  // const isLoggedIn = !!localStorage.getItem('token'); // Check if the token exists
 // Check if both token and user_id exist in localStorage
 const isLoggedIn = !!localStorage.getItem('token') && !!localStorage.getItem('user_id');
-const isSuperAdmin = localStorage.getItem('role') === 'superadmin';
+const isSuperAdmin = localStorage.getItem("role") === "superadmin";
+
 const handleBrandClick = () => {
   if (isLoggedIn) {
     // If logged in, allow navigation to the home page

@@ -1,20 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Logout = () => {
     const navigate = useNavigate();
-    localStorage.clear();
 
-    // Remove user_id and token from localStorage
-//     localStorage.removeItem('user_id');
-//     localStorage.removeItem('token');
-    localStorage.removeItem('name');
-    localStorage.removeItem('role');
-//     console.log(localStorage.getItem('role')); // Should be null
-// console.log(localStorage.getItem('name')); // Should be null
-//     // Redirect to login page after logout
-    navigate('/');
-  };
-  
+    useEffect(() => {
+        // Clear local storage
+        localStorage.clear();
+
+        // Redirect to home or login page
+        navigate('/');
+    }, [navigate]); // useEffect ensures this runs only once when component mounts
+
+    return null; // No UI needed for this component
+};
 
 export default Logout;

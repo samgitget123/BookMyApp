@@ -17,7 +17,7 @@ const Contactus = () => {
                   <h5 className="card-title" style={{ color: '#006849' }}>Our Office</h5>
                   <p style={{ color: '#333' }}>
                    Badangpet, Mallapur Road <br />
-                    Hyd, Ind
+                    Hyd, India
                   </p>
                 </div>
 
@@ -32,15 +32,15 @@ const Contactus = () => {
                 {/* Phone Number */}
                 <div className="mb-3">
                   <h5 className="card-title" style={{ color: '#006849' }}>Phone</h5>
-                  <p style={{ color: '#333' }}>+91 9848851443</p>
+                  <p style={{ color: '#333' }}>+919848851443</p>
                 </div>
 
                 {/* Social Media Links (Optional) */}
                 <div>
-                  <a href="https://facebook.com" className="btn btn-outline-primary btn-sm m-2" target="_blank" rel="noopener noreferrer">Facebook</a>
+                  {/* <a href="https://facebook.com" className="btn btn-outline-primary btn-sm m-2" target="_blank" rel="noopener noreferrer">Facebook</a>
                   <a href="https://twitter.com" className="btn btn-outline-info btn-sm m-2 " target="_blank" rel="noopener noreferrer">Twitter</a>
-                  <a href="https://instagram.com" className="btn btn-outline-danger btn-sm m-2" target="_blank" rel="noopener noreferrer">Instagram</a>
-                  <a href="https://wa.me/11234567890" className="btn btn-outline-success btn-sm m-2" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                  <a href="https://instagram.com" className="btn btn-outline-danger btn-sm m-2" target="_blank" rel="noopener noreferrer">Instagram</a> */}
+                  <a href="https://wa.me/+919848851443" className="btn btn-outline-success btn-sm m-2" target="_blank" rel="noopener noreferrer">WhatsApp</a>
                 </div>
               </div>
             </div>

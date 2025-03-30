@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import DatePicker from "react-datepicker"; // Import the DatePicker component
 import "react-datepicker/dist/react-datepicker.css"; // Import the CSS for the date picker
 import Modal from 'react-bootstrap/Modal'; // Import the Bootstrap Modal
-
+import { useNavigate } from "react-router-dom";
 const AdminDashboard = () => {
 
   const [bookings, setBookings] = useState([]);
@@ -22,6 +22,7 @@ const AdminDashboard = () => {
   const [selectedBooking, setSelectedBooking] = useState(null); // State to hold selected booking for modal
   const [showModal, setShowModal] = useState(false); // Modal visibility state
   const dispatch = useDispatch();
+    const navigate = useNavigate();
   //http://localhost:5000/api/booking/updatepaymentstatus
   useEffect(() => {
     fetchBookings();
@@ -125,39 +126,6 @@ const AdminDashboard = () => {
     setCurrentPage(pageNumber);
   };
 
-  // Handle Excel Download
-  // const handleDownloadExcel = () => {
-  //   const wb = XLSX.utils.book_new();
-  //   const ws = XLSX.utils.json_to_sheet(filteredBookings.map(booking => ({
-  //     "Booking ID": booking._id,
-  //     "Ground Id": booking.ground_id,
-  //     "Name": booking.name,
-  //     "Date": booking.date,
-  //     "Mobile": booking.mobile,
-  //     "Advance": booking.prepaid,
-  //     "Amount": booking.book.price,
-  //     "Status": booking.paymentStatus
-  //   })));
-
-  //   // Add worksheet to the workbook
-  //   XLSX.utils.book_append_sheet(wb, ws, "Bookings");
-
-  //   // Set cell width for better display
-  //   const wscols = [
-  //     { wch: 10 }, // Width of "Booking ID" column
-  //     { wch: 10 }, // Width of "Ground ID" column
-  //     { wch: 20 }, // Width of "Name" column
-  //     { wch: 12 }, // Width of "Date" column
-  //     { wch: 15 }, // Width of "Mobile" column
-  //     { wch: 12 }, // Width of "Status" column
-  //   ];
-  //   ws["!cols"] = wscols;
-
-  //   // Write the Excel file
-  //   XLSX.writeFile(wb, "Bookings.xlsx");
-  // };
-  //conver time zone
-
   const convertSlotToTimeRange = (slot) => {
     console.log("Slot received in convertSlotToTimeRange:", slot); // Debugging
 
@@ -188,219 +156,41 @@ const AdminDashboard = () => {
     return `${convertToTime(startSlot)} - ${convertToTime(endSlot)}`;
   };
 
-  console.log(filteredBookings, 'filteredBookings')
-  // const handleDownloadExcel = () => {
-  //   // Get the first day of the current month
-  //   const firstDayOfMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
-
-  //   // Filter bookings from the 1st of the month to the selected date
-  //   const filteredData = bookings.filter(booking => {
-  //     const bookingDate = new Date(booking.date);
-  //     return bookingDate >= firstDayOfMonth && bookingDate <= selectedDate;
-  //   });
-
-  //   if (filteredData.length === 0) {
-  //     alert("No bookings found in this date range!");
-  //     return;
-  //   }
-
-  //   const wb = XLSX.utils.book_new();
-  //   const ws = XLSX.utils.json_to_sheet(filteredData.map(booking => ({
-  //     "Booking ID": booking._id,
-  //     "Ground Id": booking.ground_id,
-  //     "Name": booking.name,
-  //     "Date": booking.date,
-  //     "Time": convertSlotToTimeRange(booking.slots),
-  //     "Mobile": booking.mobile,
-  //     "Advance": booking.prepaid,
-  //     "Amount": booking.book.price,
-  //     "Status": booking.paymentStatus
-  //   })));
-
-  //   // Add worksheet to the workbook
-  //   XLSX.utils.book_append_sheet(wb, ws, "Bookings");
-
-  //   // Set column widths for better display
-  //   const wscols = [
-  //     { wch: 15 }, // "Booking ID"
-  //     { wch: 10 }, // "Ground ID"
-  //     { wch: 20 }, // "Name"
-  //     { wch: 12 }, // "Date"
-  //     { wch: 12 }, // "time"
-  //     { wch: 15 }, // "Mobile"
-  //     { wch: 10 }, // "Advance"
-  //     { wch: 12 }, // "Amount"
-  //     { wch: 15 }, // "Status"
-  //   ];
-  //   ws["!cols"] = wscols;
-
-  //   // Write the Excel file
-  //   XLSX.writeFile(wb, `Bookings_${firstDayOfMonth.toISOString().split('T')[0]}_to_${selectedDate.toISOString().split('T')[0]}.xlsx`);
-  // };
-
-  // const handleDownloadExcel = () => {
-  //   if (!selectedDate) {
-  //     alert("Please select a date!");
-  //     return;
-  //   }
-  
-  //   // Ensure selectedDate is a Date object
-  //   const selected = new Date(selectedDate);
-  //   const firstDayOfMonth = new Date(selected.getFullYear(), selected.getMonth(), 1);
-  
-  //   // Filter bookings from the 1st of the month to the selected date
-  //   const filteredData = bookings.filter(booking => {
-  //     const bookingDate = new Date(booking.date);
-  //     return bookingDate >= firstDayOfMonth && bookingDate <= selected;
-  //   });
-  
-  //   if (filteredData.length === 0) {
-  //     alert("No bookings found in this date range!");
-  //     return;
-  //   }
-  
-  //   const wb = XLSX.utils.book_new();
-  //   const ws = XLSX.utils.json_to_sheet(filteredData.map(booking => ({
-  //     "Booking ID": booking._id,
-  //     "Ground Id": booking.ground_id,
-  //     "Name": booking.name,
-  //     "Date": booking.date,
-  //     "Time": convertSlotToTimeRange(booking.slots),
-  //     "Mobile": booking.mobile,
-  //     "Advance": booking.prepaid,
-  //     "Amount": booking.book.price,
-  //     "Status": booking.paymentStatus
-  //   })));
-  
-  //   // Add worksheet to the workbook
-  //   XLSX.utils.book_append_sheet(wb, ws, "Bookings");
-  
-  //   // Set column widths for better display
-  //   const wscols = [
-  //     { wch: 15 }, // "Booking ID"
-  //     { wch: 10 }, // "Ground ID"
-  //     { wch: 20 }, // "Name"
-  //     { wch: 12 }, // "Date"
-  //     { wch: 12 }, // "Time"
-  //     { wch: 15 }, // "Mobile"
-  //     { wch: 10 }, // "Advance"
-  //     { wch: 12 }, // "Amount"
-  //     { wch: 15 }, // "Status"
-  //   ];
-  //   ws["!cols"] = wscols;
-  
-  //   // Generate file name dynamically
-  //   const fileName = `Bookings_${firstDayOfMonth.toISOString().split('T')[0]}_to_${selected.toISOString().split('T')[0]}.xlsx`;
-  
-  //   // Write the Excel file
-  //   XLSX.writeFile(wb, fileName);
-  // };
-  
-  // const handleDownloadExcel = () => {
-  //   if (!selectedDate) {
-  //     alert("Please select a date!");
-  //     return;
-  //   }
-  
-  //   const selected = new Date(selectedDate);
-  //   const firstDayOfMonth = new Date(selected.getFullYear(), selected.getMonth(), 1);
-  
-  //   // Filter bookings from the 1st of the month to the selected date
-  //   const filteredData = bookings.filter(booking => {
-  //     const bookingDate = new Date(booking.date);
-  //     return bookingDate >= firstDayOfMonth && bookingDate <= selected;
-  //   });
-  
-  //   if (filteredData.length === 0) {
-  //     alert("No bookings found in this date range!");
-  //     return;
-  //   }
-  
-  //   // Sort data by Date first, then by Slot (assuming slots are numeric or sortable strings)
-  //   const sortedData = filteredData.sort((a, b) => {
-  //     const dateA = new Date(a.date);
-  //     const dateB = new Date(b.date);
-  
-  //     if (dateA - dateB !== 0) {
-  //       return dateA - dateB; // Sort by Date
-  //     }
-      
-  //     return a.slots - b.slots; // Sort by Time (assuming numeric slot values)
-  //   });
-  
-  //   const wb = XLSX.utils.book_new();
-  //   const ws = XLSX.utils.json_to_sheet(sortedData.map(booking => ({
-  //     "Booking ID": booking._id,
-  //     "Ground Id": booking.ground_id,
-  //     "Name": booking.name,
-  //     "Date": booking.date,
-  //     "Time": convertSlotToTimeRange(booking.slots),
-  //     "Mobile": booking.mobile,
-  //     "Advance": booking.prepaid,
-  //     "Amount": booking.book.price,
-  //     "Status": booking.paymentStatus
-  //   })));
-  
-  //   // Add worksheet to the workbook
-  //   XLSX.utils.book_append_sheet(wb, ws, "Bookings");
-  
-  //   // Set column widths for better display
-  //   const wscols = [
-  //     { wch: 15 }, // "Booking ID"
-  //     { wch: 10 }, // "Ground ID"
-  //     { wch: 20 }, // "Name"
-  //     { wch: 12 }, // "Date"
-  //     { wch: 15}, // "Time"
-  //     { wch: 15 }, // "Mobile"
-  //     { wch: 10 }, // "Advance"
-  //     { wch: 12 }, // "Amount"
-  //     { wch: 15 }, // "Status"
-  //   ];
-  //   ws["!cols"] = wscols;
-  
-  //   // Generate file name dynamically
-  //   const fileName = `Bookings_${firstDayOfMonth.toISOString().split('T')[0]}_to_${selected.toISOString().split('T')[0]}.xlsx`;
-  
-  //   // Write the Excel file
-  //   XLSX.writeFile(wb, fileName);
-  // };
-  
-
   const handleDownloadExcel = () => {
     if (!selectedDate) {
       alert("Please select a date!");
       return;
     }
-  
+
     const selected = new Date(selectedDate);
     const firstDayOfMonth = new Date(selected.getFullYear(), selected.getMonth(), 1);
-  
+
     // Filter bookings from the 1st of the month to the selected date
     const filteredData = bookings.filter(booking => {
       const bookingDate = new Date(booking.date);
       return bookingDate >= firstDayOfMonth && bookingDate <= selected;
     });
-  
+
     if (filteredData.length === 0) {
       alert("No bookings found in this date range!");
       return;
     }
-  
+
     // Sort data by Date first, then by Slot (assuming slots are numeric or sortable strings)
     const sortedData = filteredData.sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
-  
+
       if (dateA - dateB !== 0) {
         return dateA - dateB; // Sort by Date
       }
-  
+
       return a.slots - b.slots; // Sort by Time (assuming numeric slot values)
     });
-  
+
     // Calculate total amount from all filtered bookings
     const totalAmount = sortedData.reduce((sum, booking) => sum + (booking.book ? booking.book.price : 0), 0);
-  
+
     // Convert data to worksheet format
     const wsData = sortedData.map(booking => ({
       "Booking ID": booking.book.booking_id,
@@ -411,9 +201,9 @@ const AdminDashboard = () => {
       "Mobile": booking.mobile,
       "Advance": booking.prepaid,
       "Amount": booking.book.price,
-      "Status": booking.paymentStatus
+      "Status": booking.paymentStatus === 'success' ? 'paid' : 'pending'
     }));
-  
+    // paymentStatus: newStatus === "paid" ? "success" : "pending",
     // Add a total row at the end
     wsData.push({
       "Booking ID": "Total",
@@ -426,14 +216,14 @@ const AdminDashboard = () => {
       "Amount": totalAmount,  // Display total amount here
       "Status": ""
     });
-  
+
     // Create workbook and worksheet
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.json_to_sheet(wsData);
-  
+
     // Add worksheet to the workbook
     XLSX.utils.book_append_sheet(wb, ws, "Bookings");
-  
+
     // Set column widths for better display
     const wscols = [
       { wch: 15 }, // "Booking ID"
@@ -447,14 +237,14 @@ const AdminDashboard = () => {
       { wch: 15 }, // "Status"
     ];
     ws["!cols"] = wscols;
-  
+
     // Generate file name dynamically
     const fileName = `Bookings_${firstDayOfMonth.toISOString().split('T')[0]}_to_${selected.toISOString().split('T')[0]}.xlsx`;
-  
+
     // Write the Excel file
     XLSX.writeFile(wb, fileName);
   };
-  
+
 
   const deleteId = (booking_id, ground_id) => {
     dispatch(deletebooking({ booking_id, ground_id }));
@@ -478,26 +268,59 @@ const AdminDashboard = () => {
     setShowModal(false);
   };
 
-  const getTodaySummary = () => {
-    // Check if selectedDate is not null before proceeding
+  // const getTodaySummary = () => {
+  //   // Check if selectedDate is not null before proceeding
+  //   if (!selectedDate) {
+  //     return { totalSlots: 0, totalAmount: 0 }; // Return default values if selectedDate is null
+  //   }
+
+  //   const selectedDateStr = selectedDate.toISOString().split("T")[0]; // Get selected date in YYYY-MM-DD format
+
+  //   // Filter bookings for the selected date
+  //   const selectedDateBookings = bookings.filter(booking => booking.date.split("T")[0] === selectedDateStr);
+
+  //   // Calculate the total slots and total amount based on the slots in each booking
+  //   const totalSlots = selectedDateBookings.reduce((total, booking) => total + booking?.slots.length, 0);
+  //   const totalAmount = selectedDateBookings.reduce((total, booking) => total + (booking.book ? booking.book.price : 0), 0);
+
+  //   return { totalSlots, totalAmount };
+  // };
+
+  // Safely destructure the result
+
+  const getSummary = () => {
     if (!selectedDate) {
-      return { totalSlots: 0, totalAmount: 0 }; // Return default values if selectedDate is null
+      return { totalSlots: 0, totalAmount: 0, monthlyAmount: 0 };
     }
 
-    const selectedDateStr = selectedDate.toISOString().split("T")[0]; // Get selected date in YYYY-MM-DD format
+    const selectedDateStr = selectedDate.toISOString().split("T")[0];
 
+    // Get first and last day of the selected month
+    const firstDayOfMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+    const lastDayOfMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
+    lastDayOfMonth.setHours(23, 59, 59, 999);
     // Filter bookings for the selected date
     const selectedDateBookings = bookings.filter(booking => booking.date.split("T")[0] === selectedDateStr);
 
-    // Calculate the total slots and total amount based on the slots in each booking
+    // Filter bookings for the entire month
+    const monthlyBookings = bookings.filter(booking => {
+      const bookingDate = new Date(booking.date);
+      return bookingDate >= firstDayOfMonth && bookingDate <= lastDayOfMonth;
+    });
+
+    // Calculate totals
     const totalSlots = selectedDateBookings.reduce((total, booking) => total + booking?.slots.length, 0);
     const totalAmount = selectedDateBookings.reduce((total, booking) => total + (booking.book ? booking.book.price : 0), 0);
+    const monthlyAmount = monthlyBookings.reduce((total, booking) => total + (booking.book ? booking.book.price : 0), 0);
 
-    return { totalSlots, totalAmount };
+    return { totalSlots, totalAmount, monthlyAmount };
   };
 
-  // Safely destructure the result
-  const { totalSlots, totalAmount } = getTodaySummary();
+  // Get the updated summary
+  const { totalSlots, totalAmount, monthlyAmount } = getSummary();
+
+
+  //const { totalSlots, totalAmount, monthlyAmount } = getTodaySummary();
   //update payment status
 
   const handlePaymentStatusChange = async (bookingId, newStatus) => {
@@ -529,7 +352,12 @@ const AdminDashboard = () => {
       console.error("Error updating payment status:", error);
     }
   };
-
+//////User Management///////
+const gotoUsermanagemnt = ()=> {
+  navigate('/userManagement');
+}
+///check is user a superadmin////
+const isSuperAdmin = localStorage.getItem('role') === 'superadmin';
   return (
     <div className="container mt-4">
       <h4 className="mb-3">Admin Dashboard - <span style={{ color: "#198754" }}>Booking Details</span></h4>
@@ -565,17 +393,32 @@ const AdminDashboard = () => {
           Reset
         </button>
         <div className="ms-4">
-          <div className="d-flex ">
-            <div className="mx-3 mt-2"> <p>Today's Slots: <strong>{totalSlots}</strong></p></div>
-            <div className=" mt-2"><p>Total Amount: <strong>₹{totalAmount}</strong></p></div>
+          <div className="d-flex justify-content-space evenly flex-wrap">
+            <div className="mx-3 mt-2">
+              <p>Today's Slots: <strong>{totalSlots}</strong></p>
+            </div>
+            <div className="mt-2">
+              <p>Total Amount: <strong>₹{totalAmount}</strong></p>
+            </div>
+            <div className="mx-3 mt-2">
+              <p>Monthly Amount: <strong>₹{monthlyAmount}</strong></p>
+              <p className="text-muted" style={{ fontSize: "12px" }}>
+                <i>Note: Monthly amount is consolidated from the 1st to the last day of the selected month.</i>
+              </p>
+            </div>
           </div>
         </div>
+
       </div>
 
       {/* Download Excel Button */}
-      <div className="mb-3">
-        <button className="btn btn-success" onClick={handleDownloadExcel}>Download Excel</button>
+      <div className="mb-3 d-flex">
+        <button className="btn btn-success me-3" onClick={handleDownloadExcel}>Download Excel</button>
+      {isSuperAdmin ? (<button className="btn btn-success" onClick={gotoUsermanagemnt}>User Management</button>):('')}  
       </div>
+      <p className="text-muted" style={{ fontSize: "12px" }}>
+        <i>Note: The report includes data from the 1st of the current month up to the selected date.</i>
+      </p>
 
       {/* Loading Spinner */}
       {loading && (
@@ -594,91 +437,48 @@ const AdminDashboard = () => {
               <p>No data found</p>
             </div>
           ) : (
-            // <table className="table table-sm table-striped table-bordered">
-            //   <thead className="table-dark">
-            //     <tr className="text-center">
-            //       <th>Booking ID</th>
-            //       {/* <th>Ground Id</th> */}
-            //       <th>Name</th>
-            //       <th>Date</th>
-            //       <th>Time</th>
-            //       <th>Mobile</th>
-            //       <th>Advance</th>
-            //       <th>Amount</th>
-            //       <th>Status</th>
-            //       <th>Actions</th>
-            //     </tr>
-            //   </thead>
-            //   <tbody>
-            //     {currentBookings.map((booking) => (
-            //       <tr key={booking._id} className="text-center">
-            //         <td>{booking.book.booking_id}</td>
-            //         {/* <td>{booking.ground_id}</td> */}
-            //         <td>{booking.name}</td>
-            //         <td>{booking.date}</td>
-            //         <td>{convertSlotToTimeRange(booking.slots)}</td>
-            //         <td>{booking.mobile}</td>
-            //         <td>{booking.prepaid}</td>
-            //         <td>{booking.book.price}</td>
-            //         <td>
-            //           <select
-            //             value={booking.paymentStatus === "success" ? "paid" : "pending"}
-            //             onChange={(e) => handlePaymentStatusChange(booking.book.booking_id, e.target.value)}
-            //             className="form-select form-select-sm"
-            //           >
-            //             <option value="pending">Pending</option>
-            //             <option value="paid">Paid</option>
-            //           </select>
-            //         </td>
-            //         <td>
-            //           <button className="btn btn-success btn-sm" onClick={() => handleViewBooking(booking)}>View</button>
-            //           {/* <button className="btn btn-danger btn-sm ms-2" onClick={() => deleteId(booking._id, booking.ground_id)}>Delete</button> */}
-            //         </td>
-            //       </tr>
-            //     ))}
-            //   </tbody>
-            // </table>
+
             <table className="table table-sm table-striped table-bordered">
-            <thead className="table-dark">
-              <tr className="text-center">
-                <th>Booking ID</th>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Mobile</th>
-                <th>Advance</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentBookings.map((booking) => (
-                <tr key={booking._id} className="text-center">
-                  <td>{booking.book.booking_id}</td>
-                  <td>{booking.name}</td>
-                  <td>{booking.date}</td>
-                  <td>{convertSlotToTimeRange(booking.slots)}</td>
-                  <td>{booking.mobile}</td>
-                  <td>{booking.prepaid}</td>
-                  <td>{booking.book.price}</td>
-                  <td>
-                    <select
-                      value={booking.paymentStatus === "success" ? "paid" : "pending"}
-                      onChange={(e) => handlePaymentStatusChange(booking.book.booking_id, e.target.value)}
-                      className="form-select form-select-sm"
-                    >
-                      <option value="pending">Pending</option>
-                      <option value="paid">Paid</option>
-                    </select>
-                  </td>
-                  <td>
-                    <button className="btn btn-success btn-sm" onClick={() => handleViewBooking(booking)}>View</button>
-                  </td>
+              <thead className="table-dark">
+                <tr className="text-center">
+                  <th>Booking ID</th>
+                  <th>Name</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Mobile</th>
+                  <th>Advance</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {currentBookings.map((booking) => (
+                  <tr key={booking._id} className="text-center">
+                    <td>{booking.book.booking_id}</td>
+                    <td>{booking.name}</td>
+                    <td>{booking.date}</td>
+                    <td>{convertSlotToTimeRange(booking.slots)}</td>
+                    <td>{booking.mobile}</td>
+                    <td>{booking.prepaid}</td>
+                    <td>{booking.book.price}</td>
+                    <td>
+                      <select
+                        value={booking.paymentStatus === "success" ? "paid" : "pending"}
+                        onChange={(e) => handlePaymentStatusChange(booking.book.booking_id, e.target.value)}
+                        className="form-select form-select-sm"
+                      >
+                        <option value="pending">Pending</option>
+                        <option value="paid">Paid</option>
+                      </select>
+                    </td>
+                    <td>
+                      <button className="btn btn-success btn-sm" onClick={() => handleViewBooking(booking)}>View</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           )}
         </div>
       )}
@@ -712,35 +512,35 @@ const AdminDashboard = () => {
 
       {selectedBooking && (
         <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton style={{ backgroundColor: "#006849", padding: "10px" }}>
-          <Modal.Title className="text-light">Booking Details</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="container">
-            <div className="row">
-              {/* Left Column */}
-              <div className="col-6">
-                <p><strong>Booking ID:</strong> {selectedBooking._id}</p>
-                <p><strong>Ground ID:</strong> {selectedBooking.ground_id}</p>
-                <p><strong>Name:</strong> {selectedBooking.name}</p>
-                <p><strong>Date:</strong> {selectedBooking.date}</p>
-              </div>
-              
-              {/* Right Column */}
-              <div className="col-6">
-                <p><strong>Time:</strong> {selectedBooking.date}</p>
-                <p><strong>Mobile:</strong> {selectedBooking.mobile}</p>
-                <p><strong>Status:</strong> {selectedBooking.paymentStatus == 'success'? 'paid':'pending'}</p>
-                <p><strong>Price:</strong> ₹{selectedBooking.book.price}</p>
+          <Modal.Header closeButton style={{ backgroundColor: "#006849", padding: "10px" }}>
+            <Modal.Title className="text-light">Booking Details</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="container">
+              <div className="row">
+                {/* Left Column */}
+                <div className="col-6">
+                  <p><strong>Booking ID:</strong> {selectedBooking._id}</p>
+                  <p><strong>Ground ID:</strong> {selectedBooking.ground_id}</p>
+                  <p><strong>Name:</strong> {selectedBooking.name}</p>
+                  <p><strong>Date:</strong> {selectedBooking.date}</p>
+                </div>
+
+                {/* Right Column */}
+                <div className="col-6">
+                  <p><strong>Time:</strong> {selectedBooking.date}</p>
+                  <p><strong>Mobile:</strong> {selectedBooking.mobile}</p>
+                  <p><strong>Status:</strong> {selectedBooking.paymentStatus == 'success' ? 'paid' : 'pending'}</p>
+                  <p><strong>Price:</strong> ₹{selectedBooking.book.price}</p>
+                </div>
               </div>
             </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer style={{ backgroundColor: "#006849", padding: "10px" }}>
-          <button className="btn btn-secondary" onClick={handleCloseModal}>Close</button>
-        </Modal.Footer>
-      </Modal>
-      
+          </Modal.Body>
+          <Modal.Footer style={{ backgroundColor: "#006849", padding: "10px" }}>
+            <button className="btn btn-secondary" onClick={handleCloseModal}>Close</button>
+          </Modal.Footer>
+        </Modal>
+
       )}
     </div>
   );

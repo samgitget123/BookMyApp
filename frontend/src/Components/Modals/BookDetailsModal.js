@@ -11,7 +11,7 @@ import { FaSpinner } from "react-icons/fa";
 import { FaUser, FaPhoneAlt, FaRegCalendarAlt, FaRegClock, FaRupeeSign, FaWhatsapp } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 
-const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdate, ground_id }) => {
+const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdate, ground_id , ground_name, lat,long}) => {
   const [bookingDetails, setBookingDetails] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [newAmount, setNewAmount] = useState("");
@@ -97,40 +97,7 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
   };
 
 
-  // const sendCancellationMessage = (customerName, phoneNumber, bookingData) => {
-  //   if (!phoneNumber || !bookingData) {
-  //     console.error("Missing phone number or booking details.");
-  //     return;
-  //   }
-
-  //   const { date, slots, book } = bookingData;
-  //   const bookingId = book?.booking_id;
-
-  //   const cancelMessage = `Dear ${customerName}, 
-
-  // We regret to inform you that your booking has been cancelled.
-
-  // 📌 Booking Details:
-  // --------------------------
-  // 📅 Date       : ${date}
-  // 🕒 Slots      : ${convertSlotToTimeRange(slots)}
-  // 📌 Booking ID : ${bookingId}
-  // --------------------------
-
-  // If you have any questions, feel free to contact us.
-
-  // Regards, 
-  // Vkings Sportz Arena`;
-
-  //   // Encode the message for WhatsApp
-  //   const whatsappMessage = encodeURIComponent(cancelMessage);
-
-  //   // Construct the WhatsApp URL
-  //   const whatsappURL = `https://wa.me/${phoneNumber}?text=${whatsappMessage}`;
-
-  //   // Open WhatsApp link in a new tab
-  //   window.open(whatsappURL, "_blank");
-  // };
+ 
   const fetchgroundslots = async (gid, date) => {
     try {
       const response = await axios.get(`${baseUrl}/api/ground/${gid}?date=${date}`);
@@ -154,17 +121,14 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
   ────────────────────────
    *Booking ID:* ${bookingId}  
    *Date:* ${date}  
-  *Slots:* ${formattedSlots}  
+   *Slots:* ${formattedSlots}  
   ────────────────────────
   
   Dear *${customerName}*,  
   We regret to inform you that your booking has been *cancelled*.
   
   For any queries, feel free to contact us.
-  
-  Best Regards,  
-  *Vkings Sportz Arena*`;
-
+  ${ground_name}.`;
     // Encode the message for WhatsApp
     const whatsappMessage = encodeURIComponent(cancelMessage);
 
@@ -294,9 +258,10 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
         const date = bookingData.date;
         const customerName = bookingData.name;
         const phoneNumber = bookingData.mobile; // Ensure this is formatted as required: e.g., "919876543210"
-        const latitude = 17.30537457033281;
-        const longitude = 78.51910349762814;
-        const groundLocationURL = `www.google.com/maps?q=${latitude},${longitude}`;
+        const latitude = lat;
+        const longitude = long;
+   
+        const groundLocationURL = `https://www.google.com/maps?q=${longitude},${latitude}`;
 
         const message = `*🎉 Booking Confirmation 🎉*
         ────────────────────────
@@ -308,13 +273,12 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
         💳 *Due Amount:* ₹${dueAmount}/-  
         ────────────────────────
         Dear ${customerName},
-        
-        Thank you for booking with us!
-        
+
+        Thank you for booking with us!,
         📍 *Ground Location:* ${groundLocationURL}
-        
-        Best Regards,  
-        *Vkings Sportz Arena*`;
+
+        Best Regards,
+        ${ground_name}`;
 
         // Encode the message for URL inclusion
         const whatsappMessage = encodeURIComponent(message);

@@ -222,7 +222,7 @@ const getuserGroundsByIdAndDate = asynHandler(async (req, res) => {
 const registerUserWithGround = asynHandler(async (req, res) => {
   const { 
     name, phone_number, password, role, 
-    ground_name, location, city, country, state, stateDistrict, description, ground_owner 
+    ground_name, location, city, country, state, stateDistrict, description, ground_owner , latitude, longitude 
   } = req.body;
   console.log("Request Body:", req.body);
 
@@ -252,6 +252,7 @@ const registerUserWithGround = asynHandler(async (req, res) => {
       phone_number,
       password: hashedPassword,
       role: role || "user",
+      userFlag: false,
     });
 
     // Generate JWT Token
@@ -277,6 +278,8 @@ const registerUserWithGround = asynHandler(async (req, res) => {
       description,
       ground_owner,
       user_id, // Link ground to the newly created user
+      latitude: latitude || null, // Optional latitude
+      longitude: longitude || null, // Optional longitude
     });
 
     res.status(201).json({
@@ -287,6 +290,10 @@ const registerUserWithGround = asynHandler(async (req, res) => {
         name: user.name,
         phone_number: user.phone_number,
         role: user.role,
+        ground_name: newGround.name, // Include ground name in response
+        lat: newGround.latitude,
+        long: newGround.longitude,
+        userFlag: user.userFlag,
       },
       ground: newGround,
     });

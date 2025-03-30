@@ -238,70 +238,7 @@ const getBookingDetailsBySlot = asyncHandler(async (req, res) => {
   });
 });
 
-// const deleteBookingDetailsById = asyncHandler(async (req, res) => {
-//   const { booking_id, ground_id } = req.query;
-//   console.log('Ground ID:', ground_id);
-//   console.log('Booking Query:', req.query);
 
-//   if (!booking_id || !ground_id) {
-//     return res.status(400).json({ message: "Please provide booking_id and ground_id" });
-//   }
-
-//   // Find the booking
-//   const booking = await Booking.findOne({
-//     "book.booking_id": booking_id, 
-//     ground_id,
-//   });
-
-//   if (!booking) {
-//     return res.status(404).json({ message: "Booking not found for the given booking_id and ground_id" });
-//   }
-
-//   // Delete the booking
-//   await Booking.findOneAndDelete({ "book.booking_id": booking_id, ground_id });
-
-//   // Find the ground
-// //   const ground = await Ground.findOne({ ground_id });
-// // console.log(ground, 'groundDetails')
-// //   if (!ground) {
-// //     return res.status(404).json({ message: "Ground not found for the given ground_id" });
-// //   }
-
-// //   console.log('Booking Date:', booking.date);
-// //   console.log('Ground Slots:', ground.slots);
-
-// //   // ✅ Correct way to get date key in Mongoose Map
-// //   const slotData = ground.slots.get(booking.date);  // Use `.get()` for Mongoose Map
-// //   console.log('Slot Data for Date:', slotData);
-
-// //   if (slotData) {
-// //     const bookedSlots = slotData.bookedSlots;
-// //     const slotTimeToRemove = booking.slot_time; 
-// //     const index = bookedSlots.indexOf(slotTimeToRemove);
-
-// //     if (index > -1) {
-// //       bookedSlots.splice(index, 1); 
-// //     }
-
-// //     if (bookedSlots.length === 0) {
-// //       ground.slots.delete(booking.date); 
-// //     } else {
-// //       ground.slots.set(booking.date, slotData);
-// //     }
-
-
-
-// //     ground.markModified("slots");
-// //     await ground.save();
-//   // } else {
-//   //   return res.status(400).json({ message: "No booked slots found for the given date in the ground" });
-//   // }
-
-//   res.status(200).json({
-//     success: true,
-//     message: "Booking and slots deleted successfully",
-//   });
-// });
 
 const deleteBookingDetailsById = asyncHandler(async (req, res) => {
   const { booking_id, ground_id } = req.query;

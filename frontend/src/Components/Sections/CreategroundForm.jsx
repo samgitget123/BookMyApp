@@ -17,7 +17,7 @@ const CreateGroundForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  console.log(baseUrl, 'baseurl')
+
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
@@ -58,7 +58,7 @@ const CreateGroundForm = () => {
             const res = await axios.get(
               `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`
             );
-
+            console.log(res.data);
             const address = res.data.address;
             setFormData({
               ...formData,
@@ -87,7 +87,7 @@ const CreateGroundForm = () => {
     getUserLocation();
   }, []);
 
-  
+
   const validate = () => {
     let errors = {};
 
@@ -226,13 +226,15 @@ const CreateGroundForm = () => {
         state: "",
         city: "",
         stateDistrict: "",
+        latitude: "",   // Add latitude
+        longitude: "",  // Add longitude
         photo: [],
         description: "",
         ground_owner: "",
         user_id: "",
         phone: "",
         password: "",
-        
+
       });
 
       setErrors({});
@@ -435,6 +437,39 @@ const CreateGroundForm = () => {
                   {errors.stateDistrict && (
                     <div className="invalid-feedback">{errors.stateDistrict}</div>
                   )}
+                </div>
+                {/* Latitude */}
+                <div className="col-md-6">
+                  <label htmlFor="latitude" className="form-label">
+                    Latitude
+                  </label>
+                  <input
+                    type="text"
+                    className={`form-control ${errors.latitude ? "is-invalid" : ""}`}
+                    id="latitude"
+                    name="latitude"
+                    value={formData.latitude}
+                    onChange={handleInputChange}
+                    placeholder="Enter Latitude"
+                  />
+                  {errors.latitude && <div className="invalid-feedback">{errors.latitude}</div>}
+                </div>
+
+                {/* Longitude */}
+                <div className="col-md-6">
+                  <label htmlFor="longitude" className="form-label">
+                    Longitude
+                  </label>
+                  <input
+                    type="text"
+                    className={`form-control ${errors.longitude ? "is-invalid" : ""}`}
+                    id="longitude"
+                    name="longitude"
+                    value={formData.longitude}
+                    onChange={handleInputChange}
+                    placeholder="Enter Longitude"
+                  />
+                  {errors.longitude && <div className="invalid-feedback">{errors.longitude}</div>}
                 </div>
 
                 {/*****user login details */}

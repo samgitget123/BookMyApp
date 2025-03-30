@@ -16,6 +16,14 @@ const groundSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    latitude: {
+      type: Number,
+      default: null,
+    },
+    longitude: {
+      type: Number,
+      default: null,
+    },
     country: {
       type: String,
       required: true,
