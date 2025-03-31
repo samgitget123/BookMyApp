@@ -7,27 +7,35 @@ import Ouradv from "../Ouradv";
 import Contactus from "../Contactus";
 
 const HomeCard = () => {
+  const [user_id, setUserId] = useState(null); 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const { baseUrl } = useBaseUrl();
   const navigate = useNavigate();
 
-  // Retrieve user_id from localStorage
-  const user_id = localStorage.getItem("user_id");
-
   useEffect(() => {
-    if (!user_id) {
+    const storedUserId = localStorage.getItem("user_id");
+    if (storedUserId) {
+      setUserId(storedUserId); // Update state
+    } else {
       console.error("User ID not found in localStorage");
       setLoading(false);
-      return;
     }
+  }, []);
 
+  // Second useEffect to fetch API data once user_id is set
+  useEffect(() => {
+    if (!user_id) return; // Prevent API call if user_id is not set
+
+    setLoading(true);
     const url = `${baseUrl}/api/ground/user/grounds?userId=${user_id}`;
+    console.log("Fetching from:", url);
 
     axios
       .get(url)
       .then((response) => {
-        setData(response.data); // Response is an array
+        console.log("API Response:", response.data);
+        setData(response.data);
       })
       .catch((error) => {
         console.error("Error fetching grounds:", error.message);
@@ -35,8 +43,9 @@ const HomeCard = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [baseUrl, user_id]);
-console.log(data, 'grounddata');
+  }, [user_id]); // Corrected to depend on user_id
+
+  console.log(data, "grounddata"); // Now shows correct data
   const handleCardClick = (gid , ground_name , lat , long) => {
     navigate(`/viewground/${gid}`, { state: { gid, ground_name, lat , long } });
   };

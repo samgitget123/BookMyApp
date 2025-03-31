@@ -33,6 +33,7 @@ const App = () => {
         <Router>
           <div className="app-container">
             <Header /> {/* Placed outside of <main> so that header appears on all pages */}
+          
             <main className="app-main">
               <Routes>
                 <Route path="/" element={<WelcomeHome />} />
