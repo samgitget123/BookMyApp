@@ -273,7 +273,6 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
         💳 *Due Amount:* ₹${dueAmount}/-  
         ────────────────────────
         Dear ${customerName},
-
         Thank you for booking with us!,
         📍 *Ground Location:* ${groundLocationURL}
 
@@ -281,8 +280,8 @@ const BookDetailsModal = ({ showModal, handleCloseModal, selectedSlot, selectdat
         ${ground_name}`;
 
         // Encode the message for URL inclusion
-        const whatsappMessage = encodeURIComponent(message);
-
+         // Encode the message for WhatsApp URL
+      const whatsappMessage = encodeURIComponent(message);
         // Build the WhatsApp share URL with the dynamic number and the text message
         const whatsappURL = `https://wa.me/${phoneNumber}?text=${whatsappMessage}`;
 
