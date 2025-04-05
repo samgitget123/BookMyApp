@@ -27,15 +27,26 @@ const ViewGround = () => {
   const [showModal, setShowModal] = useState(false);
   const [showBookingModal, setShowBookingModal] = useState(false);
  
+  // useEffect(() => {
+  //   if (gid) {
+  //     const formattedDate = selectedDate
+  //       ? selectedDate.toISOString().split('T')[0] // Get only the date part (YYYY-MM-DD)
+  //       : null;
+  //     console.log(formattedDate, selectedDate, 'isodate')
+  //     dispatch(fetchGroundDetails({ gid, date: formattedDate }));
+  //   }
+  // }, [gid, selectedDate]);
   useEffect(() => {
     if (gid) {
       const formattedDate = selectedDate
-        ? selectedDate.toISOString().split('T')[0] // Get only the date part (YYYY-MM-DD)
+        ? selectedDate.toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" }) // 'YYYY-MM-DD' in IST
         : null;
-      console.log(formattedDate, selectedDate, 'isodate')
+  
+      console.log(formattedDate, selectedDate, 'formattedDate (IST)');
       dispatch(fetchGroundDetails({ gid, date: formattedDate }));
     }
   }, [gid, selectedDate]);
+  
   const { baseUrl } = useBaseUrl();
   const dispatch = useDispatch();
 
