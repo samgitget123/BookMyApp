@@ -268,23 +268,6 @@ const AdminDashboard = () => {
     setShowModal(false);
   };
 
-  // const getTodaySummary = () => {
-  //   // Check if selectedDate is not null before proceeding
-  //   if (!selectedDate) {
-  //     return { totalSlots: 0, totalAmount: 0 }; // Return default values if selectedDate is null
-  //   }
-
-  //   const selectedDateStr = selectedDate.toISOString().split("T")[0]; // Get selected date in YYYY-MM-DD format
-
-  //   // Filter bookings for the selected date
-  //   const selectedDateBookings = bookings.filter(booking => booking.date.split("T")[0] === selectedDateStr);
-
-  //   // Calculate the total slots and total amount based on the slots in each booking
-  //   const totalSlots = selectedDateBookings.reduce((total, booking) => total + booking?.slots.length, 0);
-  //   const totalAmount = selectedDateBookings.reduce((total, booking) => total + (booking.book ? booking.book.price : 0), 0);
-
-  //   return { totalSlots, totalAmount };
-  // };
 
   // Safely destructure the result
 
@@ -441,9 +424,9 @@ const isSuperAdmin = localStorage.getItem('role') === 'superadmin';
             <table className="table table-sm table-striped table-bordered">
               <thead className="table-dark">
                 <tr className="text-center">
+                  <th>Ground ID</th>
                   <th>Booking ID</th>
-                  <th>Name</th>
-                  <th>Date</th>
+                  <th>Username</th>
                   <th>Time</th>
                   <th>Mobile</th>
                   <th>Advance</th>

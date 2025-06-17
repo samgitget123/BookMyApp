@@ -111,6 +111,7 @@ const BookModal = ({
   }, [showModal]);
 
   const formatslot = (selectedSlots) => {
+    console.log(selectedSlots, 'selectedslots')
     if (!Array.isArray(selectedSlots) || selectedSlots.length === 0) return "";
 
     const formatTime = (hours, minutes) => {

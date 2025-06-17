@@ -162,6 +162,8 @@ const getGroundsByIdandDate = asynHandler(async(req , res)=>{
         res.status(200).json({
             name: ground.name,
             location: ground.location,
+            latitude: ground.latitude,
+            longitude: ground.longitude,
             data: {
                 image: ground.photo,
                 desc: ground.description,
@@ -304,7 +306,39 @@ const registerUserWithGround = asynHandler(async (req, res) => {
   }
 });
 
+// Reset Password Controller
+const resetUserPassword = asynHandler(async (req, res) => {
+  const { phone_number, new_password } = req.body;
+
+  // Validate input
+  if (!phone_number || !new_password) {
+    return res.status(400).json({ message: "Phone number and new password are required" });
+  }
+
+  try {
+    // Check if user exists
+    const user = await User.findOne({ phone_number });
+
+    if (!user) {
+      return res.status(404).json({ message: "User with this phone number not found" });
+    }
+
+    // Hash the new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(new_password, salt);
+
+    // Update the password
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ message: "Password updated successfully" });
+
+  } catch (error) {
+    console.error("Password reset error:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
 
 
 
-export {createGround , getGroundsByLocation , getGroundsByIdandDate, getUserGrounds, getuserGroundsByIdAndDate, registerUserWithGround};
+export {createGround , getGroundsByLocation , getGroundsByIdandDate, getUserGrounds, getuserGroundsByIdAndDate, registerUserWithGround, resetUserPassword};
