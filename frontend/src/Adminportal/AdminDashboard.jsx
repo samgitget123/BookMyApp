@@ -307,6 +307,7 @@ const AdminDashboard = () => {
   //update payment status
 
   const handlePaymentStatusChange = async (bookingId, newStatus) => {
+    console.log(bookingId, newStatus, 'paymentstatus-------')
     try {
       const response = await fetch(`${baseUrl}/api/booking/updatepaymentstatus`, {
         method: "PUT",
