@@ -3,7 +3,7 @@ const endpoints = {
       //baseUrl: "https://bookingapp-r0fo.onrender.com",  //https://bookingapp-r0fo.onrender.com/
     },
     production: {
-      baseUrl: "http://localhost:5000",  // Production endpoint
+      baseUrl: "https://pickyourground.com",  // Production endpoint
     },
   };
   

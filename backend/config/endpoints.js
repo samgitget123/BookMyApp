@@ -1,7 +1,7 @@
 // config.js
 const endpoints = {
  //production: "https://bookingapp-r0fo.onrender.com",  // Development endpoint
-  development: "http://localhost:5000",                // Production endpoint
+  development: "https://pickyourground.com/",                // Production endpoint
 };
 
 const ENV = process.env.NODE_ENV || "development"; // Default to production

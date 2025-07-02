@@ -88,7 +88,7 @@ const HomeCard = () => {
                             <div className="card-img-top d-flex align-items-center justify-content-center" style={{ height: "250px", backgroundColor: "#f0f0f0" }}>
                               {playground.photo && playground.photo.length > 0 ? (
                                 <img
-                                  src={`http://localhost:5000/uploads/${playground.photo[0]}`}
+                                  src={`${baseUrl}/uploads/${playground.photo[0]}`}
                                   alt={playground.name}
                                   className="img-fluid"
                                   style={{ height: "100%", width: "100%", objectFit: "cover" }}
@@ -127,7 +127,7 @@ const HomeCard = () => {
                               playground.photo.slice(1, 4).map((image, index) => (
                                 <img
                                   key={index}
-                                  src={`http://localhost:5000/uploads/${image}`}
+                                  src={`${baseUrl}/uploads/${image}`}
                                   alt={`Image ${index + 1}`}
                                   className="img-fluid m-2 rounded"
                                   style={{ width: "100%", height: "120px", objectFit: "cover" }}
