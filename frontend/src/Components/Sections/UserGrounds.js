@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import { useBaseUrl } from '../../Contexts/BaseUrlContext';
 const UserGrounds = () => {
+    const { baseUrl } = useBaseUrl();
   const [grounds, setGrounds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -18,7 +19,7 @@ const UserGrounds = () => {
 
       try {
         //http://localhost:5000/api/ground/user/grounds?userId=c4efa2de-4bce-4f9e-b9a7-812580d38b2e
-        const response = await axios.get(`http://localhost:5000/api/ground/user/grounds?userId=${user_id}`);
+        const response = await axios.get(`${baseUrl}/api/ground/user/grounds?userId=${user_id}`);
         console.log(response, 'userresponse')
         setGrounds(response.data);
       } catch (err) {
