@@ -7,7 +7,7 @@ const Footer = () => {
   return (
    <footer className='bg-dark'>
         <Container>
-        <p className='text-light text-center py-2' style={{marginBottom: "0px"}}>Pick Your <span style={{color:"#00EE64" , fontWeight:"bold"}}>Ground</span> &copy; {currentYear}</p>
+        <p className='text-light text-center py-2' style={{marginBottom: "0px"}}>Pick Your <span style={{color:"#00EE64" }}>Ground</span> &copy; {currentYear} | <span style={{color:"grey" }}>Ayyappa Enterprises</span></p>
         </Container>
    </footer>
   )

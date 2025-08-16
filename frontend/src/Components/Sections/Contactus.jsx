@@ -25,7 +25,7 @@ const Contactus = () => {
                 <div className="mb-3">
                   <h5 className="card-title" style={{ color: '#006849' }}>Email</h5>
                   <p style={{ color: '#333' }}>
-                    <a href="mailto:support@example.com" style={{ color: '#006849' }}>sampathgoudarukala@gmail.com</a>
+                    <a href="mailto:ayyappaenterprises42@gmail.com" style={{ color: '#006849' }}>ayyappaenterprises42@gmail.com</a>
                   </p>
                 </div>
 

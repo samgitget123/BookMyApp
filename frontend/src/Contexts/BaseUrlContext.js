@@ -10,7 +10,7 @@ export const useBaseUrl = () => useContext(BaseUrlContext);
 export const BaseUrlProvider = ({ children }) => {
   // State to manage the base URL
   const [baseUrl, setBaseUrl] = useState(
-    `http://localhost:5000`
+    `https://pickyourground.com`
   );
 //`https://pickyourground.com`
   // Method to update the base URL
