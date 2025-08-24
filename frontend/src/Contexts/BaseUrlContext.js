@@ -8,9 +8,10 @@ export const useBaseUrl = () => useContext(BaseUrlContext);
 
 // Provider component
 export const BaseUrlProvider = ({ children }) => {
-  // State to manage the base URL
+  // State to manage the base URL 
+   // `https://pickyourground.com`
   const [baseUrl, setBaseUrl] = useState(
-    `https://pickyourground.com`
+    `http://localhost:5000`
   );
 //`https://pickyourground.com`
   // Method to update the base URL

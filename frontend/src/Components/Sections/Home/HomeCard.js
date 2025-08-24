@@ -88,7 +88,7 @@ const HomeCard = () => {
                             <div className="card-img-top d-flex align-items-center justify-content-center" style={{ height: "250px", backgroundColor: "#f0f0f0" }}>
                               {playground.photo && playground.photo.length > 0 ? (
                                 <img
-                                  src={`${baseUrl}/uploads/${playground.photo[0]}`}
+                                  src={`${baseUrl}/uploads/${playground.photo}`}
                                   alt={playground.name}
                                   className="img-fluid"
                                   style={{ height: "100%", width: "100%", objectFit: "cover" }}

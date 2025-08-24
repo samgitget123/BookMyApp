@@ -3,23 +3,41 @@ import axios from "axios";
 import { useBaseUrl } from "../Contexts/BaseUrlContext";
 import * as XLSX from "xlsx";
 import DatePicker from "react-datepicker";
+import { deletebooking } from "../redux/features/cancelbookingSlice";
+import { useDispatch } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import Modal from 'react-bootstrap/Modal';
-import { Line, Pie } from "react-chartjs-2";
-
-
+import { useNavigate } from "react-router-dom";
+// import { Line, Pie, Bar } from "react-chartjs-2";
+import { Line, Pie, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
+  BarElement,
   LineElement,
+  PointElement,
   Title,
   Tooltip,
-  Legend
-} from 'chart.js';
+  Legend,
+  ArcElement,
+} from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+// Register elements
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement
+);
+
+
+//ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const AdminDashboard = () => {
   const [bookings, setBookings] = useState([]);
@@ -31,7 +49,8 @@ const AdminDashboard = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const { baseUrl } = useBaseUrl();
-
+  const dispatch = useDispatch();
+   const navigate = useNavigate();
   // Fetch bookings
   useEffect(() => {
     fetchBookings();
@@ -158,6 +177,21 @@ const AdminDashboard = () => {
       backgroundColor: "rgba(0,104,73,0.2)"
     }]
   };
+
+
+  const revenueData = {
+  labels: last7.map(x => x.label), // e.g., "12 Aug", "13 Aug"
+  datasets: [
+    {
+        label: `Last Seven Days`,
+      data: last7.map(x => x.amount), // already using amount
+      backgroundColor: "rgba(0,104,73,0.7)",
+      borderColor: "#006849",
+      borderWidth: 2,
+    },
+  ],
+};
+
 //////////////////////////Power Bi///////////////////////
 // Revenue by Ground (Top 5)
 const getTopGroundsData = () => {
@@ -185,7 +219,101 @@ const getTopGroundsData = () => {
 };
 
 const topGroundsData = getTopGroundsData();
+  const handleDownloadExcel = () => {
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(filteredBookings.map(booking => ({
+      "Booking ID": booking._id,
+      // "Ground Id": booking.ground_id,
+       "Date": booking.date,
+      "Name": booking.name,
+     "Amount": booking.book.price,
+       "Advance": booking.prepaid,
+      "Mobile": booking.mobile,
+      "Status": booking.paymentStatus
+    })));
 
+
+    // Add worksheet to the workbook
+    XLSX.utils.book_append_sheet(wb, ws, "Bookings");
+
+    // Set cell width for better display
+    const wscols = [
+      { wch: 10 }, // Width of "Booking ID" column
+      // { wch: 10 }, // Width of "Ground ID" column
+         { wch: 12 }, // Width of "Date" column
+      { wch: 20 }, // Width of "Name" column
+    { wch: 20 }, // Width of "price" column
+     { wch: 20 }, // Width of "Advance" column
+      { wch: 15 }, // Width of "Mobile" column
+      { wch: 12 }, // Width of "Status" column
+    ];
+    ws["!cols"] = wscols;
+
+    // Write the Excel file
+    XLSX.writeFile(wb, "Bookings.xlsx");
+  };
+
+  const deleteId = (booking_id, ground_id) => {
+    dispatch(deletebooking({ booking_id, ground_id }));
+  };
+
+  // Reset the date filter to show all bookings
+  // const resetDateFilter = () => {
+  //   setSelectedDate(null);  // Reset selected date to null
+  //   setFilteredBookings(bookings);  // Show all bookings again
+  // };
+  const resetDateFilter = () => {
+    const currentDate = new Date(); // Get the current date
+    setSelectedDate(currentDate); // Set selected date to today's date
+    setFilteredBookings(bookings); // Show all bookings again
+  };
+  // Open modal with booking details
+  const handleViewBooking = (booking) => {
+    setSelectedBooking(booking);
+    setShowModal(true);
+  };
+
+  // Close the modal
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+   const handlePaymentStatusChange = async (bookingId, newStatus) => {
+    console.log(bookingId, newStatus, 'paymentstatus-------')
+    try {
+      const response = await fetch(`${baseUrl}/api/booking/updatepaymentstatus`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          booking_id: bookingId,
+          paymentStatus: newStatus === "paid" ? "success" : "pending",
+        }),
+      });
+
+      if (response.ok) {
+        // Update state immediately to reflect UI changes
+        setBookings((prevBookings) =>
+          prevBookings.map((booking) =>
+            booking.book.booking_id === bookingId
+              ? { ...booking, paymentStatus: newStatus === "paid" ? "success" : "pending" }
+              : booking
+          )
+        );
+      } else {
+        console.error("Failed to update payment status");
+      }
+    } catch (error) {
+      console.error("Error updating payment status:", error);
+    }
+  };
+//////User Management///////
+const gotoUsermanagemnt = ()=> {
+  navigate('/userManagement');
+}
+///check is user a superadmin////
+const isSuperAdmin = localStorage.getItem('role') === 'superadmin';
   return (
     <div className="container mt-4">
       <h4>Admin Dashboard</h4>
@@ -204,7 +332,7 @@ const topGroundsData = getTopGroundsData();
           dateFormat="yyyy-MM-dd"
           className="form-control"
         />
-        <button className="btn btn-success ms‑3" onClick={() => { setSearch(""); filterByDate(); }}>Reset</button>
+        <button className="btn btn-success ms‑3"   onClick={resetDateFilter}>Reset</button>
       </div>
 
       {/* Summary */}
@@ -217,8 +345,10 @@ const topGroundsData = getTopGroundsData();
      
 
       {/* Download and Table */}
-      <button className="btn btn-success mb-3" onClick={() => {/* use your XLSX exporter */}}>Download Excel</button>
-
+      <div className="mb-3 d-flex">
+        <button className="btn btn-success me-3" onClick={handleDownloadExcel}>Download Excel</button>
+      {isSuperAdmin ? (<button className="btn btn-success" onClick={gotoUsermanagemnt}>User Management</button>):('')}  
+      </div>
       {loading ? (
         <div className="text-center">Loading...</div>
       ) : (
@@ -246,14 +376,17 @@ const topGroundsData = getTopGroundsData();
                     <td>
                       <select
                         value={b.paymentStatus==="success"?"paid":"pending"}
-                        onChange={e => {/* update payment status logic */}}
+                         onChange={(e) => handlePaymentStatusChange(b.book.booking_id, e.target.value)}
                         className="form-select form-select-sm"
                       >
                         <option value="pending">Pending</option>
                         <option value="paid">Paid</option>
                       </select>
                     </td>
-                    <td><button className="btn btn-sm btn-primary" onClick={() => {/* view modal */}}>View</button></td>
+                    <td>
+                      <button className="btn btn-primary btn-sm" onClick={() => handleViewBooking(b)}>View</button>
+                      
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -262,9 +395,61 @@ const topGroundsData = getTopGroundsData();
         )
       )}
        {/* Line Chart */}
-      <div className="mb-4">
+      {/* <div className="mb-4">
         <Line data={chartData} options={{ responsive: true, plugins: { legend: { display: false }}}} />
       </div>
+<div className="mb-4">
+ <Bar data={revenueData} options={{ responsive: true }} />
+</div> */}
+<div className="row">
+  {/* Line Chart */}
+  <div className="col-lg-6 col-md-6 col-sm-12 mb-4">
+    <Line
+      data={chartData}
+      options={{ responsive: true, plugins: { legend: { display: false } } }}
+    />
+  </div>
+
+  {/* Bar Chart */}
+  <div className="col-lg-6 col-md-6 col-sm-12 mb-4">
+    <Bar
+      data={revenueData}
+      options={{ responsive: true, plugins: { legend: { display: false } } }}
+    />
+  </div>
+</div>
+
+
+          {/* Modal */}
+            {selectedBooking && (
+              <Modal show={showModal} onHide={handleCloseModal}>
+                <Modal.Header closeButton style={{ backgroundColor: "#006849" }}>
+                  <Modal.Title className="text-light">Booking Details</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <div className="d-flex justify-content-between flex-wrap">
+                    <div><p><strong>Booking ID:</strong> {selectedBooking.book.booking_id}</p></div>
+                    <div> <p><strong>Ground ID:</strong> {selectedBooking.ground_id}</p></div>
+                    
+                  </div>
+                  <div className="d-flex justify-content-between flex-wrap">
+                  <div><p><strong>Name:</strong> {selectedBooking.name}</p></div>
+                  <div><p><strong>Mobile:</strong> {selectedBooking.mobile}</p></div>
+                  </div>
+                  <div className="d-flex justify-content-between flex-wrap">
+                  <div><p><strong>Date of booking:</strong> {selectedBooking.date}</p></div>
+                 
+                  <p><strong>Total price: </strong> {selectedBooking.book.price}</p>
+                  </div>
+                  <div>
+                  <p><strong>Status:</strong> {selectedBooking.paymentStatus}</p>
+                  </div>
+                </Modal.Body>
+                <Modal.Footer style={{ backgroundColor: "#006849" }}>
+                  <button className="btn btn-secondary" onClick={handleCloseModal}>Close</button>
+                </Modal.Footer>
+              </Modal>
+            )}
     </div>
   );
 };
